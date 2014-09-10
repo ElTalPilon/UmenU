@@ -3,6 +3,12 @@ Inge2
 
 Repositorio para el proyecto de Ingeniería del Software 2
 
+DATOS INTEGRANTES:
+
+       NOMBRE               CARNÉ         CORREO
+José Pablo Flores G.    B02409   josepablofg@gmail.com                                                                         Juan Diego Gonzalez C.  A62512   digoncas@gmail.com                                                                               Dagoberto Quirós        B05051   dagokiva@gmail.com                                                                               Hector Lizano           951612   hlizano@gmail.com                                                                                Jorge Mata              A73859   
+
+
 BUSSINESS MODEL:                                                                                                                  
 Edit: https://canvanizer.com/canvas/AVu7g8vJ3aQ                                                                                   
 View: https://canvanizer.com/canvas/nNviKSVFcnE
