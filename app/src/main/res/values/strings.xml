@@ -4,6 +4,7 @@
     <string name="app_name">UmenU</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_suggest">Sugerir plato</string>
     <string name="title_activity_lista_platos">ListaPlatos</string>
     <string name="title_activity_detalles_soda">DetallesSoda</string>
     <string name="title_activity_detalles_plato">DetallesPlato</string>
