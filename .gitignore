@@ -37,7 +37,3 @@ project.properties
 *.iml
 *.ipr
 *.iws
-
-##Gradle-based build
-.gradle
-build/
