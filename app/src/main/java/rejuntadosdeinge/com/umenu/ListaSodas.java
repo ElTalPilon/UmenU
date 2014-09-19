@@ -1,9 +1,11 @@
 package rejuntadosdeinge.com.umenu;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ListaSodas extends ActionBarActivity {
@@ -32,5 +34,29 @@ public class ListaSodas extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /*
+     * Called when the user clicks the Soda Detail Button
+     */
+    public void goToDetallesSoda(View view){
+        Intent intent = new Intent(this, DetallesSoda.class);
+        startActivity(intent);
+    }
+
+    /*
+     * Called when the user clicks the Dishes List button
+     */
+    public void goToListaPlatos(View view){
+        Intent intent = new Intent(this, ListaPlatos.class);
+        startActivity(intent);
+    }
+
+    /*
+     * Called when the user clicks the Suggest Dish button
+     */
+    public void popUpSugerenciaPlato(View view){
+        Intent intent = new Intent(this, SugerenciaPlato.class);
+        startActivity(intent);
     }
 }
