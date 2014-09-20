@@ -18,15 +18,18 @@
         </activity>
         <activity
             android:name=".ListaPlatos"
-            android:label="@string/title_activity_lista_platos" >
+            android:label="@string/title_activity_lista_platos"
+            android:parentActivityName=".ListaSodas">
         </activity>
         <activity
             android:name=".DetallesSoda"
-            android:label="@string/title_activity_detalles_soda" >
+            android:label="@string/title_activity_detalles_soda"
+            android:parentActivityName=".ListaSodas">
         </activity>
         <activity
             android:name=".DetallesPlato"
-            android:label="@string/title_activity_detalles_plato" >
+            android:label="@string/title_activity_detalles_plato"
+            android:parentActivityName=".ListaPlatos">
         </activity>
     </application>
 
