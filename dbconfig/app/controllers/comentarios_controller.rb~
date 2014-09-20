@@ -49,10 +49,5 @@ class ComentariosController < ApplicationController
   end
 
   #comentario y puntos
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def snack_params 
-        params.permit(:comentario, :puntos)
-    end
 
 end
