@@ -12,7 +12,7 @@ class PlatosController < ApplicationController
   def show
     @plato = Plato.find(params[:id])
 
-    render json: @plato
+    render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :puntuacion], include: [comentario: {only: [:id]}])
   end
 
   # POST /platos

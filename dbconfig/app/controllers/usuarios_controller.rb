@@ -12,7 +12,7 @@ class UsuariosController < ApplicationController
   def show
     @usuario = Usuario.find(params[:id])
 
-    render json: @usuario
+    render json: @usuario.as_json(only:[:id, :nombre, :direccion], include: [comentario:{only:[:id]}])
   end
 
   # POST /usuarios

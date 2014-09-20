@@ -12,7 +12,7 @@ class SnacksController < ApplicationController
   def show
     @snack = Snack.find(params[:id])
 
-    render json: @snack
+    render json: @snack.as_json(only: [:id, :nombre, :precio])
   end
 
   # POST /snacks

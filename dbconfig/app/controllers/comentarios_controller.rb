@@ -12,7 +12,7 @@ class ComentariosController < ApplicationController
   def show
     @comentario = Comentario.find(params[:id])
 
-    render json: @comentario
+    render json: @comentario.as_json(only: [:id, :comentario, :puntos])
   end
 
   # POST /comentarios
