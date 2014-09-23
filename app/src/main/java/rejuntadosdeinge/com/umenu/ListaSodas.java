@@ -6,53 +6,38 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import rejuntadosdeinge.com.umenu.data.DatosSoda;
+import rejuntadosdeinge.com.umenu.data.Soda;
 
 
 public class ListaSodas extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        List<Soda> sodas = new DatosSoda().getSodas();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_sodas);
 
-        // Dummy data for the ListView.
-        String[] sodasArray = {
-            "Facultad de Derecho",
-            "Facultad de Agronomía",
-            "Facultad de Odontología",
-            "Facultad de Economía",
-            "Estudios Generales",
-            "Facultad de Letras",
-            "Facultad de Educación",
-            "Facultad de Ciencias Sociales"
-        };
-
-        List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
-
-        ArrayAdapter<String> adaptadorProvisional = new ArrayAdapter<String>(
-                this,
-                R.layout.list_item,
-                R.id.list_item_textview,
-                listaSodasProvisional);
+        // toma datos y los pasa a la lista
+        SodaAdapter adapter = new SodaAdapter(this, R.layout.list_item, sodas);
 
         final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
-        listView.setAdapter(adaptadorProvisional);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos(listView);
-            }
-        });
+        listView.setAdapter(adapter);
+
+   // modificar en el adapter
+   //     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   //         @Override
+   //         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+   //             goToListaPlatos(listView);
+   //         }
+   //     });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
