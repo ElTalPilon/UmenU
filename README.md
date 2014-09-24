@@ -28,3 +28,4 @@ https://help.rallydev.com/tutorial
 MANUAL RALLY:
 https://plataforma.ecci.ucr.ac.cr/moodle/pluginfile.php?file=%2F5335%2Fmod_resource%2Fcontent%2F1%2FManual%20Rally.pdf
 
+https://docs.google.com/document/d/11pBN3kO4HpjF5fkt9sV96W3VJeyxvgJKuacwr8TuwWU/edit?usp=sharing
