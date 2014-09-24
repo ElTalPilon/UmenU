@@ -8,6 +8,8 @@
     <string name="title_activity_lista_platos">ListaPlatos</string>
     <string name="title_activity_detalles_soda">DetallesSoda</string>
     <string name="title_activity_detalles_plato">DetallesPlato</string>
+    <string name="title_calificar_plato">Califique el plato</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_escribir_comentario">Escriba un comentario aqui</string>
 
 </resources>
