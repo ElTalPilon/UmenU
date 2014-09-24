@@ -1,10 +1,18 @@
 package rejuntadosdeinge.com.umenu;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class ListaPlatos extends ActionBarActivity {
@@ -14,8 +22,32 @@ public class ListaPlatos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        // Dummy data for the ListView.
+        String[] platosArray = {
+                "Plato Básico A",
+                "Plato Básico B",
+                "Plato Especial",
+                "Plato Vegetariano"
+        };
+
+        List<String> listaPlatosProvisional = new ArrayList<String>(Arrays.asList(platosArray));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                R.layout.list_item,
+                R.id.list_item_textview,
+                listaPlatosProvisional);
+
+        final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToDetallesPlato(listView);
+            }
+        });
     }
 
 
@@ -36,5 +68,14 @@ public class ListaPlatos extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Called when the user clicks the Soda Detail Button
+     */
+    public void goToDetallesPlato(View view){
+        Intent intent = new Intent(this, DetallesPlato.class);
+        startActivity(intent);
     }
 }
