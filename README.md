@@ -12,9 +12,12 @@ DATOS INTEGRANTES:
        Hector Lizano             951612        hlizano@gmail.com
        Jorge Mata                A73859        jfmatav@hotmail.com
 
-
 WORKFLOW DIARIO:
 https://docs.google.com/document/d/11pBN3kO4HpjF5fkt9sV96W3VJeyxvgJKuacwr8TuwWU/edit?usp=sharing
+
+RESPONSABLES PULL REQUESTS:
+Hector > Jorge > Pablo > Dago > Diego > Hector
+(Donde cada > significa "envía a")
 
 BUSSINESS MODEL:                                                                                                                  
 Edit: https://canvanizer.com/canvas/AVu7g8vJ3aQ                                                                                   
