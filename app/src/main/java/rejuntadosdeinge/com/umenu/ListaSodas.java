@@ -36,52 +36,40 @@ public class ListaSodas extends ActionBarActivity {
 
         List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
 
-        ArrayAdapter<String> adaptadorProvisional = new ArrayAdapter<String>(
+        ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.list_item,
                 R.id.list_item_textview,
                 listaSodasProvisional);
 
-        final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
-        listView.setAdapter(adaptadorProvisional);
+        ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
+        listView.setAdapter(listaSodasAdapter);  
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos(listView);
+                goToListaPlatos(view);
             }
         });
     }
 
-
-
+    /**
+     * Inflates the menu (Adds items to the Action Bar if it's present)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.lista_sodas, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-     * Called when the user clicks the Soda Detail Button
-     */
-    public void goToDetallesSoda(View view){
-        Intent intent = new Intent(this, DetallesSoda.class);
-        startActivity(intent);
-    }
-
-    /*
+    /**
      * Called when the user clicks the Dishes List button
      */
     public void goToListaPlatos(View view){
@@ -89,7 +77,7 @@ public class ListaSodas extends ActionBarActivity {
         startActivity(intent);
     }
 
-    /*
+    /**
      * Called when the user clicks the Suggest Dish button
      */
     public void popUpSugerenciaPlato(View view){
