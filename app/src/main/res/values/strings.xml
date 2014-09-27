@@ -11,5 +11,7 @@
     <string name="title_calificar_plato">Califique el plato</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_escribir_comentario">Escriba un comentario aqui</string>
+	<string name="subtitulo_calificar_plato">Califique el plato</string>
+    <string name="comentario_calificar_plato">Su comentario aqui</string>
 
 </resources>
