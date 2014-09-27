@@ -43,7 +43,7 @@ public class ListaSodas extends ActionBarActivity {
                 listaSodasProvisional);
 
         ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
-        listView.setAdapter(listaSodasAdapter);  
+        listView.setAdapter(listaSodasAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
