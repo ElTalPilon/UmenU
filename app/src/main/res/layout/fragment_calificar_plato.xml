@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="rejuntadosdeinge.com.umenu.CalificarPlato">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -18,22 +17,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/title_calificar_plato"
-        android:id="@+id/textView2"
+        android:text="@string/comentario_calificar_plato"
+        android:id="@+id/editText1"
         android:layout_above="@+id/ratingBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:linksClickable="false" />
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignLeft="@+id/ratingBar"
-        android:layout_alignStart="@+id/ratingBar"
-        android:text="@string/text_escribir_comentario"
-        android:autoText="false"
-        android:linksClickable="false" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/subtitulo_calificar_plato"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:linksClickable="false"
+        android:inputType="edi" />
 
 </RelativeLayout>
