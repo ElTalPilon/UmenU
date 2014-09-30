@@ -15,7 +15,7 @@ DATOS INTEGRANTES:
 WORKFLOW DIARIO:
 https://docs.google.com/document/d/11pBN3kO4HpjF5fkt9sV96W3VJeyxvgJKuacwr8TuwWU/edit?usp=sharing
 
-RESPONSABLES PULL REQUESTS:
+RESPONSABLES PULL REQUESTS:                                                                                                     
 Hector > Jorge > Pablo > Dago > Diego > Hector
 (Donde cada > significa "envía a")
 
@@ -28,6 +28,8 @@ https://docs.google.com/document/d/1MQ9_4S8HXU--uQcdiZjHC8IsX8L_inLa-BHlbDRvoeM/
 
 USER INTERFACE:
 https://docs.google.com/document/d/103stcDDJkbEp24CaoRxhjv0VvQ2wBobZNRglmjzRLDA/edit
+
+SPRINT PLANNING # 1:                                                                                                            https://drive.google.com/file/d/0B8BLMj7uGhIoVGo0Z2lUa2FHdk0/view?usp=sharing
 
 TUTORIAL RALLY:
 https://help.rallydev.com/tutorial
