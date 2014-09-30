@@ -11,11 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919234700) do
+ActiveRecord::Schema.define(version: 20140930203854) do
 
   create_table "comentarios", force: true do |t|
-    t.integer  "usuario_id"
-    t.integer  "plato_id"
     t.string   "comentario"
     t.integer  "puntos"
     t.datetime "created_at"
@@ -23,18 +21,17 @@ ActiveRecord::Schema.define(version: 20140919234700) do
   end
 
   create_table "platos", force: true do |t|
-    t.integer  "soda_id"
     t.string   "nombre"
     t.integer  "precio"
     t.string   "categoria"
     t.string   "tipo"
-    t.float    "puntuacion"
+    t.integer  "calificaciones"
+    t.integer  "total"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "snacks", force: true do |t|
-    t.integer  "soda_id"
     t.string   "nombre"
     t.integer  "precio"
     t.datetime "created_at"
