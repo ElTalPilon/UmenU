@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="rejuntadosdeinge.com.umenu" >
 
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -12,7 +16,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,7 +27,7 @@
         <activity
             android:name=".DetallesSoda"
             android:label="@string/title_activity_detalles_soda"
-            android:parentActivityName=".ListaSodas">
+            android:parentActivityName=".ListaPlatos">
         </activity>
         <activity
             android:name=".DetallesPlato"
