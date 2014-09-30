@@ -1,6 +1,6 @@
 class Plato < ActiveRecord::Base
 
-	has_many :comentarios, dependent: :destroy
-	belongs_to :soda
+   belongs_to :soda
+   has_many :comentarios
 
 end

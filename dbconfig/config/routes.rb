@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  resources :snacks, except: [:new, :edit]
-  resources :sodas, except: [:new, :edit]
-  resources :platos, except: [:new, :edit]
-  resources :comentarios, except: [:new, :edit]
-  resources :usuarios, except: [:new, :edit]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

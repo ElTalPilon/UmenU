@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919234700) do
+ActiveRecord::Schema.define(version: 20140930203854) do
 
   create_table "comentarios", force: true do |t|
     t.integer  "usuario_id"
@@ -28,7 +28,8 @@ ActiveRecord::Schema.define(version: 20140919234700) do
     t.integer  "precio"
     t.string   "categoria"
     t.string   "tipo"
-    t.float    "puntuacion"
+    t.integer  "calificaciones"
+    t.integer  "total"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

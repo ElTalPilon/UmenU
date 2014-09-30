@@ -12,13 +12,13 @@ class ComentariosController < ApplicationController
   def show
     @comentario = Comentario.find(params[:id])
 
-    render json: @comentario.as_json(only: [:id, :comentario, :puntos])
+    render json: @comentario
   end
 
   # POST /comentarios
   # POST /comentarios.json
   def create
-    @comentario = Comentario.new(params[:comentario])
+    @comentario = Comentario.new(comentario_params)
 
     if @comentario.save
       render json: @comentario, status: :created, location: @comentario
@@ -32,7 +32,7 @@ class ComentariosController < ApplicationController
   def update
     @comentario = Comentario.find(params[:id])
 
-    if @comentario.update(params[:comentario])
+    if @comentario.update(comentario_params)
       head :no_content
     else
       render json: @comentario.errors, status: :unprocessable_entity
@@ -48,11 +48,9 @@ class ComentariosController < ApplicationController
     head :no_content
   end
 
-  #comentario y puntos
-  private 
   # Never trust parameters from the scary internet, only allow the white list through. 
-    def snack_params 
-        params.permit(:comentario, :puntos)
-    end
+  def comentario_params 
+    params.permit(:comentario, :puntos)
+  end
 
 end

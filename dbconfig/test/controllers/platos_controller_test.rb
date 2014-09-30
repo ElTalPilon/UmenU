@@ -13,7 +13,7 @@ class PlatosControllerTest < ActionController::TestCase
 
   test "should create plato" do
     assert_difference('Plato.count') do
-      post :create, plato: { categoria: @plato.categoria, nombre: @plato.nombre, precio: @plato.precio, puntuacion: @plato.puntuacion, tipo: @plato.tipo }
+      post :create, plato: { calificaciones: @plato.calificaciones, categoria: @plato.categoria, nombre: @plato.nombre, precio: @plato.precio, tipo: @plato.tipo, total: @plato.total }
     end
 
     assert_response 201
@@ -25,7 +25,7 @@ class PlatosControllerTest < ActionController::TestCase
   end
 
   test "should update plato" do
-    put :update, id: @plato, plato: { categoria: @plato.categoria, nombre: @plato.nombre, precio: @plato.precio, puntuacion: @plato.puntuacion, tipo: @plato.tipo }
+    put :update, id: @plato, plato: { calificaciones: @plato.calificaciones, categoria: @plato.categoria, nombre: @plato.nombre, precio: @plato.precio, tipo: @plato.tipo, total: @plato.total }
     assert_response 204
   end
 

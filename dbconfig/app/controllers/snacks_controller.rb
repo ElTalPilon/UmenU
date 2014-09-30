@@ -12,7 +12,7 @@ class SnacksController < ApplicationController
   def show
     @snack = Snack.find(params[:id])
 
-    render json: @snack.as_json(only: [:id, :nombre, :precio])
+    render json: @snack
   end
 
   # POST /snacks
@@ -48,11 +48,7 @@ class SnacksController < ApplicationController
     head :no_content
   end
 
-  #nombre precio
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def snack_params 
-        params.permit(:nombre, :precio)
-    end
-
+  def snack_params
+    params.permit(:nombre, :precio)
+  end
 end

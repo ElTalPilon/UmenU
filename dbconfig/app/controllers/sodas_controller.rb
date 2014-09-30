@@ -12,7 +12,7 @@ class SodasController < ApplicationController
   def show
     @soda = Soda.find(params[:id])
 
-    render json: @soda.as_json (only:[:id, :nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena], include: [snack:{only:[:id]}, plato:{only:[:id]}])
+    render json: @soda
   end
 
   # POST /sodas
@@ -48,11 +48,7 @@ class SodasController < ApplicationController
     head :no_content
   end
 
- #:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, 
- #:iAlmuerzo, :fAlmuerzo, :iCena, :fCena
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def soda_params 
-        params.permit(:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena)
-    end
+  def soda_params
+    params.permit(:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena)
+  end
 end

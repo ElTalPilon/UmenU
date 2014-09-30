@@ -5,11 +5,13 @@ one:
   precio: 1
   categoria: MyString
   tipo: MyString
-  puntuacion: 1.5
+  calificaciones: 1
+  total: 1
 
 two:
   nombre: MyString
   precio: 1
   categoria: MyString
   tipo: MyString
-  puntuacion: 1.5
+  calificaciones: 1
+  total: 1

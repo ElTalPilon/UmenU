@@ -12,7 +12,7 @@ class PlatosController < ApplicationController
   def show
     @plato = Plato.find(params[:id])
 
-    render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :puntuacion], include: [comentario: {only: [:id]}])
+    render json: @plato
   end
 
   # POST /platos
@@ -48,10 +48,7 @@ class PlatosController < ApplicationController
     head :no_content
   end
 
-  #nombre precio categoria tipo puntuacion
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def plato_params 
-        params.permit(:nombre, :precio, :categoria, :tipo, :puntuacion)
-    end
+  def plato_params 
+    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total)
+  end
 end
