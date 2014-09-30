@@ -14,6 +14,8 @@
 ActiveRecord::Schema.define(version: 20140930203854) do
 
   create_table "comentarios", force: true do |t|
+    t.integer  "usuario_id"
+    t.integer  "plato_id"
     t.string   "comentario"
     t.integer  "puntos"
     t.datetime "created_at"
@@ -21,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140930203854) do
   end
 
   create_table "platos", force: true do |t|
+    t.integer  "soda_id"
     t.string   "nombre"
     t.integer  "precio"
     t.string   "categoria"
@@ -32,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140930203854) do
   end
 
   create_table "snacks", force: true do |t|
+    t.integer  "soda_id"
     t.string   "nombre"
     t.integer  "precio"
     t.datetime "created_at"
