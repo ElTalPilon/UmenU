@@ -12,13 +12,13 @@ class UsuariosController < ApplicationController
   def show
     @usuario = Usuario.find(params[:id])
 
-    render json: @usuario.as_json(only:[:id, :nombre, :direccion], include: [comentario:{only:[:id]}])
+    render json: @usuario
   end
 
   # POST /usuarios
   # POST /usuarios.json
   def create
-    @usuario = Usuario.new(usuario_params)
+    @usuario = Usuario.new(params[:usuario])
 
     if @usuario.save
       render json: @usuario, status: :created, location: @usuario
@@ -32,7 +32,7 @@ class UsuariosController < ApplicationController
   def update
     @usuario = Usuario.find(params[:id])
 
-    if @usuario.update(usuario_params)
+    if @usuario.update(params[:usuario])
       head :no_content
     else
       render json: @usuario.errors, status: :unprocessable_entity
@@ -47,12 +47,4 @@ class UsuariosController < ApplicationController
 
     head :no_content
   end
-
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def usuario_params 
-        params.permit(:nombre, :direccion)
-    end
-
-
 end

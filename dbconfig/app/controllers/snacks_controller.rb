@@ -12,13 +12,13 @@ class SnacksController < ApplicationController
   def show
     @snack = Snack.find(params[:id])
 
-    render json: @snack.as_json(only: [:id, :nombre, :precio])
+    render json: @snack
   end
 
   # POST /snacks
   # POST /snacks.json
   def create
-    @snack = Snack.new(snack_params)
+    @snack = Snack.new(params[:snack])
 
     if @snack.save
       render json: @snack, status: :created, location: @snack
@@ -32,7 +32,7 @@ class SnacksController < ApplicationController
   def update
     @snack = Snack.find(params[:id])
 
-    if @snack.update(snack_params)
+    if @snack.update(params[:snack])
       head :no_content
     else
       render json: @snack.errors, status: :unprocessable_entity
@@ -47,12 +47,4 @@ class SnacksController < ApplicationController
 
     head :no_content
   end
-
-  #nombre precio
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def snack_params 
-        params.permit(:nombre, :precio)
-    end
-
 end

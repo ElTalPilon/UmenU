@@ -12,13 +12,13 @@ class PlatosController < ApplicationController
   def show
     @plato = Plato.find(params[:id])
 
-    render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :puntuacion], include: [comentario: {only: [:id]}])
+    render json: @plato
   end
 
   # POST /platos
   # POST /platos.json
   def create
-    @plato = Plato.new(plato_params)
+    @plato = Plato.new(params[:plato])
 
     if @plato.save
       render json: @plato, status: :created, location: @plato
@@ -32,7 +32,7 @@ class PlatosController < ApplicationController
   def update
     @plato = Plato.find(params[:id])
 
-    if @plato.update(plato_params)
+    if @plato.update(params[:plato])
       head :no_content
     else
       render json: @plato.errors, status: :unprocessable_entity
@@ -47,11 +47,4 @@ class PlatosController < ApplicationController
 
     head :no_content
   end
-
-  #nombre precio categoria tipo puntuacion
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def plato_params 
-        params.permit(:nombre, :precio, :categoria, :tipo, :puntuacion)
-    end
 end
