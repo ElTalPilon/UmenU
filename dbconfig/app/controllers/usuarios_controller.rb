@@ -18,7 +18,7 @@ class UsuariosController < ApplicationController
   # POST /usuarios
   # POST /usuarios.json
   def create
-    @usuario = Usuario.new(params[:usuario])
+    @usuario = Usuario.new(usuario_params)
 
     if @usuario.save
       render json: @usuario, status: :created, location: @usuario
@@ -32,7 +32,7 @@ class UsuariosController < ApplicationController
   def update
     @usuario = Usuario.find(params[:id])
 
-    if @usuario.update(params[:usuario])
+    if @usuario.update(usuario_params)
       head :no_content
     else
       render json: @usuario.errors, status: :unprocessable_entity
@@ -46,5 +46,9 @@ class UsuariosController < ApplicationController
     @usuario.destroy
 
     head :no_content
+  end
+
+  def usuario_params
+    params.permit(:nombre, :direccion)
   end
 end

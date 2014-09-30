@@ -18,7 +18,7 @@ class PlatosController < ApplicationController
   # POST /platos
   # POST /platos.json
   def create
-    @plato = Plato.new(params[:plato])
+    @plato = Plato.new(plato_params)
 
     if @plato.save
       render json: @plato, status: :created, location: @plato
@@ -32,7 +32,7 @@ class PlatosController < ApplicationController
   def update
     @plato = Plato.find(params[:id])
 
-    if @plato.update(params[:plato])
+    if @plato.update(plato_params)
       head :no_content
     else
       render json: @plato.errors, status: :unprocessable_entity
@@ -49,6 +49,6 @@ class PlatosController < ApplicationController
   end
 
   def plato_params 
-    params.permit(:nombre, :precio, :categoria, :tipo, :reviews, :total)
+    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total)
   end
 end

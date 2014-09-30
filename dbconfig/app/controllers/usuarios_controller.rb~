@@ -48,11 +48,7 @@ class UsuariosController < ApplicationController
     head :no_content
   end
 
-  private 
-  # Never trust parameters from the scary internet, only allow the white list through. 
-    def usuario_params 
-        params.permit(:nombre, :direccion)
-    end
-
-
+  def usuario_params
+    params.permit(:nombre, :direccion)
+  end
 end

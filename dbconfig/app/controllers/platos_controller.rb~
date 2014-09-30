@@ -47,4 +47,8 @@ class PlatosController < ApplicationController
 
     head :no_content
   end
+
+  def plato_params 
+    params.permit(:nombre, :precio, :categoria, :tipo, :reviews, :total)
+  end
 end

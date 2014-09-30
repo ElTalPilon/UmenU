@@ -18,7 +18,7 @@ class SnacksController < ApplicationController
   # POST /snacks
   # POST /snacks.json
   def create
-    @snack = Snack.new(params[:snack])
+    @snack = Snack.new(snack_params)
 
     if @snack.save
       render json: @snack, status: :created, location: @snack
@@ -32,7 +32,7 @@ class SnacksController < ApplicationController
   def update
     @snack = Snack.find(params[:id])
 
-    if @snack.update(params[:snack])
+    if @snack.update(snack_params)
       head :no_content
     else
       render json: @snack.errors, status: :unprocessable_entity
@@ -46,5 +46,9 @@ class SnacksController < ApplicationController
     @snack.destroy
 
     head :no_content
+  end
+
+  def snack_params
+    params.permit(:nombre, :precio)
   end
 end
