@@ -17,20 +17,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/comentario_calificar_plato"
-        android:id="@+id/editText1"
+        android:text="@string/subtitulo_calificar_plato"
+        android:id="@+id/Califique"
         android:layout_above="@+id/ratingBar"
         android:layout_centerHorizontal="true"
         android:linksClickable="false" />
 
     <EditText
         android:layout_width="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/subtitulo_calificar_plato"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/ratingBar"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_below="@+id/ratingBar"
         android:layout_centerHorizontal="true"
-        android:linksClickable="false"
-        android:inputType="edi" />
+        android:autoText="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/ok"
+        android:id="@+id/button2"
+        android:layout_below="@+id/editText"
+        android:layout_alignRight="@+id/ratingBar"
+        android:layout_alignEnd="@+id/ratingBar"
+        android:layout_marginTop="67dp" />
+
 
 </RelativeLayout>
