@@ -6,7 +6,6 @@ class CreateComentarios < ActiveRecord::Migration
       t.string :comentario
       t.integer :puntos
 
-      t.timestamps
     end
   end
 end

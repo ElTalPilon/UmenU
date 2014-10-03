@@ -10,7 +10,6 @@ class CreatePlatos < ActiveRecord::Migration
       t.integer :calificaciones
       t.integer :total
 
-      t.timestamps
     end
   end
 end

@@ -5,7 +5,6 @@ class CreateSnacks < ActiveRecord::Migration
       t.string :nombre
       t.integer :precio
 
-      t.timestamps
     end
   end
 end
