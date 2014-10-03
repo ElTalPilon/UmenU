@@ -12,7 +12,7 @@ class SodasController < ApplicationController
   def show
     @soda = Soda.find(params[:id])
 
-    render json: @soda
+    render json: @soda.as_json(only:[:id, :nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena], include: [plato:{only: [:id]}], [snack:{only: [:id]}])
   end
 
   # POST /sodas

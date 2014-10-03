@@ -18,7 +18,7 @@ class SodasController < ApplicationController
   # POST /sodas
   # POST /sodas.json
   def create
-    @soda = Soda.new(params[:soda])
+    @soda = Soda.new(soda_params)
 
     if @soda.save
       render json: @soda, status: :created, location: @soda
@@ -32,7 +32,7 @@ class SodasController < ApplicationController
   def update
     @soda = Soda.find(params[:id])
 
-    if @soda.update(params[:soda])
+    if @soda.update(soda_params)
       head :no_content
     else
       render json: @soda.errors, status: :unprocessable_entity
@@ -46,5 +46,9 @@ class SodasController < ApplicationController
     @soda.destroy
 
     head :no_content
+  end
+
+  def soda_params
+    params.permit(:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena)
   end
 end
