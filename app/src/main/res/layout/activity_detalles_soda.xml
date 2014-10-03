@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/nombre_soda"
+        android:id="@+id/tituloNombreSoda"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp"
+        android:background="@color/silver"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="40dp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:paddingTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/horarios_soda"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <!-- display map with map fragment -->
+    <fragment
+        android:id="@+id/mapa"
+        android:layout_width="fill_parent"
+        android:layout_height="240dp"
+        android:layout_gravity="top"
+        class="rejuntadosdeinge.com.umenu.UbicacionSodaFragment"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Más Productos >>"
+        android:id="@+id/button"
+        android:onClick="popUpSnacks"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
