@@ -11,7 +11,6 @@ class CreateSodas < ActiveRecord::Migration
       t.time :iCena
       t.time :fCena
 
-      t.timestamps
     end
   end
 end

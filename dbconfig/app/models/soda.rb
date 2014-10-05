@@ -1,6 +1,6 @@
 class Soda < ActiveRecord::Base
 
-   has_many :platos
-   has_many :snacks
+   has_many :plato
+   has_many :snack
 
 end
