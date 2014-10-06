@@ -19,6 +19,8 @@ RESPONSABLES PULL REQUESTS:
 Hector > Jorge > Pablo > Dago > Diego > Hector
 (Donde cada > significa "envía a")
 
+LINK A LA BASE DE DATOS:                                                                                                        http://limitless-woodland-1130.herokuapp.com/
+
 BUSSINESS MODEL:                                                                                                                  
 Edit: https://canvanizer.com/canvas/AVu7g8vJ3aQ                                                                                   
 View: https://canvanizer.com/canvas/nNviKSVFcnE
