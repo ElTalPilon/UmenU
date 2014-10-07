@@ -17,4 +17,7 @@
     <string name="acompanamientos_plato">Refresco \nTostadas \n3 ensaladas \nGuarnicion</string>
     <string name="horarios_soda">HORARIO\nDesayuno: 7:00am - 11:00am\nAlmuerzo: 12:00md - 3:00pm\nCafe: 3:00pm - 7:00pm</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Comentario">Escriba un comentario (opcional)</string>
+    <string name="opcional">(opcional)</string><string name="agregueComentario">Agregue un comentario.
+(Opcional)</string>
 </resources>
