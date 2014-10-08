@@ -19,6 +19,7 @@ public class DetallesPlato extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
+        //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.fragment_calificar_plato);
         dialog.setTitle(getString(R.string.agregueComentario));
@@ -28,11 +29,12 @@ public class DetallesPlato extends ActionBarActivity {
 
         setContentView(R.layout.activity_detalles_plato);
         RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        //cuando se modifique la nota, hacer los siguente:
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                float nota= ratingBar.getRating();
-                popUpPuntuarPlato(dialog, nota);
+                float nota= ratingBar.getRating(); //obtengo la nota del RatingBar
+                popUpPuntuarPlato(dialog, nota); //Convoco al popUp
             }
         });
     }
@@ -52,10 +54,10 @@ public class DetallesPlato extends ActionBarActivity {
 
     private void popUpPuntuarPlato(Dialog dialog, float nota) {
         RatingBar rb = (RatingBar) dialog.findViewById(R.id.ratingBarPopUp);
-        rb.setRating(nota);
-        dialog.show();
-
-        //Toast msg = Toast.makeText(this, "Puntuar Plato: "+ nota, Toast.LENGTH_LONG);
-        //msg.show();
+        //Al Rating bar del popUp ledoy la nota del fragmento, para q pueda ser modificada y enviada
+        //ala base de datos (pendiente)
+        rb.setRating(nota);//le doy la nota
+        dialog.show(); //mostar el popUp
+        //falta darle acción al Botón para q cierre el popUp y envie los datos a la base
     }
 }
