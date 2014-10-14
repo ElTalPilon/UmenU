@@ -4,10 +4,6 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
-
     <permission
         android:name="rejuntadosdeinge.com.umenu.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
@@ -22,6 +18,12 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-library
+        android:name="com.google.android.maps" />
 
     <application
         android:allowBackup="true"
@@ -52,10 +54,12 @@
             android:parentActivityName=".ListaPlatos">
         </activity>
 
-        <!--This meta-data tag is required to use Google Play Services.-->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDec6WGXJvZ5W81RAPTlWKDtNydve9knU8"/>
 
     </application>
 
