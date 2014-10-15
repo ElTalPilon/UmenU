@@ -47,3 +47,6 @@ https://help.rallydev.com/tutorial
 
 #MANUAL RALLY:
 https://plataforma.ecci.ucr.ac.cr/moodle/pluginfile.php?file=%2F5335%2Fmod_resource%2Fcontent%2F1%2FManual%20Rally.pdf
+
+#MAPS V2 API KEY
+AIzaSyDqLu7dseSFSCj7OETrGgzrN7BB8-gtHjQ
