@@ -12,7 +12,7 @@ class ComentariosController < ApplicationController
   def show
     @comentario = Comentario.find(params[:id])
 
-    render json: @comentario
+    render json: @comentario.as_json(only: [:id, :comentario, :puntos, :id_plato, :id_usuario])
   end
 
   # POST /comentarios
@@ -50,7 +50,7 @@ class ComentariosController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through. 
   def comentario_params 
-    params.permit(:comentario, :puntos)
+    params.permit(:comentario, :puntos, :id_plato, :id_usuario)
   end
 
 end

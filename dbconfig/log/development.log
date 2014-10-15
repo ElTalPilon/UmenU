@@ -305,3 +305,197 @@ Processing by UsuariosController#show as HTML
   [1m[35mUsuario Load (0.2ms)[0m  SELECT  "usuarios".* FROM "usuarios"  WHERE "usuarios"."id" = ? LIMIT 1  [["id", 1]]
   [1m[36mComentario Load (0.2ms)[0m  [1mSELECT  "comentarios".* FROM "comentarios"  WHERE "comentarios"."usuario_id" = ?  ORDER BY "comentarios"."id" ASC LIMIT 1[0m  [["usuario_id", 1]]
 Completed 200 OK in 83ms (Views: 0.3ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/sodas" for 127.0.0.1 at 2014-10-04 17:18:10 -0600
+Processing by SodasController#index as HTML
+  [1m[35mSoda Load (0.6ms)[0m  SELECT "sodas".* FROM "sodas"
+Completed 200 OK in 6ms (Views: 0.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-10-14 19:13:09 -0600
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/railties-4.1.6/lib/rails/templates/rails/welcome/index.html.erb (4.1ms)
+Completed 200 OK in 103ms (Views: 102.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sodas" for 127.0.0.1 at 2014-10-14 19:13:17 -0600
+Processing by SodasController#index as HTML
+  [1m[35mSoda Load (0.3ms)[0m  SELECT "sodas".* FROM "sodas"
+Completed 200 OK in 52ms (Views: 10.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos" for 127.0.0.1 at 2014-10-14 19:13:25 -0600
+Processing by PlatosController#index as HTML
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 51ms (Views: 1.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos?nombre=Sociales" for 127.0.0.1 at 2014-10-14 19:14:09 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"nombre"=>"Sociales"}
+  [1m[35mPlato Load (0.5ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 8ms (Views: 3.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/platos" for 127.0.0.1 at 2014-10-14 19:14:17 -0600
+Processing by PlatosController#index as HTML
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos" for 127.0.0.1 at 2014-10-14 19:14:21 -0600
+Processing by PlatosController#index as HTML
+  [1m[35mPlato Load (0.2ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos" for 127.0.0.1 at 2014-10-14 19:14:22 -0600
+Processing by PlatosController#index as HTML
+  [1m[36mPlato Load (0.2ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?get=1&soda_id=11" for 127.0.0.1 at 2014-10-14 19:31:40 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"get"=>"1", "soda_id"=>"11"}
+  [1m[35mPlato Load (0.6ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 6ms (Views: 1.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/platos?get=1&soda_id=11" for 127.0.0.1 at 2014-10-14 19:31:43 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"get"=>"1", "soda_id"=>"11"}
+  [1m[36mPlato Load (0.2ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?get=1&soda_id=11" for 127.0.0.1 at 2014-10-14 19:31:44 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"get"=>"1", "soda_id"=>"11"}
+  [1m[35mPlato Load (0.2ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?get=1&soda_id=11" for 127.0.0.1 at 2014-10-14 19:31:46 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"get"=>"1", "soda_id"=>"11"}
+  [1m[36mPlato Load (0.2ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?get=1&soda_id=11" for 127.0.0.1 at 2014-10-14 19:31:50 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"get"=>"1", "soda_id"=>"11"}
+  [1m[35mPlato Load (0.2ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:41:41 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"soda_id"=>"11", "get"=>"1"}
+  [1m[36mPlato Load (0.5ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 5ms (Views: 0.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/platos?soda_id=11&nombre=Jorge" for 127.0.0.1 at 2014-10-14 19:42:01 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"soda_id"=>"11", "nombre"=>"Jorge"}
+  [1m[35mPlato Load (0.2ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos/" for 127.0.0.1 at 2014-10-14 19:42:07 -0600
+Processing by PlatosController#index as HTML
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos/" for 127.0.0.1 at 2014-10-14 19:42:30 -0600
+Processing by PlatosController#index as HTML
+  [1m[35mPlato Load (0.2ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/platos?soda_id=11" for 127.0.0.1 at 2014-10-14 19:42:39 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"soda_id"=>"11"}
+  [1m[36mPlato Load (0.2ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/usuarios" for 127.0.0.1 at 2014-10-14 19:43:08 -0600
+Processing by UsuariosController#index as HTML
+  Parameters: {"usuario"=>{}}
+  [1m[35mUsuario Load (0.2ms)[0m  SELECT "usuarios".* FROM "usuarios"
+Completed 200 OK in 8ms (Views: 6.7ms | ActiveRecord: 0.7ms)
+
+
+Started POST "/platos" for 127.0.0.1 at 2014-10-14 19:44:18 -0600
+Processing by PlatosController#create as HTML
+  Parameters: {"soda_id"=>11, "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15, "plato"=>{"soda_id"=>11, "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15}}
+Unpermitted parameters: plato
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "platos" ("calificaciones", "categoria", "created_at", "nombre", "precio", "soda_id", "tipo", "total", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["calificaciones", 4], ["categoria", "Cena"], ["created_at", "2014-10-15 01:44:18.615784"], ["nombre", "Patacones"], ["precio", 700], ["soda_id", 11], ["tipo", "Básico"], ["total", 15], ["updated_at", "2014-10-15 01:44:18.615784"]]
+  [1m[36m (129.1ms)[0m  [1mcommit transaction[0m
+Completed 201 Created in 175ms (Views: 1.9ms | ActiveRecord: 130.7ms)
+
+
+Started GET "/platos" for 127.0.0.1 at 2014-10-14 19:44:36 -0600
+Processing by PlatosController#index as HTML
+  [1m[35mPlato Load (0.3ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:45:09 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"soda_id"=>"11", "get"=>"1"}
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"[0m
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:45:11 -0600
+Processing by PlatosController#index as HTML
+  Parameters: {"soda_id"=>"11", "get"=>"1"}
+  [1m[35mPlato Load (0.3ms)[0m  SELECT "platos".* FROM "platos"
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:45:41 -0600
+Processing by PlatosController#create as HTML
+  Parameters: {"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15, "get"=>"1", "plato"=>{"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15}}
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT  "platos".* FROM "platos"  WHERE "platos"."id" = ? LIMIT 1[0m  [["id", 6]]
+Completed 404 Not Found in 4ms
+
+ActiveRecord::RecordNotFound (Couldn't find Plato with 'id'=6):
+  app/controllers/platos_controller.rb:28:in `create'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.1ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.9ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (24.0ms)
+
+
+Started POST "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:46:16 -0600
+Processing by PlatosController#create as HTML
+  Parameters: {"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15, "get"=>"1", "plato"=>{"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15}}
+  [1m[35mPlato Load (0.7ms)[0m  SELECT "platos".* FROM "platos"  WHERE (soda_id = '11')
+Completed 500 Internal Server Error in 13ms
+
+NoMethodError (undefined method `comentario' for #<Plato::ActiveRecord_Relation:0x00000003176b48>):
+  app/controllers/platos_controller.rb:28:in `create'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.2ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.1ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.7ms)
+  Rendered /usr/local/rvm/gems/ruby-2.1.2/gems/actionpack-4.1.6/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (20.9ms)
+
+
+Started POST "/platos?soda_id=11&get=1" for 127.0.0.1 at 2014-10-14 19:46:55 -0600
+Processing by PlatosController#create as HTML
+  Parameters: {"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15, "get"=>"1", "plato"=>{"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15}}
+  [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"  WHERE (soda_id = '11')[0m
+Completed 200 OK in 11ms (Views: 0.4ms | ActiveRecord: 1.8ms)

@@ -1,0 +1,38 @@
+5 - Odontología
+6 - Comedor
+7 - Económicas
+8 - Ciencias Sociales
+9 - Estudios Generales
+10 - Educación
+11 - Agronomía
+
+  {
+    "id": 1,
+    "soda_id": 11,
+    "nombre": "Patacones",
+    "precio": 700,
+    "categoria": "Cena",
+    "tipo": "Básico",
+    "calificaciones": 4,
+    "total": 15
+  },
+  {
+    "id": 2,
+    "soda_id": 11,
+    "nombre": "Macarrones",
+    "precio": 700,
+    "categoria": "Almuerzo",
+    "tipo": "Ejecutivo",
+    "calificaciones": 10,
+    "total": 49
+  },
+  {
+    "id": 3,
+    "soda_id": 11,
+    "nombre": "Olla de Carne",
+    "precio": 2000,
+    "categoria": "Almuerzo",
+    "tipo": "Vegetariano",
+    "calificaciones": 20,
+    "total": 49
+  }
