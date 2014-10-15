@@ -12,19 +12,35 @@ class PlatosController < ApplicationController
   def show
     @plato = Plato.find(params[:id])
 
-    render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :id_soda]include: ,[comentario:{only: [:id]}])
+    if !@plato.comentario.first.nil?
+      render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id], include: [comentario:{only: [:id]}])
+    else
+      render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id])
+    end
   end
 
   # POST /platos
   # POST /platos.json
   def create
-    @plato = Plato.new(plato_params)
+    if params[:get]
+      @plato = Plato.where("soda_id = ?", params[:soda_id])
 
-    if @plato.save
-      render json: @plato, status: :created, location: @plato
+      if !@plato.comentario.first.nil?
+        render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id], include: [comentario:{only: [:id]}])
+      else
+        render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id])
+      end
+
     else
-      render json: @plato.errors, status: :unprocessable_entity
+      @plato = Plato.new(plato_params)
+
+      if @plato.save
+        render json: @plato, status: :created, location: @plato
+      else
+        render json: @plato.errors, status: :unprocessable_entity
+      end
     end
+
   end
 
   # PATCH/PUT /platos/1
@@ -49,6 +65,6 @@ class PlatosController < ApplicationController
   end
 
   def plato_params 
-    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total)
+    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id, :get)
   end
 end

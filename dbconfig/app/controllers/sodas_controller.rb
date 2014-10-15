@@ -53,6 +53,6 @@ class SodasController < ApplicationController
   end
 
   def soda_params
-    params.permit(:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena)
+    params.permit(:nombre, :abre, :cierra, :iDesayuno, :fDesayuno, :iAlmuerzo, :fAlmuerzo, :iCena, :fCena, :long, :lat)
   end
 end

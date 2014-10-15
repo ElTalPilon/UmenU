@@ -49,6 +49,6 @@ class SnacksController < ApplicationController
   end
 
   def snack_params
-    params.permit(:nombre, :precio)
+    params.permit(:nombre, :precio, :id_soda)
   end
 end
