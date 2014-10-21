@@ -1,1 +1,1 @@
-json.extract! @comentario, :id, :comentario, :puntos, :created_at, :updated_at
+json.extract! @comentario, :id, :comentario, :puntos, :usuario_id, :plato_id, :created_at, :updated_at

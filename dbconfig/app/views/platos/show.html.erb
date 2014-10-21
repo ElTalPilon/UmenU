@@ -10,5 +10,30 @@
   <%= @plato.precio %>
 </p>
 
+<p>
+  <strong>Categoria:</strong>
+  <%= @plato.categoria %>
+</p>
+
+<p>
+  <strong>Tipo:</strong>
+  <%= @plato.tipo %>
+</p>
+
+<p>
+  <strong>Calificaciones:</strong>
+  <%= @plato.calificaciones %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @plato.total %>
+</p>
+
+<p>
+  <strong>Soda:</strong>
+  <%= @plato.soda_id %>
+</p>
+
 <%= link_to 'Edit', edit_plato_path(@plato) %> |
 <%= link_to 'Back', platos_path %>

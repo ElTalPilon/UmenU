@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  resources :sodas, except: [:new, :edit]
-  #resources :buses, except: [:new, :edit]
-  #resources :users, except: [:new, :edit]
-  #resources :paradas, except: [:new, :edit]
-  #resources :rutas, except: [:new, :edit]
+  post '/platos', to: 'platos#options'
+
+  resources :sodas
+  resources :snacks
+  resources :usuarios
+  resources :platos
+  resources :comentarios
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  #   
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

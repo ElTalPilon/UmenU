@@ -5,6 +5,11 @@
     <tr>
       <th>Nombre</th>
       <th>Precio</th>
+      <th>Categoria</th>
+      <th>Tipo</th>
+      <th>Calificaciones</th>
+      <th>Total</th>
+      <th>Soda</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,6 +19,11 @@
       <tr>
         <td><%= plato.nombre %></td>
         <td><%= plato.precio %></td>
+        <td><%= plato.categoria %></td>
+        <td><%= plato.tipo %></td>
+        <td><%= plato.calificaciones %></td>
+        <td><%= plato.total %></td>
+        <td><%= plato.soda_id %></td>
         <td><%= link_to 'Show', plato %></td>
         <td><%= link_to 'Edit', edit_plato_path(plato) %></td>
         <td><%= link_to 'Destroy', plato, method: :delete, data: { confirm: 'Are you sure?' } %></td>

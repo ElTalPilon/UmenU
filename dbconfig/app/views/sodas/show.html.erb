@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nombre:</strong>
+  <%= @soda.nombre %>
+</p>
+
+<p>
+  <strong>Long:</strong>
+  <%= @soda.long %>
+</p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @soda.lat %>
+</p>
+
+<p>
+  <strong>Descripcion:</strong>
+  <%= @soda.descripcion %>
+</p>
+
+<%= link_to 'Edit', edit_soda_path(@soda) %> |
+<%= link_to 'Back', sodas_path %>

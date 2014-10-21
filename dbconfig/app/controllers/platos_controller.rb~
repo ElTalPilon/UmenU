@@ -4,7 +4,15 @@ class PlatosController < ApplicationController
   def index
     @platos = Plato.all
 
-    render json: @platos
+    #render json: @platos
+  end
+
+  def new
+    @plato = Plato.new
+  end
+
+  def edit
+    @plato = Plato.find(params[:id])
   end
 
   # GET /platos/1
@@ -25,11 +33,17 @@ class PlatosController < ApplicationController
     if params[:get]
       @plato = Plato.where("soda_id = ?", params[:soda_id])
 
-      if !@plato.comentario.first.nil?
-        render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id], include: [comentario:{only: [:id]}])
-      else
+      #if !@plato.comentario.first.nil?
+       # render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id], include: [comentario:{only: [:id]}])
+      #else
         render json: @plato.as_json(only: [:id, :nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id])
-      end
+      #end
+
+    else if params[:json]
+
+    @platos = Plato.all
+
+    render json: @platos
 
     else
       @plato = Plato.new(plato_params)
@@ -39,6 +53,7 @@ class PlatosController < ApplicationController
       else
         render json: @plato.errors, status: :unprocessable_entity
       end
+    end
     end
 
   end
@@ -65,6 +80,6 @@ class PlatosController < ApplicationController
   end
 
   def plato_params 
-    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id, :get)
+    params.permit(:nombre, :precio, :categoria, :tipo, :calificaciones, :total, :soda_id, :get, :json)
   end
 end

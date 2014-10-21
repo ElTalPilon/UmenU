@@ -1,0 +1,2 @@
+module SodasHelper
+end

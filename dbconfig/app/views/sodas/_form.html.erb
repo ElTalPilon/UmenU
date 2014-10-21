@@ -1,0 +1,33 @@
+<%= form_for(@soda) do |f| %>
+  <% if @soda.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@soda.errors.count, "error") %> prohibited this soda from being saved:</h2>
+
+      <ul>
+      <% @soda.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nombre %><br>
+    <%= f.text_field :nombre %>
+  </div>
+  <div class="field">
+    <%= f.label :long %><br>
+    <%= f.text_field :long %>
+  </div>
+  <div class="field">
+    <%= f.label :lat %><br>
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :descripcion %><br>
+    <%= f.text_area :descripcion %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

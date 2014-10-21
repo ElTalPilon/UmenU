@@ -1,0 +1,31 @@
+<h1>Listing sodas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Long</th>
+      <th>Lat</th>
+      <th>Descripcion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sodas.each do |soda| %>
+      <tr>
+        <td><%= soda.nombre %></td>
+        <td><%= soda.long %></td>
+        <td><%= soda.lat %></td>
+        <td><%= soda.descripcion %></td>
+        <td><%= link_to 'Show', soda %></td>
+        <td><%= link_to 'Edit', edit_soda_path(soda) %></td>
+        <td><%= link_to 'Destroy', soda, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Soda', new_soda_path %>
