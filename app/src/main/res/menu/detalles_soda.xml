@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DetallesSoda" >
+    <item android:id="@+id/ver_map"
+        android:title="MAPA"
+        app:showAsAction="always"/>
+    <item android:id="@+id/gp_licencia"
+        android:title="Google Play License"
+        app:showAsAction="always"/>
+    <item android:id="@+id/mas_prod"
+        android:title="MAS PRODUCTOS"
+        app:showAsAction="always"/>
+</menu>

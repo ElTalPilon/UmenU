@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">UmenU</string>
+    <string name="title_activity_sugerir_plato">Sugerir plato</string>
+    <string name="title_activity_lista_platos">Platos</string>
+    <string name="title_activity_detalles_soda">Detalles Soda</string>
+    <string name="title_activity_detalles_plato">Detalles Plato</string>
+    <string name="title_activity_mas_productos">Mas Productos</string>
+    <string name="title_activity_mapa">Mapa</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyCI48_zY3fYQPLPIYnx7K0nqKwh4rIuBCU</string>
+
+    <string name="nombre_soda">Soda Odontología</string>
+    <string name="nombre_plato">Spaghetti</string>
+    <string name="precio_plato">CRC 1 950</string>
+    <string name="acompanamientos_plato">Refresco \nTostadas \n3 ensaladas \nGuarnicion</string>
+    <string name="horario_soda">HORARIO\nDesayuno: 7:00am - 11:00am\nAlmuerzo: 12:00md - 3:00pm\nCafe: 3:00pm - 7:00pm</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Comentario">Escriba un comentario (opcional)</string>
+    <string name="opcional">(opcional)</string><string name="agregueComentario">Agregue un comentario.
+(Opcional)</string>
+</resources>

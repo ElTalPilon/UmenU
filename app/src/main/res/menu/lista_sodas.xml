@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ListaSodas" >
+    <item android:id="@+id/ir_sugerir_plato"
+        android:icon="@drawable/ic_action_suggest"
+        android:title="@string/title_activity_sugerir_plato"
+        app:showAsAction="always"/>
+</menu>
