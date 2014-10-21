@@ -499,3 +499,62 @@ Processing by PlatosController#create as HTML
   Parameters: {"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15, "get"=>"1", "plato"=>{"soda_id"=>"11", "nombre"=>"Patacones", "precio"=>700, "categoria"=>"Cena", "tipo"=>"Básico", "calificaciones"=>4, "total"=>15}}
   [1m[36mPlato Load (0.3ms)[0m  [1mSELECT "platos".* FROM "platos"  WHERE (soda_id = '11')[0m
 Completed 200 OK in 11ms (Views: 0.4ms | ActiveRecord: 1.8ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to RemoveOldAttributesFromSodas (20141021162432)
+  [1m[35m (12.4ms)[0m  begin transaction
+  [1m[36m (0.9ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "abre" time, "cierra" time, "iDesayuno" time, "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.2ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.4ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "cierra" time, "iDesayuno" time, "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.3ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.4ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "cierra" time, "iDesayuno" time, "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.4ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iDesayuno" time, "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.3ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iDesayuno" time, "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fDesayuno" time, "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iAlmuerzo" time, "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fAlmuerzo" time, "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.2ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "iCena" time, "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36m (0.2ms)[0m  [1mCREATE TEMPORARY TABLE "asodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "fCena" time, "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "sodas"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "sodas"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "sodas" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "nombre" varchar(255), "created_at" datetime, "updated_at" datetime, "long" float, "lat" float) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "asodas"[0m
+  [1m[35m (0.2ms)[0m  DROP TABLE "asodas"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141021162432"]]
+  [1m[35m (124.1ms)[0m  commit transaction
+Migrating to AddDescripcionToSodas (20141021162559)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  ALTER TABLE "sodas" ADD "descripcion" text
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141021162559"]]
+  [1m[35m (131.9ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
