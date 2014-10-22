@@ -76,6 +76,8 @@ public class ListaSodas extends ActionBarActivity {
     /**
      * Llamado cuando el usuario elige una de las sodas de la lista.
      * Inicializa la actividad "ListaPlatos"
+     * @param sodaId       - El ID de la soda elegida
+     * @param sodaElegida  - El nombre de la soda elegida (para no tener que hacer consulta del nombre)
      */
     public void goToListaPlatos(int sodaId, String sodaElegida){
         Intent intent = new Intent(this, ListaPlatos.class);
