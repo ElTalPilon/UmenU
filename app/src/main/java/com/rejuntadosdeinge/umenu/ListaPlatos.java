@@ -22,6 +22,11 @@ public class ListaPlatos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
+        Intent intent = getIntent();
+        if(intent.hasExtra("sodaElegida")){
+            getActionBar().setTitle(intent.getStringExtra("sodaElegida"));
+        }
+
         // Dummy data for the ListView.
         String[] platosArray = {
                 "Plato Especial",
