@@ -3,7 +3,7 @@
 
     <string name="app_name">UmenU</string>
     <string name="title_activity_sugerir_plato">Sugerir plato</string>
-    <string name="title_activity_lista_platos">Platos</string>
+    <string name="title_activity_lista_platos">Soda Elegida</string>
     <string name="title_activity_detalles_soda">Detalles Soda</string>
     <string name="title_activity_detalles_plato">Detalles Plato</string>
     <string name="title_activity_mas_productos">Mas Productos</string>
