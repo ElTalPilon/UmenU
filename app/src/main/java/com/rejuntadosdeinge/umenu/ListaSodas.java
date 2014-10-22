@@ -22,38 +22,38 @@ public class ListaSodas extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_sodas);
 
-        // Dummy data for the ListView.
+        // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
+        // estar haciendo una consulta cada vez que se abre la actividad principal).
         String[] sodasArray = {
-                "Facultad de Derecho",
-                "Facultad de Agronomía",
-                "Facultad de Odontología",
-                "Facultad de Economía",
+                "Ciencias Económicas",
+                "Ciencias Sociales",
+                "Comedor Universitario",
                 "Estudios Generales",
-                "Facultad de Letras",
+                "Facultad de Agronomía",
+                "Facultad de Derecho",
                 "Facultad de Educación",
-                "Facultad de Ciencias Sociales"
+                "Facultad de Odontología"
         };
 
         List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
-
         ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.list_item,
                 R.id.list_item_textview,
                 listaSodasProvisional);
 
-        ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
+        final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
         listView.setAdapter(listaSodasAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos();
+                goToListaPlatos(i, (String)(listView.getItemAtPosition(i)));
             }
         });
     }
 
     /**
-     * Inflates the menu (Adds items to the Action Bar if it's present)
+     * Infla el menú. (Agrega elementos al Action Bar)
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +61,10 @@ public class ListaSodas extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Llamado cuando se presiona uno de los elementos de la Action Bar
+     * En este caso, sólo se puede presionar "Sugerir Plato".
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
@@ -70,15 +74,19 @@ public class ListaSodas extends ActionBarActivity {
     }
 
     /**
-     * Called when the user clicks the Dishes List button
+     * Llamado cuando el usuario elige una de las sodas de la lista.
+     * Inicializa la actividad "ListaPlatos"
      */
-    public void goToListaPlatos(){
+    public void goToListaPlatos(int sodaId, String sodaElegida){
         Intent intent = new Intent(this, ListaPlatos.class);
+        intent.putExtra("sodaId", sodaId); // Pasa el ID de la soda elegida
+        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
 
     /**
-     * Called when the user clicks the Suggest Dish button
+     * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
+     * Inicializa la actividad "SugerenciaPlato".
      */
     public void popUpSugerenciaPlato(){
         Toast msg = Toast.makeText(this, "Sugerencia de plato del día", Toast.LENGTH_LONG);
