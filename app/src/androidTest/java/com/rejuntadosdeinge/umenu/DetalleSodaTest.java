@@ -15,6 +15,14 @@ public class DetalleSodaTest
     protected void setUp() throws Exception {
 
         super.setUp();
+
+
+        //Crea un intent para lanzar una Activity
+        //Intent intent = new Intent(getInstrumentation().getTargetContext(),
+        //        DetallesSoda.class);
+        //intent.putExtra("id", 3);
+        //setActivityIntent(intent);
+
         activity = (DetallesSoda) getActivity();
         nombreDeLaSoda = (TextView) activity.findViewById(R.id.nombre_soda);
     }

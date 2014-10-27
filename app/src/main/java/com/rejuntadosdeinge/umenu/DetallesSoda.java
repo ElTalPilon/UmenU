@@ -135,11 +135,6 @@ public class DetallesSoda extends ActionBarActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.mas_prod:
-                Toast msg = Toast.makeText(this, "Snacks 24/7", Toast.LENGTH_LONG);
-                msg.show();
-                break;
-
             default:
                 break;
         }
