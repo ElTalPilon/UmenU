@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,14 +64,28 @@ public class ListaPlatos extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.ir_detalle_soda) {
-            goToDetallesSoda((ListView) this.findViewById(R.id.lista_platos));
-            return true;
+
+        switch (item.getItemId()) {
+
+            case R.id.ir_detalle_soda:
+                goToDetallesSoda((ListView) this.findViewById(R.id.lista_platos));
+                break;
+
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when the user clicks Snacks
+     */
+    public void goToListaSnacks(View view){
+        Toast msg = Toast.makeText(this, "Boton presionado", Toast.LENGTH_LONG);
+        msg.show();
+        //Intent intent = new Intent(this, ListaSnacks.class);
+        //startActivity(intent);
+    }
 
     /**
      * Called when the user clicks any dish item
