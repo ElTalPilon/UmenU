@@ -41,6 +41,11 @@
             android:parentActivityName=".ListaSodas">
         </activity>
         <activity
+            android:name=".ListaSnacks"
+            android:label="@string/title_activity_lista_platos"
+            android:parentActivityName=".ListaPlatos">
+        </activity>
+        <activity
             android:name=".DetallesSoda"
             android:uiOptions="splitActionBarWhenNarrow"
             android:label="@string/title_activity_detalles_soda"
