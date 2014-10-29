@@ -32,7 +32,7 @@ import java.net.URLEncoder;
 
 public class DetallesSoda extends ActionBarActivity {
 
-    public int id = 3;      // modificando id manualmente se ven diferentes detalles sodas
+    public int id;
     public String nombre;
     public String horario = "Lunes a Viernes de 7 am a 7 pm";
     public float latitud;
@@ -50,8 +50,8 @@ public class DetallesSoda extends ActionBarActivity {
         setContentView(R.layout.activity_detalles_soda);
 
         // extraer id del intent que viene de ListaPlato
-        //Intent intent = getIntent();
-        //id = Integer.parseInt(intent.getStringExtra("id"));
+        Intent intent = getIntent();
+        id = intent.getIntExtra("idSoda", 0);
 
         pb = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
         pb.setVisibility(View.INVISIBLE);
@@ -69,7 +69,7 @@ public class DetallesSoda extends ActionBarActivity {
 
 
         if (isOnline()) {
-            requestData("http://limitless-woodland-1130.herokuapp.com/sodas/" + String.valueOf(id));
+            requestData("http://limitless-river-6258.herokuapp.com/sodas/" + String.valueOf(id));
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }

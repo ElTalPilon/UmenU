@@ -18,6 +18,8 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
+    int idSoda = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +85,9 @@ public class ListaPlatos extends ActionBarActivity {
     public void goToListaSnacks(View view){
         Toast msg = Toast.makeText(this, "Boton presionado", Toast.LENGTH_LONG);
         msg.show();
-        //Intent intent = new Intent(this, ListaSnacks.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, ListaSnacks.class);
+        intent.putExtra("idSoda", idSoda);
+        startActivity(intent);
     }
 
     /**
@@ -101,6 +104,7 @@ public class ListaPlatos extends ActionBarActivity {
      */
     public void goToDetallesSoda(View view){
         Intent intent = new Intent(this, DetallesSoda.class);
+        intent.putExtra("idSoda", idSoda);
         startActivity(intent);
     }
 }
