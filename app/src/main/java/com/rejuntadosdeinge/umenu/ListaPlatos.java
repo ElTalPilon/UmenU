@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,8 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
-    int idSoda = 4;
+    int idSoda;
+    String nombreSoda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,8 @@ public class ListaPlatos extends ActionBarActivity {
         setContentView(R.layout.activity_lista_platos);
 
         Intent intent = getIntent();
+        idSoda = intent.getIntExtra("sodaId", 0);
+        nombreSoda = intent.getStringExtra("sodaElegida");
         if(intent.hasExtra("sodaElegida")){
             getActionBar().setTitle(intent.getStringExtra("sodaElegida"));
         }
@@ -83,8 +85,7 @@ public class ListaPlatos extends ActionBarActivity {
      * Called when the user clicks Snacks
      */
     public void goToListaSnacks(View view){
-        Toast msg = Toast.makeText(this, "Boton presionado", Toast.LENGTH_LONG);
-        msg.show();
+
         Intent intent = new Intent(this, ListaSnacks.class);
         intent.putExtra("idSoda", idSoda);
         startActivity(intent);
@@ -95,6 +96,8 @@ public class ListaPlatos extends ActionBarActivity {
      */
     public void goToDetallesPlato(View view){
         Intent intent = new Intent(this, DetallesPlato.class);
+        intent.putExtra("idSoda", idSoda);
+        intent.putExtra("nombreSoda", nombreSoda);
         startActivity(intent);
     }
 

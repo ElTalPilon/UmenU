@@ -15,7 +15,6 @@
     <string name="nombre_plato">Spaghetti</string>
     <string name="precio_plato">CRC 1 950</string>
     <string name="acompanamientos_plato">Refresco \nTostadas \n3 ensaladas \nGuarnicion</string>
-    <string name="horario_soda">HORARIO\nDesayuno: 7:00am - 11:00am\nAlmuerzo: 12:00md - 3:00pm\nCafe: 3:00pm - 7:00pm</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Comentario">Escriba un comentario (opcional)</string>
     <string name="opcional">(opcional)</string><string name="agregueComentario">Agregue un comentario.
