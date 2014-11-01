@@ -18,7 +18,8 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
-    int idSoda = 4;
+    int idSoda = 0;
+    String sodaElegida = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,10 @@ public class ListaPlatos extends ActionBarActivity {
         setContentView(R.layout.activity_lista_platos);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("sodaElegida")){
-            getActionBar().setTitle(intent.getStringExtra("sodaElegida"));
+        if(intent.hasExtra("sodaElegida") && intent.hasExtra("sodaId")){
+            idSoda = intent.getIntExtra("sodaId", 0);
+            sodaElegida = intent.getStringExtra("sodaElegida");
+            getActionBar().setTitle(sodaElegida);
         }
 
         // Dummy data for the ListView.
@@ -46,12 +49,12 @@ public class ListaPlatos extends ActionBarActivity {
                 R.id.list_item_textview,
                 listaPlatosProvisional);
 
-        ListView listView = (ListView) this.findViewById(R.id.lista_platos);
+        final ListView listView = (ListView) this.findViewById(R.id.lista_platos);
         listView.setAdapter(listaPlatosAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToDetallesPlato(view);
+                goToDetallesPlato(view, (String)(listView.getItemAtPosition(i)));
             }
         });
     }
@@ -93,8 +96,11 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      * Called when the user clicks any dish item
      */
-    public void goToDetallesPlato(View view){
+    public void goToDetallesPlato(View view, String platoElegido){
         Intent intent = new Intent(this, DetallesPlato.class);
+        intent.putExtra("idSoda", idSoda);
+        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
+        intent.putExtra("platoElegido", platoElegido); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
 
@@ -105,6 +111,7 @@ public class ListaPlatos extends ActionBarActivity {
     public void goToDetallesSoda(View view){
         Intent intent = new Intent(this, DetallesSoda.class);
         intent.putExtra("idSoda", idSoda);
+        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
 }
