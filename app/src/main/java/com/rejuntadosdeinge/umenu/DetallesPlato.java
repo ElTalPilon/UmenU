@@ -21,11 +21,24 @@ import static com.rejuntadosdeinge.umenu.R.id;
 
 public class DetallesPlato extends ActionBarActivity {
     final Context context = this;
+    public int idSoda;
+    public String sodaElegida;
+    public String platoElegido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detalles_plato);
+
+        // extraer id del intent que viene de ListaPlato
+        Intent intent = getIntent();
+        idSoda = intent.getIntExtra("idSoda", 0);
+        sodaElegida = intent.getStringExtra("sodaElegida");
+        platoElegido = intent.getStringExtra("platoElegido");
+
+        TextView tv_nombre = (TextView) findViewById(R.id.textView7);
+        tv_nombre.setText(sodaElegida);
 
         //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
@@ -34,8 +47,6 @@ public class DetallesPlato extends ActionBarActivity {
         TextView text = (TextView) dialog.findViewById(id.escribaComentario);
         text.setText(getString(R.string.Comentario));
 
-
-        setContentView(R.layout.activity_detalles_plato);
         RatingBar ratingBar = (RatingBar) findViewById(id.ratingBar);
         //cuando se modifique la nota, hacer los siguente:
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

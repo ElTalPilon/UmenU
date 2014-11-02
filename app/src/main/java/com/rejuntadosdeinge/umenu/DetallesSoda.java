@@ -34,7 +34,7 @@ public class DetallesSoda extends ActionBarActivity {
 
     public int id;
     public String nombre;
-    public String horario = "Lunes a Viernes de 7 am a 7 pm";
+    public String horario;
     public float latitud;
     public float longitud;
     ProgressBar pb;
@@ -170,7 +170,7 @@ public class DetallesSoda extends ActionBarActivity {
 
             JSONObject obj = new JSONObject(msg);
             nombre = obj.getString("nombre");
-            //horario = obj.getString("horario");
+            horario = obj.getString("descripcion");
             longitud = (float)obj.getDouble("long");
             latitud = (float)obj.getDouble("lat");
             desplegarDetalles();
