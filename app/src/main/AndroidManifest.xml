@@ -42,13 +42,12 @@
         </activity>
         <activity
             android:name=".ListaSnacks"
-            android:label="@string/title_activity_lista_platos"
+            android:label="Snaks"
             android:parentActivityName=".ListaPlatos">
         </activity>
         <activity
             android:name=".DetallesSoda"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:label="@string/title_activity_detalles_soda"
             android:parentActivityName=".ListaPlatos">
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -72,8 +71,9 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDLer9nvz3ubLIZu5S1WKEZu_cNvXlM3ds"/>
+            android:value="AIzaSyBpTmR6ZbInpGVTXrM4woe92UFZNUnsRQw"/>
 
     </application>
 
 </manifest>
+

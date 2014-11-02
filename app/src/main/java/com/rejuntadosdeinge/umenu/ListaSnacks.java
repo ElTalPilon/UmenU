@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.text.method.ScrollingMovementMethod;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 import com.rejuntadosdeinge.umenu.modelo.Snack;
 import com.rejuntadosdeinge.umenu.modelo.SnackParser;
 
@@ -23,9 +24,6 @@ public class ListaSnacks  extends ActionBarActivity {
     TextView output;
     ProgressBar pb;
     public int idSoda;
-    public String nombreProducto;
-    public String precioProducto;
-
     List<Snack> snackList;
 
     @Override
@@ -33,8 +31,8 @@ public class ListaSnacks  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_snaks);
 
-        //		Initialize the TextView for vertical scrolling
-        output = (TextView) findViewById(R.id.textView);
+        // textView inicializado con scroll vertical
+        output = (TextView) findViewById(R.id.tv_snacks);
         output.setMovementMethod(new ScrollingMovementMethod());
 
         // extraer datos del intent hecho en ListaPlatos
@@ -45,21 +43,10 @@ public class ListaSnacks  extends ActionBarActivity {
         pb.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
-            Toast.makeText(this, "Red si disponible", Toast.LENGTH_LONG).show();
             requestData("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(idSoda) +"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
-    }
-
-    public void desplegarDetalles() {
-
-        TextView tv_nombre = (TextView) findViewById(R.id.tv_nombre_snack);
-        tv_nombre.setText(nombreProducto);
-
-        TextView tv_precio = (TextView) findViewById(R.id.tv_nombre_snack);
-        tv_precio.setText(precioProducto);
-
     }
 
     protected boolean isOnline() {
@@ -73,8 +60,14 @@ public class ListaSnacks  extends ActionBarActivity {
     }
 
     private void requestData(String uri) {
+
+        RequestPackage p = new RequestPackage();
+        p.setMethod("POST");
+        p.setUri(uri);
+        p.setParam("soda_id", String.valueOf(idSoda));
+
         MyTask task = new MyTask();
-        task.execute(uri);
+        task.execute(p);
     }
 
     protected void updateDisplay() {
@@ -84,19 +77,19 @@ public class ListaSnacks  extends ActionBarActivity {
                 output.append(snack.getNombre() + " " + snack.getPrecio() + "\n");
             }
         }
-
     }
 
     // para no bloquear el hilo principal la conexion la realiza otro hilo
-    private class MyTask extends AsyncTask<String, String, String> {
+    private class MyTask extends AsyncTask<RequestPackage, String, String> {
 
         @Override
         protected void onPreExecute() {
+
             pb.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(RequestPackage... params) {
 
             String content = HttpManager.getData(params[0]);
             return content;
@@ -108,11 +101,6 @@ public class ListaSnacks  extends ActionBarActivity {
             snackList = SnackParser.parseFeed(result);
             updateDisplay();
             pb.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-   //         updateDisplay(values[0]);
         }
     }
 }
