@@ -39,6 +39,8 @@ public class DetallesPlato extends ActionBarActivity {
     public String platoElegido;
     int semana = 3;
     int dia = 3;
+    int categoria;
+    String categoria2;
 
     TextView output;
     ProgressBar pb;
@@ -59,7 +61,17 @@ public class DetallesPlato extends ActionBarActivity {
         Intent intent = getIntent();
         idSoda = intent.getIntExtra("idSoda", 0);
         sodaElegida = intent.getStringExtra("sodaElegida");
-        platoElegido = intent.getStringExtra("platoElegido");
+        categoria = intent.getIntExtra("categoria", 0);
+
+        if(categoria == 0)
+            categoria2 = "B%C3%A1sico%201";
+            else
+            if(categoria == 1)
+                categoria2 = "B%C3%A1sico%202";
+            else
+            if(categoria == 2)
+                categoria2 = "Vegetariano";
+
 
         TextView tv_nombre = (TextView) findViewById(R.id.textView7);
         tv_nombre.setText(sodaElegida);
@@ -68,7 +80,7 @@ public class DetallesPlato extends ActionBarActivity {
         pb.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
-            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(idSoda) + "&semana=" + String.valueOf(semana) + "&dia=" + String.valueOf(dia) + "&get=1");
+            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(idSoda) + "&semana=" + String.valueOf(semana) + "&dia=" + String.valueOf(dia) + "&categoria=" + categoria2 +"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
@@ -140,15 +152,13 @@ public class DetallesPlato extends ActionBarActivity {
 
     private void requestData(String uri) {
 
-        Toast.makeText(this, "id enviado al HttpManager: "+idSoda, Toast.LENGTH_LONG).show();
-
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri(uri);
         p.setParam("soda_id", String.valueOf(idSoda));
         p.setParam("semana", String.valueOf(semana));
         p.setParam("dia", String.valueOf(dia));
-        //p.setParam("categoria", "Básico 1");
+        p.setParam("categoria", categoria2);
 
         MyTask task = new MyTask();
         task.execute(p);
@@ -164,8 +174,6 @@ public class DetallesPlato extends ActionBarActivity {
             TextView tv_nombre = (TextView) findViewById(R.id.tv_nombre_plato);
             tv_nombre.setText(nombre);
 
-            TextView tv_horario = (TextView) findViewById(id.tv_precio_plato);
-            tv_horario.setText(precio);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -200,7 +208,7 @@ public class DetallesPlato extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            updateDisplay(result);
+            //updateDisplay(result);
 
             platoList = PlatoParser.parseFeed(result);
             updateDisplay2();
