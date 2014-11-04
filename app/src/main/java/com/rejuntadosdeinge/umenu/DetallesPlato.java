@@ -116,14 +116,25 @@ public class DetallesPlato extends ActionBarActivity {
             public void onClick(View arg0) {
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
                 //float notaFinal=rb1.getRating();
-                /*
-                 * tengo q obtener de alguna forma el id del platillo para hacer el update en la DB
-                 * y cerrar el popup
-                 */
 
-                Intent browserIntent =
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.howtosolvenow.com"));
-                startActivity(browserIntent);
+                int id = 94;
+                int calif = 5;
+                int total = 25;
+                double promedio = total/calif;
+
+                StringBuilder uri = new StringBuilder("https://limitless-river-6258.herokuapp.com/platos?c=1&id=");
+                uri.append(id);
+                uri.append("&calificaciones=");
+                uri.append(calif);
+                uri.append("&total=");
+                uri.append(calif);
+                uri.append("&promedio=");
+                uri.append(promedio);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
+                startActivity(intent);
+
+
             }
         });
     }
