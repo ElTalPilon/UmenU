@@ -45,7 +45,6 @@ public class HttpManager {
                 }
             }
         }
-
     }
 
     public static String getData(RequestPackage p) {
