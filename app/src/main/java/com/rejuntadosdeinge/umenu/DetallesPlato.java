@@ -3,33 +3,57 @@ package com.rejuntadosdeinge.umenu;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.rejuntadosdeinge.umenu.modelo.Plato;
+import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
+import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import static com.rejuntadosdeinge.umenu.R.id;
 
-
-
-
 public class DetallesPlato extends ActionBarActivity {
+
     final Context context = this;
     public int idSoda;
     public String sodaElegida;
     public String platoElegido;
+    int semana = 3;
+    int dia = 3;
+
+    TextView output;
+    ProgressBar pb;
+
+    List<Plato> platoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_plato);
+
+        // textView inicializado con scroll vertical
+        output = (TextView) findViewById(R.id.tv_nombre_plato);
+        output.setMovementMethod(new ScrollingMovementMethod());
 
         // extraer id del intent que viene de ListaPlato
         Intent intent = getIntent();
@@ -39,6 +63,15 @@ public class DetallesPlato extends ActionBarActivity {
 
         TextView tv_nombre = (TextView) findViewById(R.id.textView7);
         tv_nombre.setText(sodaElegida);
+
+        pb = (ProgressBar) findViewById( R.id.progressBarDetallesPlato);
+        pb.setVisibility(View.INVISIBLE);
+
+        if (isOnline()) {
+            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(idSoda) + "&semana=" + String.valueOf(semana) + "&dia=" + String.valueOf(dia) + "&get=1");
+        } else {
+            Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
+        }
 
         //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
@@ -57,7 +90,6 @@ public class DetallesPlato extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,12 +121,90 @@ public class DetallesPlato extends ActionBarActivity {
                  * y cerrar el popup
                  */
 
-
                 Intent browserIntent =
                         new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.howtosolvenow.com"));
                 startActivity(browserIntent);
-
             }
         });
+    }
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestData(String uri) {
+
+        Toast.makeText(this, "id enviado al HttpManager: "+idSoda, Toast.LENGTH_LONG).show();
+
+        RequestPackage p = new RequestPackage();
+        p.setMethod("POST");
+        p.setUri(uri);
+        p.setParam("soda_id", String.valueOf(idSoda));
+        p.setParam("semana", String.valueOf(semana));
+        p.setParam("dia", String.valueOf(dia));
+        //p.setParam("categoria", "Básico 1");
+
+        MyTask task = new MyTask();
+        task.execute(p);
+    }
+
+    protected void updateDisplay(String msg) {
+        Toast.makeText(this, "JSON: "+msg, Toast.LENGTH_LONG).show();
+        try {
+
+            JSONObject obj = new JSONObject(msg);
+            String nombre = obj.getString("nombre");
+            String precio = obj.getString("precio");
+            TextView tv_nombre = (TextView) findViewById(R.id.tv_nombre_plato);
+            tv_nombre.setText(nombre);
+
+            TextView tv_horario = (TextView) findViewById(id.tv_precio_plato);
+            tv_horario.setText(precio);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void updateDisplay2() {
+
+        if (platoList != null) {
+            for (Plato plato : platoList) {
+                output.append(plato.getNombre() + " " + plato.getPrecio() + "\n");
+            }
+        }
+    }
+
+    // para no bloquear el hilo principal la conexion la realiza otro hilo
+    private class MyTask extends AsyncTask<RequestPackage, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            updateDisplay(result);
+
+            platoList = PlatoParser.parseFeed(result);
+            updateDisplay2();
+            pb.setVisibility(View.INVISIBLE);
+        }
     }
 }
