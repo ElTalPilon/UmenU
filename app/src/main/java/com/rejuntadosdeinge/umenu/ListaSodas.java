@@ -1,4 +1,6 @@
 package com.rejuntadosdeinge.umenu;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,11 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
-            popUpSugerenciaPlato();
+            //inicializacion del dialog
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.fragment_sugerencia_plato);
+            dialog.setTitle(getString(R.string.title_fragment_sugerencia_plato));
+            popUpSugerenciaPlato(dialog);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -90,8 +95,7 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
      * Inicializa la actividad "SugerenciaPlato".
      */
-    public void popUpSugerenciaPlato(){
-        Toast msg = Toast.makeText(this, "Sugerencia de plato del día", Toast.LENGTH_LONG);
-        msg.show();
+    public void popUpSugerenciaPlato(Dialog dialog){
+        dialog.show();
     }
 }
