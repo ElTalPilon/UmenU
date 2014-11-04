@@ -1,6 +1,7 @@
 package com.rejuntadosdeinge.umenu;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 public class ListaSodas extends ActionBarActivity {
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +72,9 @@ public class ListaSodas extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
             //inicializacion del dialog
-            final Dialog dialog = new Dialog(this);
+            final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.fragment_sugerencia_plato);
-            dialog.setTitle(getString(R.string.title_fragment_sugerencia_plato));
+            dialog.setTitle(R.string.title_fragment_sugerencia_plato);
             popUpSugerenciaPlato(dialog);
         }
         return super.onOptionsItemSelected(item);
