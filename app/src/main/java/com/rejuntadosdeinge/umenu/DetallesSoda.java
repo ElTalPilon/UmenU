@@ -67,7 +67,6 @@ public class DetallesSoda extends ActionBarActivity {
             Toast.makeText(this, "No se pudo conectar con Google Play services", Toast.LENGTH_SHORT).show();
         }
 
-
         if (isOnline()) {
             requestData("http://limitless-river-6258.herokuapp.com/sodas/" + String.valueOf(id));
         } else {
