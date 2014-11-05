@@ -34,9 +34,8 @@ public class ListaPlatos extends ActionBarActivity {
 
         // Dummy data for the ListView.
         String[] platosArray = {
-                "Plato Especial",
-                "Plato Básico A",
-                "Plato Básico B",
+                "Plato Básico 1",
+                "Plato Básico 2",
                 "Plato Vegetariano"
         };
 
@@ -53,7 +52,7 @@ public class ListaPlatos extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToDetallesPlato(view, (String)(listView.getItemAtPosition(i)));
+                goToDetallesPlato(i);//view, (String)(listView.getItemAtPosition(i)));
             }
         });
     }
@@ -93,11 +92,11 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      * Called when the user clicks any dish item
      */
-    public void goToDetallesPlato(View view, String platoElegido){
+    public void goToDetallesPlato(int categoria){//View view, String platoElegido){
         Intent intent = new Intent(this, DetallesPlato.class);
         intent.putExtra("idSoda", idSoda);
         intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
-        intent.putExtra("platoElegido", platoElegido); // Pasa el nombre de la soda elegida
+        intent.putExtra("categoria", categoria);    // Pasa el plato
         startActivity(intent);
     }
 
