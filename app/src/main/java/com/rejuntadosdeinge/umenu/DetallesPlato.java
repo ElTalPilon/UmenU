@@ -135,7 +135,7 @@ public class DetallesPlato extends ActionBarActivity {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
                 //startActivity(intent);
-
+                dialog.hide();
 
             }
         });

@@ -44,17 +44,19 @@
         android:layout_marginBottom="40dp" />
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView7"
         android:background="@color/silver"
         android:gravity="center_horizontal"
-        android:textSize="40dp"
+        android:textSize="36dp"
         android:textColor="@color/white"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:paddingTop="20dp"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
