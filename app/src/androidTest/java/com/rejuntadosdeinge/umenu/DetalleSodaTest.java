@@ -6,6 +6,7 @@ import android.widget.TextView;
 public class DetalleSodaTest
         extends ActivityInstrumentationTestCase2<DetallesSoda> {
 
+    Globals g = Globals.getInstance();
     private DetallesSoda activity;
     TextView nombreDeLaSoda;
 
@@ -17,11 +18,8 @@ public class DetalleSodaTest
         super.setUp();
 
 
-        //Crea un intent para lanzar una Activity
-        //Intent intent = new Intent(getInstrumentation().getTargetContext(),
-        //        DetallesSoda.class);
-        //intent.putExtra("id", 3);
-        //setActivityIntent(intent);
+        //Suponemos que se escogio la soda de derecho de la lista de sodas
+        g.setIdSoda(2);
 
         activity = (DetallesSoda) getActivity();
         nombreDeLaSoda = (TextView) activity.findViewById(R.id.nombre_soda);
