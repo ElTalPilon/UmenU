@@ -1,4 +1,7 @@
 package com.rejuntadosdeinge.umenu;
+
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,7 @@ import java.util.List;
 
 
 public class ListaSodas extends ActionBarActivity {
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class ListaSodas extends ActionBarActivity {
         String[] sodasArray = {
                 "Facultad de Odontología",
                 "Facultad de Derecho",
-                "Facultad de Agronomía",
+                "Facultad de Agroalimentarias",
                 "Ciencias Económicas",
                 "Estudios Generales",
                 "Facultad de Educación",
@@ -90,8 +93,11 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
      * Inicializa la actividad "SugerenciaPlato".
      */
-    public void popUpSugerenciaPlato(){
-        Toast msg = Toast.makeText(this, "Sugerencia de plato del día", Toast.LENGTH_LONG);
-        msg.show();
+    public void popUpSugerenciaPlato( ){
+        //inicializacion del dialog
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.fragment_sugerencia_plato);
+        dialog.setTitle(R.string.title_fragment_sugerencia_plato);
+        dialog.show();
     }
 }
