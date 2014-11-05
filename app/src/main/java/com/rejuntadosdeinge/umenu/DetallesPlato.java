@@ -24,9 +24,6 @@ import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import static com.rejuntadosdeinge.umenu.R.id;
@@ -43,6 +40,7 @@ public class DetallesPlato extends ActionBarActivity {
     String categoria2;
 
     TextView output;
+    TextView output2;
     ProgressBar pb;
 
     List<Plato> platoList;
@@ -56,6 +54,8 @@ public class DetallesPlato extends ActionBarActivity {
         // textView inicializado con scroll vertical
         output = (TextView) findViewById(R.id.tv_nombre_plato);
         output.setMovementMethod(new ScrollingMovementMethod());
+        output2 = (TextView) findViewById(R.id.tv_precio);
+        output2.setMovementMethod(new ScrollingMovementMethod());
 
         // extraer id del intent que viene de ListaPlato
         Intent intent = getIntent();
@@ -164,27 +164,12 @@ public class DetallesPlato extends ActionBarActivity {
         task.execute(p);
     }
 
-    protected void updateDisplay(String msg) {
-        Toast.makeText(this, "JSON: "+msg, Toast.LENGTH_LONG).show();
-        try {
-
-            JSONObject obj = new JSONObject(msg);
-            String nombre = obj.getString("nombre");
-            String precio = obj.getString("precio");
-            TextView tv_nombre = (TextView) findViewById(R.id.tv_nombre_plato);
-            tv_nombre.setText(nombre);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected void updateDisplay2() {
+    protected void updateDisplay() {
 
         if (platoList != null) {
             for (Plato plato : platoList) {
-                output.append(plato.getNombre() + " " + plato.getPrecio() + "\n");
+                output.append("\n" + plato.getNombre() );
+                output2.append("\n" + plato.getPrecio() );
             }
         }
     }
@@ -208,10 +193,8 @@ public class DetallesPlato extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            //updateDisplay(result);
-
             platoList = PlatoParser.parseFeed(result);
-            updateDisplay2();
+            updateDisplay();
             pb.setVisibility(View.INVISIBLE);
         }
     }

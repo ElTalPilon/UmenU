@@ -18,7 +18,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView7" />
+        android:layout_below="@+id/textView7"
+        android:text="Plato:" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -61,7 +62,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBarDetallesPlato"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/tv_nombre_plato"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Precio:"
+        android:id="@+id/tv_precio"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
