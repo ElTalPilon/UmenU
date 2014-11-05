@@ -117,6 +117,7 @@ public class DetallesPlato extends ActionBarActivity {
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
                 //float notaFinal=rb1.getRating();
 
+                //datos quemados
                 int id = 94;
                 int calif = 5;
                 int total = 25;
@@ -132,7 +133,7 @@ public class DetallesPlato extends ActionBarActivity {
                 uri.append(promedio);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
-                startActivity(intent);
+                //startActivity(intent);
 
 
             }
