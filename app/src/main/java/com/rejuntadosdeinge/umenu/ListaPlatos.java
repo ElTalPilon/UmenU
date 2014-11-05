@@ -17,7 +17,8 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
-    int idSoda = 0;
+    Globals g = Globals.getInstance();
+    int idSoda;
     String sodaElegida = "";
 
     @Override
@@ -25,12 +26,9 @@ public class ListaPlatos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
-        Intent intent = getIntent();
-        if(intent.hasExtra("sodaElegida") && intent.hasExtra("sodaId")){
-            idSoda = intent.getIntExtra("sodaId", 0);
-            sodaElegida = intent.getStringExtra("sodaElegida");
-            getActionBar().setTitle(sodaElegida);
-        }
+        idSoda = g.getIdSoda();
+        sodaElegida = g.getSodaElegida();
+        getActionBar().setTitle(sodaElegida);
 
         // Dummy data for the ListView.
         String[] platosArray = {
@@ -52,11 +50,10 @@ public class ListaPlatos extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToDetallesPlato(i);//view, (String)(listView.getItemAtPosition(i)));
+                goToDetallesPlato(i);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,7 +82,6 @@ public class ListaPlatos extends ActionBarActivity {
      */
     public void goToListaSnacks(View view){
         Intent intent = new Intent(this, ListaSnacks.class);
-        intent.putExtra("idSoda", idSoda);
         startActivity(intent);
     }
 
@@ -93,10 +89,17 @@ public class ListaPlatos extends ActionBarActivity {
      * Called when the user clicks any dish item
      */
     public void goToDetallesPlato(int categoria){//View view, String platoElegido){
+
+        if(categoria == 0)
+            g.setCategoria("B%C3%A1sico%201");
+        else
+            if(categoria == 1)
+                g.setCategoria("B%C3%A1sico%202");
+            else
+                if(categoria == 2)
+                    g.setCategoria("Vegetariano");
+
         Intent intent = new Intent(this, DetallesPlato.class);
-        intent.putExtra("idSoda", idSoda);
-        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
-        intent.putExtra("categoria", categoria);    // Pasa el plato
         startActivity(intent);
     }
 
@@ -106,8 +109,6 @@ public class ListaPlatos extends ActionBarActivity {
      */
     public void goToDetallesSoda(View view){
         Intent intent = new Intent(this, DetallesSoda.class);
-        intent.putExtra("idSoda", idSoda);
-        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
 }

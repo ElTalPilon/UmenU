@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 
 
 public class DetallesSoda extends ActionBarActivity {
-
+    Globals g = Globals.getInstance();
     public int id;
     public String nombre;
     public String horario;
@@ -49,9 +49,7 @@ public class DetallesSoda extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_soda);
 
-        // extraer id del intent que viene de ListaPlato
-        Intent intent = getIntent();
-        id = intent.getIntExtra("idSoda", 0);
+        id = g.getIdSoda();
 
         pb = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
         pb.setVisibility(View.INVISIBLE);
