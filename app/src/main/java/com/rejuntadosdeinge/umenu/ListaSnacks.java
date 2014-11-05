@@ -1,7 +1,6 @@
 package com.rejuntadosdeinge.umenu;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -21,6 +20,7 @@ import java.util.List;
 
 public class ListaSnacks  extends ActionBarActivity {
 
+    Globals g = Globals.getInstance();
     TextView output;
     ProgressBar pb;
     public int idSoda;
@@ -35,9 +35,8 @@ public class ListaSnacks  extends ActionBarActivity {
         output = (TextView) findViewById(R.id.tv_snacks);
         output.setMovementMethod(new ScrollingMovementMethod());
 
-        // extraer datos del intent hecho en ListaPlatos
-        Intent intent = getIntent();
-        idSoda = intent.getIntExtra("idSoda", 0);
+        // extraer datos del id
+        idSoda = g.getIdSoda();
 
         pb = (ProgressBar) findViewById( R.id.progressBarListaSnacks);
         pb.setVisibility(View.INVISIBLE);

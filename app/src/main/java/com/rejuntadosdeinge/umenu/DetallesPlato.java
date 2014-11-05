@@ -30,10 +30,10 @@ import static com.rejuntadosdeinge.umenu.R.id;
 
 public class DetallesPlato extends ActionBarActivity {
 
+    Globals g = Globals.getInstance();
     final Context context = this;
     public int idSoda;
     public String sodaElegida;
-    public String platoElegido;
     int semana = 3;
     int dia = 3;
     int categoria;
@@ -57,21 +57,10 @@ public class DetallesPlato extends ActionBarActivity {
         output2 = (TextView) findViewById(R.id.tv_precio);
         output2.setMovementMethod(new ScrollingMovementMethod());
 
-        // extraer id del intent que viene de ListaPlato
-        Intent intent = getIntent();
-        idSoda = intent.getIntExtra("idSoda", 0);
-        sodaElegida = intent.getStringExtra("sodaElegida");
-        categoria = intent.getIntExtra("categoria", 0);
-
-        if(categoria == 0)
-            categoria2 = "B%C3%A1sico%201";
-            else
-            if(categoria == 1)
-                categoria2 = "B%C3%A1sico%202";
-            else
-            if(categoria == 2)
-                categoria2 = "Vegetariano";
-
+        idSoda = g.getIdSoda();
+        sodaElegida = g.getSodaElegida();
+        categoria2 = g.getCategoria();
+        getActionBar().setTitle(sodaElegida);
 
         TextView tv_nombre = (TextView) findViewById(R.id.textView7);
         tv_nombre.setText(sodaElegida);
@@ -190,20 +179,17 @@ public class DetallesPlato extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-
             pb.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(RequestPackage... params) {
-
             String content = HttpManager.getData(params[0]);
             return content;
         }
 
         @Override
         protected void onPostExecute(String result) {
-
             platoList = PlatoParser.parseFeed(result);
             updateDisplay();
             pb.setVisibility(View.INVISIBLE);

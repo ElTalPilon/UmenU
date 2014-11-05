@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class ListaSodas extends ActionBarActivity {
     final Context context = this;
+    Globals g = Globals.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +83,10 @@ public class ListaSodas extends ActionBarActivity {
      * @param sodaElegida  - El nombre de la soda elegida (para no tener que hacer consulta del nombre)
      */
     public void goToListaPlatos(int sodaId, String sodaElegida){
+
+        g.setIdSoda(sodaId+1);
+        g.setSodaElegida(sodaElegida);
         Intent intent = new Intent(this, ListaPlatos.class);
-        intent.putExtra("sodaId", sodaId+1); // Pasa el ID de la soda elegida
-        intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
 
