@@ -41,9 +41,13 @@
             android:parentActivityName=".ListaSodas">
         </activity>
         <activity
+            android:name=".ListaSnacks"
+            android:label="Snaks"
+            android:parentActivityName=".ListaPlatos">
+        </activity>
+        <activity
             android:name=".DetallesSoda"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:label="@string/title_activity_detalles_soda"
             android:parentActivityName=".ListaPlatos">
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -72,3 +76,4 @@
     </application>
 
 </manifest>
+

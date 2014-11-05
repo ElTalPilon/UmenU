@@ -13,30 +13,21 @@
         android:layout_height="100dp"
         android:id="@+id/imagen_plato"
         android:src="@drawable/spaghetti"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textView7"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/nombre_plato"
-        android:id="@+id/nombre_plato"
+        android:text="nombre_plato"
+        android:id="@+id/tv_nombre_plato"
+        android:layout_marginTop="27dp"
         android:layout_alignTop="@+id/imagen_plato"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/precio_plato"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/nombre_plato"
-        android:layout_alignLeft="@+id/nombre_plato"
-        android:layout_alignStart="@+id/nombre_plato"/>
+        android:layout_alignLeft="@+id/tv_precio_plato"
+        android:layout_alignStart="@+id/tv_precio_plato" />
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -71,7 +62,7 @@
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/nombre_soda"
         android:id="@+id/textView7"
@@ -81,9 +72,26 @@
         android:background="@color/silver"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:textSize="40dp"
+        android:textSize="35dp"
         android:textColor="@color/white"
         android:textAlignment="center"
         android:paddingTop="20dp"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBarDetallesPlato"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="$$"
+        android:id="@+id/tv_precio_plato"
+        android:layout_below="@+id/tv_nombre_plato"
+        android:layout_alignLeft="@+id/progressBarDetallesPlato"
+        android:layout_alignStart="@+id/progressBarDetallesPlato" />
 
 </RelativeLayout>

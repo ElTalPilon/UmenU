@@ -1,11 +1,17 @@
 package com.rejuntadosdeinge.umenu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,16 +25,19 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.net.URLEncoder;
 
 
 public class DetallesSoda extends ActionBarActivity {
 
-    private int soda_id = 1;
-    private String nombre = "Comedor UCR";
-    private String horario = "Lunes a Viernes de 7 am a 7 pm";
-    private double latitud = 9.937240;
-    private double longitud = -84.053132;
+    public int id;
+    public String nombre;
+    public String horario;
+    public float latitud;
+    public float longitud;
+    ProgressBar pb;
 
     LatLng latLng = null;
 
@@ -39,6 +48,13 @@ public class DetallesSoda extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_soda);
+
+        // extraer id del intent que viene de ListaPlato
+        Intent intent = getIntent();
+        id = intent.getIntExtra("idSoda", 0);
+
+        pb = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
+        pb.setVisibility(View.INVISIBLE);
 
         // revisa si hay disponibilidad de mapa
         int estaDisponible = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -51,11 +67,12 @@ public class DetallesSoda extends ActionBarActivity {
             Toast.makeText(this, "No se pudo conectar con Google Play services", Toast.LENGTH_SHORT).show();
         }
 
-        // extraer datos del intent en la actividad que recibe
-        //Intent intent = getIntent();
-        //soda_id = Integer.parseInt(intent.getStringExtra("soda_id"));
 
-        desplegarDetalles();
+        if (isOnline()) {
+            requestData("http://limitless-river-6258.herokuapp.com/sodas/" + String.valueOf(id));
+        } else {
+            Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean initMap() {
@@ -66,14 +83,13 @@ public class DetallesSoda extends ActionBarActivity {
         return (mMap != null);
     }
 
-    private void desplegarDetalles() {
+    public void desplegarDetalles() {
 
         TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
         tv_nombre.setText(nombre);
 
         TextView tv_horario = (TextView) findViewById(R.id.horario_soda);
         tv_horario.setText(horario);
-
 
         if (mMostrarMapa) {
 
@@ -119,11 +135,6 @@ public class DetallesSoda extends ActionBarActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.mas_prod:
-                Toast msg = Toast.makeText(this, "Snacks 24/7", Toast.LENGTH_LONG);
-                msg.show();
-                break;
-
             default:
                 break;
         }
@@ -147,5 +158,63 @@ public class DetallesSoda extends ActionBarActivity {
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
         startActivity(intent);
+    }
+
+    private void requestData(String uri) {
+        MyTask task = new MyTask();
+        task.execute(uri);
+    }
+
+    protected void updateDisplay(String msg) {
+        try {
+
+            JSONObject obj = new JSONObject(msg);
+            nombre = obj.getString("nombre");
+            horario = obj.getString("descripcion");
+            longitud = (float)obj.getDouble("long");
+            latitud = (float)obj.getDouble("lat");
+            desplegarDetalles();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // para no bloquear el hilo principal la conexion la realiza otro hilo
+    private class MyTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            updateDisplay(result);
+            pb.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            updateDisplay(values[0]);
+        }
     }
 }

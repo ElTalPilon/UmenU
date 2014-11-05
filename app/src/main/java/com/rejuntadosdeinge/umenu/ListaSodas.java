@@ -28,14 +28,14 @@ public class ListaSodas extends ActionBarActivity {
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
         String[] sodasArray = {
-                "Ciencias Económicas",
-                "Ciencias Sociales",
-                "Comedor Universitario",
-                "Estudios Generales",
-                "Facultad de Agronomía",
+                "Facultad de Odontología",
                 "Facultad de Derecho",
+                "Facultad de Agroalimentarias",
+                "Ciencias Económicas",
+                "Estudios Generales",
                 "Facultad de Educación",
-                "Facultad de Odontología"
+                "Ciencias Sociales",
+                "Comedor Universitario"
         };
 
         List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
@@ -88,7 +88,7 @@ public class ListaSodas extends ActionBarActivity {
      */
     public void goToListaPlatos(int sodaId, String sodaElegida){
         Intent intent = new Intent(this, ListaPlatos.class);
-        intent.putExtra("sodaId", sodaId); // Pasa el ID de la soda elegida
+        intent.putExtra("sodaId", sodaId+1); // Pasa el ID de la soda elegida
         intent.putExtra("sodaElegida", sodaElegida); // Pasa el nombre de la soda elegida
         startActivity(intent);
     }
