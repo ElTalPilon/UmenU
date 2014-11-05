@@ -71,11 +71,7 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
-            //inicializacion del dialog
-            final Dialog dialog = new Dialog(context);
-            dialog.setContentView(R.layout.fragment_sugerencia_plato);
-            dialog.setTitle(R.string.title_fragment_sugerencia_plato);
-            popUpSugerenciaPlato(dialog);
+            popUpSugerenciaPlato();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -97,7 +93,11 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
      * Inicializa la actividad "SugerenciaPlato".
      */
-    public void popUpSugerenciaPlato(Dialog dialog){
+    public void popUpSugerenciaPlato( ){
+        //inicializacion del dialog
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.fragment_sugerencia_plato);
+        dialog.setTitle(R.string.title_fragment_sugerencia_plato);
         dialog.show();
     }
 }
