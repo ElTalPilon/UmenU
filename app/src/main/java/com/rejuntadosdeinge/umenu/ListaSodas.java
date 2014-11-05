@@ -27,7 +27,7 @@ public class ListaSodas extends ActionBarActivity {
         String[] sodasArray = {
                 "Facultad de Odontología",
                 "Facultad de Derecho",
-                "Facultad de Agronomía",
+                "Facultad de Agroalimentarias",
                 "Ciencias Económicas",
                 "Estudios Generales",
                 "Facultad de Educación",
