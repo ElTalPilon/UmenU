@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class ListaSodas extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos(i, (String)(listView.getItemAtPosition(i)));
+                goToListaPlatos(i, (String) (listView.getItemAtPosition(i)));
             }
         });
     }
@@ -99,5 +100,17 @@ public class ListaSodas extends ActionBarActivity {
         dialog.setContentView(R.layout.fragment_sugerencia_plato);
         dialog.setTitle(R.string.title_fragment_sugerencia_plato);
         dialog.show();
+
+        Button detallesPlato = (Button) findViewById(R.id.ir_a_detalle_plato);
+    }
+
+    /**
+     * Called when the user clicks any dish item
+     */
+    public void goToDetallesPlato(View view, int idPlato, int idSoda){
+        Intent intent = new Intent(this, DetallesPlato.class);
+        intent.putExtra("idSoda", idSoda);
+        intent.putExtra("idPlato", idPlato); // Pasa el nombre de la soda elegida
+        startActivity(intent);
     }
 }

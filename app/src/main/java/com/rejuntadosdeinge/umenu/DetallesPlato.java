@@ -55,11 +55,13 @@ public class DetallesPlato extends ActionBarActivity {
         output = (TextView) findViewById(R.id.tv_nombre_plato);
         output.setMovementMethod(new ScrollingMovementMethod());
 
-        // extraer id del intent que viene de ListaPlato
         Intent intent = getIntent();
-        idSoda = intent.getIntExtra("idSoda", 0);
-        sodaElegida = intent.getStringExtra("sodaElegida");
-        platoElegido = intent.getStringExtra("platoElegido");
+        if(intent.hasExtra("sodaElegida") && intent.hasExtra("idSoda") && intent.hasExtra("platoElegido")){
+            idSoda = intent.getIntExtra("idSoda", 0);
+            sodaElegida = intent.getStringExtra("sodaElegida");
+            platoElegido = intent.getStringExtra("platoElegido");
+            getActionBar().setTitle(sodaElegida);
+        }
 
         TextView tv_nombre = (TextView) findViewById(R.id.textView7);
         tv_nombre.setText(sodaElegida);
