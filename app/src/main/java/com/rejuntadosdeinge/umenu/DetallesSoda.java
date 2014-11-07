@@ -49,6 +49,8 @@ public class DetallesSoda extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_soda);
 
+        getActionBar().setTitle("Detalles: " + g.getNombreSoda());
+
         id = g.getIdSoda();
 
         pb = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
@@ -106,9 +108,11 @@ public class DetallesSoda extends ActionBarActivity {
         }
     }
 
+    /**
+     * Infla el menú. (Agrega elementos al Action Bar).
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.detalles_soda, menu);
         return true;
     }

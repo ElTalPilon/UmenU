@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".ListaSnacks"
-            android:label="Snaks"
+            android:label="Snacks"
             android:parentActivityName=".ListaPlatos">
         </activity>
         <activity

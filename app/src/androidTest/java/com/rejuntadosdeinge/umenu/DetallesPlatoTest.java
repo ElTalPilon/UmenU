@@ -21,7 +21,7 @@ public class DetallesPlatoTest
         //Suponemos que se escogio la soda de derecho
         g.setIdSoda(2);
         g.setCategoria("B%C3%A1sico%201");
-        g.setSodaElegida("Derecho");
+        g.setNombreSoda("Derecho");
 
         activity = (DetallesPlato) getActivity();
         nombreDelPlato = (TextView) activity.findViewById(R.id.tv_nombre_plato);

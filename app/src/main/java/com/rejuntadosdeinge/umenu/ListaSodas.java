@@ -65,7 +65,7 @@ public class ListaSodas extends ActionBarActivity {
     }
 
     /**
-     * Llamado cuando se presiona uno de los elementos de la Action Bar
+     * Llamado cuando se presiona uno de los elementos del Action Bar
      * En este caso, sólo se puede presionar "Sugerir Plato".
      */
     @Override
@@ -80,12 +80,10 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario elige una de las sodas de la lista.
      * Inicializa la actividad "ListaPlatos"
      * @param sodaId       - El ID de la soda elegida
-     * @param sodaElegida  - El nombre de la soda elegida (para no tener que hacer consulta del nombre)
      */
     public void goToListaPlatos(int sodaId, String sodaElegida){
-
-        g.setIdSoda(sodaId+1);
-        g.setSodaElegida(sodaElegida);
+        g.setIdSoda(sodaId+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
+        g.setNombreSoda(sodaElegida);
         Intent intent = new Intent(this, ListaPlatos.class);
         startActivity(intent);
     }
@@ -95,7 +93,6 @@ public class ListaSodas extends ActionBarActivity {
      * Inicializa la actividad "SugerenciaPlato".
      */
     public void popUpSugerenciaPlato( ){
-        //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.fragment_sugerencia_plato);
         dialog.setTitle(R.string.title_fragment_sugerencia_plato);
