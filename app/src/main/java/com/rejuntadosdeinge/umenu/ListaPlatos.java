@@ -18,19 +18,15 @@ import java.util.List;
 public class ListaPlatos extends ActionBarActivity {
 
     Globals g = Globals.getInstance();
-    int idSoda;
-    String sodaElegida = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
-        idSoda = g.getIdSoda();
-        sodaElegida = g.getSodaElegida();
-        getActionBar().setTitle(sodaElegida);
+        getActionBar().setTitle(g.getSodaElegida());
 
-        // Dummy data for the ListView.
+        // Lista de platos (sólo se cuenta con 3 platos por soda)
         String[] platosArray = {
                 "Plato Básico 1",
                 "Plato Básico 2",
@@ -38,7 +34,6 @@ public class ListaPlatos extends ActionBarActivity {
         };
 
         List<String> listaPlatosProvisional = new ArrayList<String>(Arrays.asList(platosArray));
-
         ArrayAdapter<String> listaPlatosAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.list_item,
@@ -55,30 +50,30 @@ public class ListaPlatos extends ActionBarActivity {
         });
     }
 
+    /**
+     * Infla el menú. (Agrega elementos al Action Bar).
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.lista_platos, menu);
         return true;
     }
 
+    /**
+     * Llamado cuando se presiona uno de los elementos del Action Bar.
+     * En este caso, sólo se puede presionar "Detalles de la Soda"
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.ir_detalle_soda:
-                goToDetallesSoda((ListView) this.findViewById(R.id.lista_platos));
-                break;
-
-            default:
-                break;
+        if(item.getItemId() == R.id.ir_detalle_soda){
+            Intent intent = new Intent(this, DetallesSoda.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * Called when the user clicks Snacks
+     * Llamado cuando se presiona el botón de Snacks
      */
     public void goToListaSnacks(View view){
         Intent intent = new Intent(this, ListaSnacks.class);
@@ -86,7 +81,7 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
-     * Called when the user clicks any dish item
+     * Llamado cuando se presiona uno de los platos de la lista.
      */
     public void goToDetallesPlato(int categoria){//View view, String platoElegido){
 
@@ -100,15 +95,6 @@ public class ListaPlatos extends ActionBarActivity {
                     g.setCategoria("Vegetariano");
 
         Intent intent = new Intent(this, DetallesPlato.class);
-        startActivity(intent);
-    }
-
-    /**
-     * Called when the user clicks the Soda Detail button
-     * @param view
-     */
-    public void goToDetallesSoda(View view){
-        Intent intent = new Intent(this, DetallesSoda.class);
         startActivity(intent);
     }
 }
