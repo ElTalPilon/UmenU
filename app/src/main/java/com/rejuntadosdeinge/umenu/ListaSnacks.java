@@ -31,6 +31,8 @@ public class ListaSnacks  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_snaks);
 
+        getActionBar().setTitle("Snacks: " + g.getNombreSoda());
+
         // textView inicializado con scroll vertical
         output = (TextView) findViewById(R.id.tv_snacks);
         output.setMovementMethod(new ScrollingMovementMethod());

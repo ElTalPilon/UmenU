@@ -83,7 +83,7 @@ public class ListaSodas extends ActionBarActivity {
      */
     public void goToListaPlatos(int sodaId, String sodaElegida){
         g.setIdSoda(sodaId+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
-        g.setSodaElegida(sodaElegida);
+        g.setNombreSoda(sodaElegida);
         Intent intent = new Intent(this, ListaPlatos.class);
         startActivity(intent);
     }

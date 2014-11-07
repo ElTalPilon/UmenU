@@ -51,6 +51,8 @@ public class DetallesPlato extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_plato);
 
+        getActionBar().setTitle("Detalles: " + g.getNombrePlato());
+
         // textView inicializado con scroll vertical
         output = (TextView) findViewById(R.id.tv_nombre_plato);
         output.setMovementMethod(new ScrollingMovementMethod());
@@ -58,9 +60,8 @@ public class DetallesPlato extends ActionBarActivity {
         output2.setMovementMethod(new ScrollingMovementMethod());
 
         idSoda = g.getIdSoda();
-        sodaElegida = g.getSodaElegida();
+        sodaElegida = g.getNombreSoda();
         categoria2 = g.getCategoria();
-        getActionBar().setTitle(sodaElegida);
 
         TextView tv_nombre = (TextView) findViewById(R.id.textView7);
         tv_nombre.setText(sodaElegida);

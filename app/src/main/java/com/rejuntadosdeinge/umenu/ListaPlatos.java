@@ -21,13 +21,10 @@ public class ListaPlatos extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /** TODO: Ahora que se van a cargar los nombres de los platos,
-         *  TODO: se podría pasar el id directamente a DetallesPlato.
-         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
-        getActionBar().setTitle(g.getSodaElegida());
+        getActionBar().setTitle(g.getNombreSoda());
 
         // Lista de platos (sólo se cuenta con 3 platos por soda)
         String[] platosArray = {
@@ -48,7 +45,7 @@ public class ListaPlatos extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToDetallesPlato(i);
+                goToDetallesPlato(i, (String)(listView.getItemAtPosition(i)));
             }
         });
     }
@@ -84,9 +81,10 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
+     * TODO: En vez de la categoría, podría pasarse el ID del plato ahora que se cargaran
      * Llamado cuando se presiona uno de los platos de la lista.
      */
-    public void goToDetallesPlato(int categoria){
+    public void goToDetallesPlato(int categoria, String nombrePlato){
         switch(categoria){
             case 0:
                 g.setCategoria("B%C3%A1sico%201");
@@ -98,6 +96,7 @@ public class ListaPlatos extends ActionBarActivity {
                 g.setCategoria("Vegetariano");
                 break;
         }
+        g.setNombrePlato(nombrePlato);
 
         Intent intent = new Intent(this, DetallesPlato.class);
         startActivity(intent);
