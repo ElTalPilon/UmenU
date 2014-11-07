@@ -2,10 +2,8 @@ package com.rejuntadosdeinge.umenu;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -51,6 +49,7 @@ public class DetallesPlato extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_plato);
 
+        // Le cambia el título a la actividad
         getActionBar().setTitle("Detalles: " + g.getNombrePlato());
 
         // textView inicializado con scroll vertical
@@ -83,19 +82,21 @@ public class DetallesPlato extends ActionBarActivity {
         text.setText(getString(R.string.Comentario));
 
         RatingBar ratingBar = (RatingBar) findViewById(id.ratingBar);
-        //cuando se modifique la nota, hacer los siguente:
+        // Cuando haya un cambio en la calificación
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                float nota= ratingBar.getRating(); //obtengo la nota del RatingBar
-                popUpPuntuarPlato(dialog, nota); //Convoco al popUp
+                float nota= ratingBar.getRating(); // Obtengo la nueva calificación
+                popUpPuntuarPlato(dialog, nota); // Instancio el popUp
             }
         });
     }
 
+    /**
+     * Infla el menú (Agrega elementos al Action Bar)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.detalles_plato, menu);
         return true;
     }
@@ -107,19 +108,20 @@ public class DetallesPlato extends ActionBarActivity {
 
     private void popUpPuntuarPlato(final Dialog dialog, float nota) {
         RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-        //Al Rating bar del popUp ledoy la nota del fragmento, para q pueda ser modificada y enviada
-        //a la base de datos (pendiente)
-        rb.setRating(nota);//le doy la nota
-        dialog.show(); //mostar el popUp
-        //falta darle acción al Botón para q cierre el popUp y envie los datos a la base
-        Button b = (Button) dialog.findViewById((id.botonComentario));
+        // Se le asigna la nueva nota al RatingBar del popUp
+        rb.setRating(nota);
+        dialog.show();
+
+        Button b = (Button) dialog.findViewById((R.id.botonComentario));
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                /*
+                // TODO: Cambiar dummy data por el ID del plato que se pasará por globals (g.getIdPlato())
+                // TODO: Darle una acción al botón (Enviar a la BD)
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
                 //float notaFinal=rb1.getRating();
 
-                //datos quemados
                 int id = 94;
                 int calif = 5;
                 int total = 25;
@@ -136,8 +138,8 @@ public class DetallesPlato extends ActionBarActivity {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
                 //startActivity(intent);
-                dialog.hide();
-
+                */
+                dialog.dismiss();
             }
         });
     }
@@ -176,7 +178,7 @@ public class DetallesPlato extends ActionBarActivity {
         }
     }
 
-    // para no bloquear el hilo principal la conexion la realiza otro hilo
+    // Para no bloquear el hilo principal la conexion la realiza otro hilo
     private class MyTask extends AsyncTask<RequestPackage, String, String> {
 
         @Override

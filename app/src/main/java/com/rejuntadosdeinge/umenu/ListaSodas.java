@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -97,5 +98,16 @@ public class ListaSodas extends ActionBarActivity {
         dialog.setContentView(R.layout.fragment_sugerencia_plato);
         dialog.setTitle(R.string.title_fragment_sugerencia_plato);
         dialog.show();
+
+        Button b = (Button) dialog.findViewById((R.id.ir_a_detalle_plato));
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), DetallesPlato.class);
+                // TODO: g.setIDPlato(id);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
     }
 }
