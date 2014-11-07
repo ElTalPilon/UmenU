@@ -21,6 +21,9 @@ public class ListaPlatos extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /** TODO: Ahora que se van a cargar los nombres de los platos,
+         *  TODO: se podría pasar el id directamente a DetallesPlato.
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
@@ -83,16 +86,18 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      * Llamado cuando se presiona uno de los platos de la lista.
      */
-    public void goToDetallesPlato(int categoria){//View view, String platoElegido){
-
-        if(categoria == 0)
-            g.setCategoria("B%C3%A1sico%201");
-        else
-            if(categoria == 1)
+    public void goToDetallesPlato(int categoria){
+        switch(categoria){
+            case 0:
+                g.setCategoria("B%C3%A1sico%201");
+                break;
+            case 1:
                 g.setCategoria("B%C3%A1sico%202");
-            else
-                if(categoria == 2)
-                    g.setCategoria("Vegetariano");
+                break;
+            case 2:
+                g.setCategoria("Vegetariano");
+                break;
+        }
 
         Intent intent = new Intent(this, DetallesPlato.class);
         startActivity(intent);
