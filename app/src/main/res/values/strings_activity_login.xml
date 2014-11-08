@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_activity_login">Entrar</string>
+
+    <!-- Strings relacionados a la actividad de Login -->
+    <string name="prompt_email">Correo</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Entrar / Registrarse</string>
+    <string name="action_sign_in_short">Entrar con Google</string>
+    <string name="plus_sign_out">Cambiar a la cuenta de Google+</string>
+    <string name="plus_disconnect">Desconectarse de Google+</string>
+    <string name="error_invalid_email">Ese correo es inválido.</string>
+    <string name="error_invalid_password">La contraseña es muy corta.</string>
+    <string name="error_incorrect_password">Contraseña incorrecta.</string>
+    <string name="error_field_required">Este campo es requerido.</string>
+</resources>

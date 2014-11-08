@@ -4,23 +4,31 @@
 
     <permission
         android:name="com.rejuntadosdeinge.umenu.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.rejuntadosdeinge.umenu.permission.MAPS_RECEIVE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.rejuntadosdeinge.umenu.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-library
-        android:name="com.google.android.maps" />
+    <uses-library android:name="com.google.android.maps" />
+
+    <!--
+     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
+     option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -28,52 +36,56 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ListaSodas"
+            android:name="com.rejuntadosdeinge.umenu.ListaSodas"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListaPlatos"
+            android:name="com.rejuntadosdeinge.umenu.ListaPlatos"
             android:label="@string/title_activity_lista_platos"
-            android:parentActivityName=".ListaSodas">
+            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaSodas" >
         </activity>
         <activity
-            android:name=".ListaSnacks"
+            android:name="com.rejuntadosdeinge.umenu.ListaSnacks"
             android:label="Snacks"
-            android:parentActivityName=".ListaPlatos">
+            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos" >
         </activity>
         <activity
-            android:name=".DetallesSoda"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:parentActivityName=".ListaPlatos">
+            android:name="com.rejuntadosdeinge.umenu.DetallesSoda"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rejuntadosdeinge.umenu.DetallesSoda" />
         </activity>
         <activity
-            android:name=".DetallesPlato"
+            android:name="com.rejuntadosdeinge.umenu.DetallesPlato"
             android:label="@string/title_activity_detalles_plato"
-            android:parentActivityName=".ListaPlatos">
+            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos" >
         </activity>
-
-        <activity android:name=".GPSLicencia"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name="com.rejuntadosdeinge.umenu.GPSLicencia"
+            android:screenOrientation="landscape" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBpTmR6ZbInpGVTXrM4woe92UFZNUnsRQw"/>
+            android:value="AIzaSyBpTmR6ZbInpGVTXrM4woe92UFZNUnsRQw" />
 
+        <activity
+            android:name="com.rejuntadosdeinge.umenu.Login"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
     </application>
 
 </manifest>
-

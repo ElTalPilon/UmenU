@@ -1,8 +1,10 @@
 package com.rejuntadosdeinge.umenu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +19,24 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
-    Globals g = Globals.getInstance();
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_platos);
 
-        getActionBar().setTitle(g.getNombreSoda());
+        // Inicializa las SharedPreferences
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        editor.apply();
+
+        // Setea el nombre de la actividad
+        try {
+            getSupportActionBar().setTitle(pref.getString("nombreSoda", null));
+        }catch(NullPointerException e){
+            Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
+        }
 
         // Lista de platos (sólo se cuenta con 3 platos por soda)
         String[] platosArray = {
@@ -32,6 +44,8 @@ public class ListaPlatos extends ActionBarActivity {
                 "Plato Básico 2",
                 "Plato Vegetariano"
         };
+
+        //TODO: Cargar los nombres de los platos
 
         List<String> listaPlatosProvisional = new ArrayList<String>(Arrays.asList(platosArray));
         ArrayAdapter<String> listaPlatosAdapter = new ArrayAdapter<String>(
@@ -81,22 +95,23 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
-     * TODO: En vez de la categoría, podría pasarse el ID del plato ahora que se cargaran
      * Llamado cuando se presiona uno de los platos de la lista.
      */
     public void goToDetallesPlato(int categoria, String nombrePlato){
+        // TODO: En vez de la categoría, podría pasarse el ID del plato -> editor.putInt("IDPlato", 56);
         switch(categoria){
             case 0:
-                g.setCategoria("B%C3%A1sico%201");
+                editor.putString("categoriaPlato", "B%C3%A1sico%201");
                 break;
             case 1:
-                g.setCategoria("B%C3%A1sico%202");
+                editor.putString("categoriaPlato", "B%C3%A1sico%202");
                 break;
             case 2:
-                g.setCategoria("Vegetariano");
+                editor.putString("categoriaPlato", "Vegetariano");
                 break;
         }
-        g.setNombrePlato(nombrePlato);
+        editor.putString("nombrePlato", nombrePlato);
+        editor.commit();
 
         Intent intent = new Intent(this, DetallesPlato.class);
         startActivity(intent);

@@ -2,12 +2,14 @@ package com.rejuntadosdeinge.umenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,16 +33,43 @@ import java.net.URLEncoder;
 
 
 public class DetallesSoda extends ActionBarActivity {
-    Globals g = Globals.getInstance();
-    public int id;
-    public String nombre;
+
+    // Clase creada para no bloquear el hilo principal con la conexión a la BD
+    private class MyTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return HttpManager.getData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            updateDisplay(result);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            updateDisplay(values[0]);
+        }
+    }
+
+
+    // SharedPreferences
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     public String horario;
     public float latitud;
     public float longitud;
-    ProgressBar pb;
-
+    ProgressBar progressBar;
     LatLng latLng = null;
-
     boolean mMostrarMapa = false;
     GoogleMap mMap;
 
@@ -49,14 +78,24 @@ public class DetallesSoda extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_soda);
 
-        getActionBar().setTitle("Detalles: " + g.getNombreSoda());
+        // Inicializa las SharedPreferences
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        editor.apply();
 
-        id = g.getIdSoda();
+        getActionBar().setTitle(pref.getString("nombreSoda", null));
 
-        pb = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
-        pb.setVisibility(View.INVISIBLE);
+        // Setea el nombre de la actividad
+        try {
+            getSupportActionBar().setTitle(pref.getString("nombreSoda", null));
+        }catch(NullPointerException e){
+            Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
+        }
 
-        // revisa si hay disponibilidad de mapa
+        progressBar = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
+        progressBar.setVisibility(View.INVISIBLE);
+
+        // Revisa si hay disponibilidad de mapa
         int estaDisponible = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         if( (estaDisponible == ConnectionResult.SUCCESS) && initMap() ){
@@ -68,7 +107,8 @@ public class DetallesSoda extends ActionBarActivity {
         }
 
         if (isOnline()) {
-            requestData("http://limitless-river-6258.herokuapp.com/sodas/" + String.valueOf(id));
+            requestData("http://limitless-river-6258.herokuapp.com/sodas/"
+                        + String.valueOf(pref.getInt("IDSoda", 0)));
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
@@ -85,7 +125,7 @@ public class DetallesSoda extends ActionBarActivity {
     public void desplegarDetalles() {
 
         TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
-        tv_nombre.setText(nombre);
+        tv_nombre.setText(pref.getString("nombreSoda", null));
 
         TextView tv_horario = (TextView) findViewById(R.id.horario_soda);
         tv_horario.setText(horario);
@@ -150,14 +190,10 @@ public class DetallesSoda extends ActionBarActivity {
         TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
         String markerNombre = tv_nombre.getText().toString();
 
-        StringBuilder uri = new StringBuilder("geo:");
-        uri.append(latitud);
-        uri.append(",");
-        uri.append(longitud);
-        uri.append("?z=17");
-        uri.append("&q=" + URLEncoder.encode(markerNombre));
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitud
+                                                                + "," + longitud
+                                                                + "?z=17" + "&q="
+                                                                + URLEncoder.encode(markerNombre)));
         startActivity(intent);
     }
 
@@ -170,7 +206,6 @@ public class DetallesSoda extends ActionBarActivity {
         try {
 
             JSONObject obj = new JSONObject(msg);
-            nombre = obj.getString("nombre");
             horario = obj.getString("descripcion");
             longitud = (float)obj.getDouble("long");
             latitud = (float)obj.getDouble("lat");
@@ -184,38 +219,6 @@ public class DetallesSoda extends ActionBarActivity {
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // para no bloquear el hilo principal la conexion la realiza otro hilo
-    private class MyTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            updateDisplay(result);
-            pb.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            updateDisplay(values[0]);
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

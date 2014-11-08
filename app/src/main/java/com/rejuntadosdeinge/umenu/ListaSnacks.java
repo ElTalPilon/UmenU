@@ -1,12 +1,14 @@
 package com.rejuntadosdeinge.umenu;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,10 +22,11 @@ import java.util.List;
 
 public class ListaSnacks  extends ActionBarActivity {
 
-    Globals g = Globals.getInstance();
+    // SharedPreferences
+    private SharedPreferences pref;
+
     TextView output;
     ProgressBar pb;
-    public int idSoda;
     List<Snack> snackList;
 
     @Override
@@ -31,21 +34,26 @@ public class ListaSnacks  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_snaks);
 
-        // Cambia el título de la Actividad
-        getActionBar().setTitle("Snacks: " + g.getNombreSoda());
+        // Inicializa las SharedPreferences
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.apply();
+
+        try {
+            getSupportActionBar().setTitle("Snacks | " + pref.getString("nombreSoda", null));
+        }catch(NullPointerException e){
+            Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
+        }
 
         // textView inicializado con scroll vertical
         output = (TextView) findViewById(R.id.tv_snacks);
         output.setMovementMethod(new ScrollingMovementMethod());
 
-        // extraer datos del id
-        idSoda = g.getIdSoda();
-
         pb = (ProgressBar) findViewById( R.id.progressBarListaSnacks);
         pb.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
-            requestData("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(idSoda) +"&get=1");
+            requestData("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0)) +"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
@@ -54,11 +62,7 @@ public class ListaSnacks  extends ActionBarActivity {
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private void requestData(String uri) {
@@ -66,7 +70,7 @@ public class ListaSnacks  extends ActionBarActivity {
         RequestPackage p = new RequestPackage();
         p.setMethod("POST");
         p.setUri(uri);
-        p.setParam("soda_id", String.valueOf(idSoda));
+        p.setParam("soda_id", String.valueOf(pref.getInt("IDSoda", 0)));
 
         MyTask task = new MyTask();
         task.execute(p);
@@ -92,9 +96,7 @@ public class ListaSnacks  extends ActionBarActivity {
 
         @Override
         protected String doInBackground(RequestPackage... params) {
-
-            String content = HttpManager.getData(params[0]);
-            return content;
+            return HttpManager.getData(params[0]);
         }
 
         @Override

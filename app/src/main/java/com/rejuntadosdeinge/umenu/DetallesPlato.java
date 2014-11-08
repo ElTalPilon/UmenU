@@ -2,12 +2,14 @@ package com.rejuntadosdeinge.umenu;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,58 +30,84 @@ import static com.rejuntadosdeinge.umenu.R.id;
 
 public class DetallesPlato extends ActionBarActivity {
 
-    Globals g = Globals.getInstance();
+    // Clase creada para no bloquear el hilo principal con la conexión a la BD
+    private class MyTask extends AsyncTask<RequestPackage, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            return HttpManager.getData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            listaDeSodas = PlatoParser.parseFeed(result);
+            updateDisplay();
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
     final Context context = this;
-    public int idSoda;
-    public String sodaElegida;
-    int semana = 3;
-    int dia = 3;
-    int categoria;
-    String categoria2;
 
-    TextView output;
-    TextView output2;
-    ProgressBar pb;
+    // SharedPreferences
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
-    List<Plato> platoList;
+    // Variables de control del día
+    private int semana;
+    private int dia;
+
+    TextView tv_nombre_plato;
+    TextView tv_precio_plato;
+    ProgressBar progressBar;
+
+    List<Plato> listaDeSodas; //TODO: Supongo que esta lista podría reusarse en ListaSodas.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_plato);
 
-        // Le cambia el título a la actividad
-        getActionBar().setTitle("Detalles: " + g.getNombrePlato());
+        // Inicializa las SharedPreferences
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+        editor.apply();
 
-        // textView inicializado con scroll vertical
-        output = (TextView) findViewById(R.id.tv_nombre_plato);
-        output.setMovementMethod(new ScrollingMovementMethod());
-        output2 = (TextView) findViewById(R.id.tv_precio);
-        output2.setMovementMethod(new ScrollingMovementMethod());
+        //Inicializa variables
+        semana = 3;
+        dia = 3;
 
-        idSoda = g.getIdSoda();
-        sodaElegida = g.getNombreSoda();
-        categoria2 = g.getCategoria();
+        // Setea el nombre de la actividad y del banner
+        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_plato);
+        try{
+            getSupportActionBar().setTitle(pref.getString("nombrePlato", null));
+            tv_nombre.setText(pref.getString("nombreSoda", null));
+        } catch(NullPointerException e){
+            Log.e("DetallesPlato", "No se le pudo cambiar el nombre a la Activity");
+        }
 
-        TextView tv_nombre = (TextView) findViewById(R.id.textView7);
-        tv_nombre.setText(sodaElegida);
+        // TextView inicializado con scroll vertical
+        tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
+        tv_precio_plato = (TextView) findViewById(R.id.tv_precio);
+        tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
+        tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
 
-        pb = (ProgressBar) findViewById( R.id.progressBarDetallesPlato);
-        pb.setVisibility(View.INVISIBLE);
+
+        progressBar = (ProgressBar) findViewById( R.id.progressBarDetallesPlato);
+        progressBar.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
-            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(idSoda) + "&semana=" + String.valueOf(semana) + "&dia=" + String.valueOf(dia) + "&categoria=" + categoria2 +"&get=1");
+            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
+                    + "&semana=" + String.valueOf(semana)
+                    + "&dia=" + String.valueOf(dia)
+                    + "&categoria=" + pref.getString("categoriaPlato", null) +"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
-
-        //inicializacion del dialog
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.fragment_calificar_plato);
-        dialog.setTitle(getString(R.string.agregueComentario));
-        TextView text = (TextView) dialog.findViewById(id.escribaComentario);
-        text.setText(getString(R.string.Comentario));
 
         RatingBar ratingBar = (RatingBar) findViewById(id.ratingBar);
         // Cuando haya un cambio en la calificación
@@ -87,7 +115,7 @@ public class DetallesPlato extends ActionBarActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 float nota= ratingBar.getRating(); // Obtengo la nueva calificación
-                popUpPuntuarPlato(dialog, nota); // Instancio el popUp
+                popUpPuntuarPlato(nota); // Instancio el popUp
             }
         });
     }
@@ -106,7 +134,45 @@ public class DetallesPlato extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void popUpPuntuarPlato(final Dialog dialog, float nota) {
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnectedOrConnecting());
+    }
+
+    private void requestData(String uri) {
+
+        RequestPackage p = new RequestPackage();
+        p.setMethod("POST");
+        p.setUri(uri);
+        p.setParam("soda_id", String.valueOf(pref.getInt("IDSoda", 0)));
+        p.setParam("semana", String.valueOf(semana));
+        p.setParam("dia", String.valueOf(dia));
+        p.setParam("categoria", pref.getString("categoriaPlato", null));
+
+        MyTask task = new MyTask();
+        task.execute(p);
+    }
+
+    protected void updateDisplay() {
+
+        if (listaDeSodas != null) {
+            for (Plato plato : listaDeSodas) {
+                tv_nombre_plato.append("\n" + plato.getNombre());
+                tv_precio_plato.append("\n" + plato.getPrecio());
+            }
+        }
+    }
+
+    private void popUpPuntuarPlato(float nota) {
+
+        //inicializacion del dialog
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.fragment_calificar_plato);
+        dialog.setTitle(getString(R.string.title_fragment_calificar_plato));
+        TextView text = (TextView) dialog.findViewById(id.escribaComentario);
+        text.setText(getString(R.string.Comentario));
+
         RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
         // Se le asigna la nueva nota al RatingBar del popUp
         rb.setRating(nota);
@@ -117,7 +183,7 @@ public class DetallesPlato extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 /*
-                // TODO: Cambiar dummy data por el ID del plato que se pasará por globals (g.getIdPlato())
+                // TODO: Cambiar dummy data por el ID del plato que se pasará por pref.getInt("IDPlato", 0);
                 // TODO: Darle una acción al botón (Enviar a la BD)
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
                 //float notaFinal=rb1.getRating();
@@ -142,61 +208,5 @@ public class DetallesPlato extends ActionBarActivity {
                 dialog.dismiss();
             }
         });
-    }
-
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void requestData(String uri) {
-
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri(uri);
-        p.setParam("soda_id", String.valueOf(idSoda));
-        p.setParam("semana", String.valueOf(semana));
-        p.setParam("dia", String.valueOf(dia));
-        p.setParam("categoria", categoria2);
-
-        MyTask task = new MyTask();
-        task.execute(p);
-    }
-
-    protected void updateDisplay() {
-
-        if (platoList != null) {
-            for (Plato plato : platoList) {
-                output.append("\n" + plato.getNombre() );
-                output2.append("\n" + plato.getPrecio() );
-            }
-        }
-    }
-
-    // Para no bloquear el hilo principal la conexion la realiza otro hilo
-    private class MyTask extends AsyncTask<RequestPackage, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            platoList = PlatoParser.parseFeed(result);
-            updateDisplay();
-            pb.setVisibility(View.INVISIBLE);
-        }
     }
 }

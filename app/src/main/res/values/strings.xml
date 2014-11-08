@@ -9,6 +9,7 @@
     <string name="title_activity_lista_snacks">Snacks</string>
     <string name="title_activity_mas_productos">Mas Productos</string>
     <string name="title_fragment_sugerencia_plato">Sugerencia del día</string>
+    <string name="title_fragment_calificar_plato">Calificar este plato</string>
     <string name="title_activity_mapa">Mapa</string>
 
     <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyCI48_zY3fYQPLPIYnx7K0nqKwh4rIuBCU</string>
@@ -21,5 +22,4 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Comentario">Escriba un comentario (opcional)</string>
     <string name="opcional">(opcional)</string>
-    <string name="agregueComentario">Agregue un comentario.(Opcional)</string>
 </resources>
