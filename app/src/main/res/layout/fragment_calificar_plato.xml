@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/abc_config_prefDialogWidth"
     android:layout_height="@dimen/abc_config_prefDialogWidth"
+    android:background="@color/LightGrey"
     tools:context=".CalificarPlato">
 
 
@@ -12,8 +13,7 @@
         android:layout_gravity="top"
         android:layout_above="@+id/escribaComentario"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="29dp"
-        android:layout_alignParentStart="false" />
+        android:layout_marginBottom="29dp" />
 
     <EditText
         android:layout_width="wrap_content"

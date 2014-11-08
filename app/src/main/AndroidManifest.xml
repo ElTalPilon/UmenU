@@ -37,6 +37,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.rejuntadosdeinge.umenu.ListaSodas"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,16 +47,19 @@
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.ListaPlatos"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_lista_platos"
             android:parentActivityName="com.rejuntadosdeinge.umenu.ListaSodas" >
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.ListaSnacks"
+            android:screenOrientation="portrait"
             android:label="Snacks"
             android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos" >
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.DetallesSoda"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
@@ -67,12 +71,13 @@
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.DetallesPlato"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_detalles_plato"
             android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos" >
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.GPSLicencia"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -83,6 +88,7 @@
 
         <activity
             android:name="com.rejuntadosdeinge.umenu.Login"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
