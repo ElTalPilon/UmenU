@@ -24,7 +24,7 @@ public class DetallesPlatoTest
         g.setNombreSoda("Derecho");
 
         activity = (DetallesPlato) getActivity();
-        nombreDelPlato = (TextView) activity.findViewById(R.id.tv_nombre_plato);
+        nombreDelPlato = (TextView) activity.findViewById(R.id.nombre_plato);
         precioDelPlato = (TextView) activity.findViewById(R.id.tv_precio);
     }
 

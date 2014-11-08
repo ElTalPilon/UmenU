@@ -20,8 +20,8 @@ import java.util.List;
 public class ListaPlatos extends ActionBarActivity {
 
     // SharedPreferences
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
