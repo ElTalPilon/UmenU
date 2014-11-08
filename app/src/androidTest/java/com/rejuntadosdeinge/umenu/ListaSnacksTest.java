@@ -21,7 +21,7 @@ public class ListaSnacksTest extends ActivityInstrumentationTestCase2<ListaSnack
         editor.putInt("IDSoda", 2);
 
         activity = getActivity();
-        nombreDeLaSoda = (TextView) activity.findViewById(R.id.nombre_soda);
+        nombreDeLaSoda = (TextView) activity.findViewById(R.id.banner_detalles_soda);
     }
 
     public void testPreconditions() {
