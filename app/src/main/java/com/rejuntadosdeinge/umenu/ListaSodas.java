@@ -32,6 +32,7 @@ public class ListaSodas extends ActionBarActivity {
         // Inicializa las SharedPreferences
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
+        editor.apply();
 
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
