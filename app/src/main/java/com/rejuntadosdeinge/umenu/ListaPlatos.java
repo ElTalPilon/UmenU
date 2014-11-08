@@ -19,8 +19,6 @@ import java.util.List;
 
 public class ListaPlatos extends ActionBarActivity {
 
-    // SharedPreferences
-    private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
     @Override
@@ -29,7 +27,7 @@ public class ListaPlatos extends ActionBarActivity {
         setContentView(R.layout.activity_lista_platos);
 
         // Inicializa las SharedPreferences
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         editor.apply();
 
