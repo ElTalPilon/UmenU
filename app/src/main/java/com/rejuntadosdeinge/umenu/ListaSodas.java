@@ -3,6 +3,7 @@ package com.rejuntadosdeinge.umenu;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,19 +13,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ListaSodas extends ActionBarActivity {
     final Context context = this;
-    Globals g = Globals.getInstance();
+
+    // SharedPreferences
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_sodas);
+
+        // Inicializa las SharedPreferences
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
 
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
@@ -80,11 +87,13 @@ public class ListaSodas extends ActionBarActivity {
     /**
      * Llamado cuando el usuario elige una de las sodas de la lista.
      * Inicializa la actividad "ListaPlatos"
-     * @param sodaId       - El ID de la soda elegida
+     * @param IDSoda - El ID de la soda elegida
+     * @param nombreSoda - El nombre de la soda elegida
      */
-    public void goToListaPlatos(int sodaId, String sodaElegida){
-        g.setIdSoda(sodaId+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
-        g.setNombreSoda(sodaElegida);
+    public void goToListaPlatos(int IDSoda, String nombreSoda){
+        editor.putInt("IDSoda", IDSoda+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
+        editor.putString("nombreSoda", nombreSoda);
+        editor.commit();                   // Se guardan los cambios en Shared Preferences
         Intent intent = new Intent(this, ListaPlatos.class);
         startActivity(intent);
     }
@@ -97,6 +106,7 @@ public class ListaSodas extends ActionBarActivity {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.fragment_sugerencia_plato);
         dialog.setTitle(R.string.title_fragment_sugerencia_plato);
+        // TODO: Cargar el plato más gustado del día desde la BD
         dialog.show();
 
         Button b = (Button) dialog.findViewById((R.id.ir_a_detalle_plato));
@@ -104,7 +114,7 @@ public class ListaSodas extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), DetallesPlato.class);
-                // TODO: g.setIDPlato(id);
+                // TODO: editor.putInd("IDPlato", idPlato);
                 startActivity(intent);
                 dialog.dismiss();
             }
