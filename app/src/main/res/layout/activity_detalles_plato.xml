@@ -14,72 +14,81 @@
         android:text="Nombre Soda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:background="@color/gray"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
-        android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="25sp"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:paddingBottom="20dp"/>
 
     <TextView
         android:id="@+id/nombre_plato"
+        android:text="Nombre del Plato"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_toStartOf="@+id/progressBarDetallesPlato"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/banner_detalles_plato"
-        android:text="Plato:" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:clickable="true"
-        android:layout_above="@+id/textView6"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="31dp" />
+        android:background="@color/less_gray"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/banner_detalles_plato"/>
 
     <TextView
-        android:layout_width="fill_parent"
+        android:id="@+id/detalles_plato"
+        android:text="Detalles del Plato"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/least_gray"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/nombre_plato"/>
+
+    <TextView
+        android:id="@+id/precio_plato"
+        android:text="Precio"
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/detalles_plato"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_below="@+id/detalles_plato"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/banner_comentarios"
+        android:text="Comentarios"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Comentarios"
-        android:id="@+id/textView6"
         android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:background="@color/gray"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="40dp" />
+        android:textAllCaps="true"
+        android:layout_below="@+id/ratingBar"/>
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/progressBarDetallesPlato"
-        android:layout_below="@+id/nombre_plato"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Precio:"
-        android:id="@+id/tv_precio"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/nombre_plato"
+        android:layout_alignRight="@+id/nombre_plato" />
 
 </RelativeLayout>

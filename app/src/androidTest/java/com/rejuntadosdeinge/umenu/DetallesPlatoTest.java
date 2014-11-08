@@ -26,7 +26,7 @@ public class DetallesPlatoTest extends ActivityInstrumentationTestCase2<Detalles
 
         activity = (DetallesPlato) getActivity();
         nombreDelPlato = (TextView) activity.findViewById(R.id.nombre_plato);
-        precioDelPlato = (TextView) activity.findViewById(R.id.tv_precio);
+        precioDelPlato = (TextView) activity.findViewById(R.id.precio_plato);
     }
 
     public void testPreconditions() {
