@@ -65,6 +65,8 @@ public class DetallesPlato extends ActionBarActivity {
     TextView tv_precio_plato;
     ProgressBar progressBar;
 
+    int idPlato;
+
     List<Plato> listaDeSodas; //TODO: Supongo que esta lista podría reusarse en ListaSodas.
 
     @Override
@@ -102,8 +104,8 @@ public class DetallesPlato extends ActionBarActivity {
 
         if (isOnline()) {
             requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
-                    + "&semana=" + String.valueOf(semana)
-                    + "&dia=" + String.valueOf(dia)
+                    + "&semana=" + String.valueOf(pref.getInt("semana", 0))
+                    + "&dia=" + String.valueOf(pref.getInt("dia", 0))
                     + "&categoria=" + pref.getString("categoriaPlato", null) +"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
@@ -158,8 +160,9 @@ public class DetallesPlato extends ActionBarActivity {
 
         if (listaDeSodas != null) {
             for (Plato plato : listaDeSodas) {
-                tv_nombre_plato.append("\n" + plato.getNombre());
-                tv_precio_plato.append("\n" + plato.getPrecio());
+                tv_nombre_plato.setText(plato.getNombre());
+                tv_precio_plato.setText(plato.getPrecio());
+                idPlato = plato.getId();
             }
         }
     }
