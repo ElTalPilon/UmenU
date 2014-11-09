@@ -124,7 +124,7 @@ public class DetallesSoda extends ActionBarActivity {
 
     public void desplegarDetalles() {
 
-        TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
+        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_soda);
         tv_nombre.setText(pref.getString("nombreSoda", null));
 
         TextView tv_horario = (TextView) findViewById(R.id.horario_soda);
@@ -187,7 +187,7 @@ public class DetallesSoda extends ActionBarActivity {
 
         //	Reenvia a otra aplicacion de mapas
 
-        TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
+        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_soda);
         String markerNombre = tv_nombre.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitud

@@ -3,7 +3,9 @@
     android:id="@+id/lista_sodas_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Silver"
     android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.rejuntadosdeinge.umenu.app.ListaSodas">
 
     <ListView

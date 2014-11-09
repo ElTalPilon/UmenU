@@ -32,7 +32,7 @@ public class ListaSnacks  extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_snaks);
+        setContentView(R.layout.activity_lista_snacks);
 
         // Inicializa las SharedPreferences
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);

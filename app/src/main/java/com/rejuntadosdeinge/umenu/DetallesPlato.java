@@ -92,7 +92,7 @@ public class DetallesPlato extends ActionBarActivity {
 
         // TextView inicializado con scroll vertical
         tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
-        tv_precio_plato = (TextView) findViewById(R.id.tv_precio);
+        tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
         tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
         tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
 
@@ -155,11 +155,10 @@ public class DetallesPlato extends ActionBarActivity {
     }
 
     protected void updateDisplay() {
-
         if (listaDeSodas != null) {
             for (Plato plato : listaDeSodas) {
-                tv_nombre_plato.append("\n" + plato.getNombre());
-                tv_precio_plato.append("\n" + plato.getPrecio());
+                tv_nombre_plato.setText(plato.getNombre());
+                tv_precio_plato.setText(plato.getPrecio());
             }
         }
     }

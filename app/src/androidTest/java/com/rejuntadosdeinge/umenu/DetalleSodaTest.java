@@ -23,7 +23,7 @@ public class DetalleSodaTest extends ActivityInstrumentationTestCase2<DetallesSo
         editor.commit();
 
         activity = getActivity();
-        nombreDeLaSoda = (TextView) activity.findViewById(R.id.nombre_soda);
+        nombreDeLaSoda = (TextView) activity.findViewById(R.id.banner_detalles_soda);
     }
 
     public void testPreconditions() {
