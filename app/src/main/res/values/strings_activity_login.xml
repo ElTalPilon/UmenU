@@ -1,5 +1,5 @@
 <resources>
-    <string name="title_activity_login">Entrar</string>
+    <string name="title_activity_login">UmenU</string>
 
     <!-- Strings relacionados a la actividad de Login -->
     <string name="prompt_email">Correo</string>
