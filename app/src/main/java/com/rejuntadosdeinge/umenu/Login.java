@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -33,6 +34,8 @@ import com.rejuntadosdeinge.umenu.modelo.PlusBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A login screen that offers login via email/password and via Google+ sign in.
@@ -71,12 +74,24 @@ public class Login extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         // Inicializa el editor de las SharedPreferences
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
+
+        if(pref.contains("loggeado")){
+            if(pref.getBoolean("loggeado", false)){
+                Intent intent = new Intent(this, ListaSodas.class);
+                startActivity(intent);
+            }
+        }
+        else{
+            editor.putBoolean("loggeado", false);
+            editor.commit();
+        }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         // Find the Google+ sign in button.
         mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
@@ -186,12 +201,19 @@ public class Login extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            editor.putBoolean("loggeado", true);
+            editor.commit();
+            Intent intent = new Intent(this, ListaSodas.class);
+            startActivity(intent);
         }
     }
 
+    // Valida el email usando una expresión regular
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     private boolean isPasswordValid(String password) {
