@@ -27,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
-    private View mEmailLoginFormView;
-    private View mSignOutButtons;
     private View mLoginFormView;
 
     // SharedPreferences
@@ -99,18 +98,24 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mEmailLogInButton = (Button) findViewById(R.id.email_log_in_button);
+        mEmailLogInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
+        Button mEmailSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
+        mEmailSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptSignUp();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        mEmailLoginFormView = findViewById(R.id.email_login_form);
-        mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
     }
 
     private void populateAutoComplete() {
@@ -123,6 +128,15 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * TODO: Fijarse que el correo sea válido
+     * TODO: Fijarse si ya hay una cuenta con ese correo
+     * TODO: Fijarse que la contraseña sea válida (mínimo 6 símbolos)
+     * TODO: Crear cuenta
+     */
+    public void attemptSignUp() {
+        Toast.makeText(this, "The cake is a lie.", Toast.LENGTH_LONG).show();
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -147,13 +161,8 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
 
 
         // Check for a valid password, if the user entered one.
-        if(TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-        if(!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -179,6 +188,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            // TODO: Verificar cuenta con la BD
             editor.putBoolean("loggeado", true);
             editor.commit();
             Intent intent = new Intent(this, ListaSodas.class);
@@ -194,9 +204,9 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         return matcher.matches();
     }
 
+    // Valida que el password sea de mínimo 6 símbolos
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 5;
     }
 
     /**
@@ -276,7 +286,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**
