@@ -24,6 +24,9 @@ import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import static com.rejuntadosdeinge.umenu.R.id;
@@ -60,9 +63,11 @@ public class DetallesPlato extends ActionBarActivity {
     // Variables de control del día
     private int semana;
     private int dia;
+    private float promedio;
 
     TextView tv_nombre_plato;
     TextView tv_precio_plato;
+    TextView tv_promedio_plato;
     ProgressBar progressBar;
 
     List<Plato> listaDeSodas; //TODO: Supongo que esta lista podría reusarse en ListaSodas.
@@ -93,8 +98,10 @@ public class DetallesPlato extends ActionBarActivity {
         // TextView inicializado con scroll vertical
         tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
         tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
+        tv_promedio_plato= (TextView) findViewById(id.nota_plato);
         tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
         tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
+        tv_promedio_plato.setMovementMethod(new ScrollingMovementMethod());
 
 
         progressBar = (ProgressBar) findViewById( R.id.progressBarDetallesPlato);
@@ -104,7 +111,8 @@ public class DetallesPlato extends ActionBarActivity {
             requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
                     + "&semana=" + String.valueOf(semana)
                     + "&dia=" + String.valueOf(dia)
-                    + "&categoria=" + pref.getString("categoriaPlato", null) +"&get=1");
+                    + "&categoria=" + pref.getString("categoriaPlato", null)
+                    + "&promedio=" + String.valueOf(promedio)+"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
@@ -149,6 +157,8 @@ public class DetallesPlato extends ActionBarActivity {
         p.setParam("semana", String.valueOf(semana));
         p.setParam("dia", String.valueOf(dia));
         p.setParam("categoria", pref.getString("categoriaPlato", null));
+        p.setParam("promedio", String.valueOf(promedio));
+
 
         MyTask task = new MyTask();
         task.execute(p);
@@ -159,6 +169,7 @@ public class DetallesPlato extends ActionBarActivity {
             for (Plato plato : listaDeSodas) {
                 tv_nombre_plato.setText(plato.getNombre());
                 tv_precio_plato.setText(plato.getPrecio());
+                tv_promedio_plato.setText(String.valueOf(plato.getPromedio()));
             }
         }
     }
@@ -182,28 +193,25 @@ public class DetallesPlato extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 /*
-                // TODO: Cambiar dummy data por el ID del plato que se pasará por pref.getInt("IDPlato", 0);
-                // TODO: Darle una acción al botón (Enviar a la BD)
-                RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-                //float notaFinal=rb1.getRating();
-
-                int id = 94;
-                int calif = 5;
-                int total = 25;
-                double promedio = total/calif;
-
-                StringBuilder uri = new StringBuilder("https://limitless-river-6258.herokuapp.com/platos?c=1&id=");
-                uri.append(id);
-                uri.append("&calificaciones=");
-                uri.append(calif);
-                uri.append("&total=");
-                uri.append(calif);
-                uri.append("&promedio=");
-                uri.append(promedio);
-
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
-                //startActivity(intent);
+                // TODO: hacer que el botón realemente envié la información a la aplicación web
                 */
+                HttpURLConnection connection;
+
+                RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
+                float notaFinal=rb1.getRating();
+                URL myUrl = null;
+                String response = null;
+                String parameters = "id="+ pref.getInt("IDPlato", 0)+"&nota="+notaFinal;
+                try {
+                    myUrl = new URL("https://umenuadmin.herokuapp.com/platos?");
+                    connection = (HttpURLConnection) myUrl.openConnection();
+                    connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json");
+                    connection.setRequestMethod("POST");
+
+                }catch (IOException e){
+                    //Error
+                }
                 dialog.dismiss();
             }
         });
