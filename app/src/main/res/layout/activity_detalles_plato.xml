@@ -91,4 +91,16 @@
         android:layout_alignTop="@+id/nombre_plato"
         android:layout_alignRight="@+id/nombre_plato" />
 
+    <TextView
+        android:id="@+id/nota_plato"
+        android:text="##"
+        android:background="@color/White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@+id/ratingBar"
+        android:layout_alignRight="@+id/detalles_plato"
+        android:layout_alignEnd="@+id/detalles_plato" />
+
 </RelativeLayout>

@@ -10,7 +10,7 @@ public class Plato {
     private String tipo;
     private int calificaciones;
     private int total;
-    private int promedio;
+    private float promedio;
 
     public int getId() {
         return id;
@@ -61,9 +61,7 @@ public class Plato {
     public void setTotal(int total) {
         this.total = total;
     }
-    public int getPromedio() {
-        return promedio;
-    }
+    public float getPromedio() { return promedio; }
     public void setPromedio(int promedio) {
         this.promedio = promedio;
     }
