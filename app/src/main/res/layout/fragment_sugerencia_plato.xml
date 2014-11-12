@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
     android:layout_height="220dp"
-    android:background="@color/LightGrey"
-    tools:context="rejuntadosdeinge.com.umenu.SugerenciaPlato">
+    android:background="@color/LightGrey">
 
     <TextView
         android:layout_width="wrap_content"
