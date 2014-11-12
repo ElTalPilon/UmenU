@@ -105,7 +105,6 @@ public class ListaSodas extends ActionBarActivity {
 
     /**
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
-     * Inicializa la actividad "SugerenciaPlato".
      */
     public void popUpSugerenciaPlato( ){
         final Dialog dialog = new Dialog(context);

@@ -12,8 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,37 +28,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.net.URLEncoder;
 
 
 public class DetallesSoda extends ActionBarActivity {
-
-    // Clase creada para no bloquear el hilo principal con la conexión a la BD
-    private class MyTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            return HttpManager.getData(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            updateDisplay(result);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            updateDisplay(values[0]);
-        }
-    }
-
 
     // SharedPreferences
     SharedPreferences pref;
@@ -68,7 +41,6 @@ public class DetallesSoda extends ActionBarActivity {
     public String horario;
     public float latitud;
     public float longitud;
-    ProgressBar progressBar;
     LatLng latLng = null;
     boolean mMostrarMapa = false;
     GoogleMap mMap;
@@ -76,6 +48,7 @@ public class DetallesSoda extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_detalles_soda);
 
         // Inicializa las SharedPreferences
@@ -91,9 +64,6 @@ public class DetallesSoda extends ActionBarActivity {
         }catch(NullPointerException e){
             Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
         }
-
-        progressBar = (ProgressBar) findViewById( R.id.progressBarDetallesSoda);
-        progressBar.setVisibility(View.INVISIBLE);
 
         // Revisa si hay disponibilidad de mapa
         int estaDisponible = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -221,4 +191,31 @@ public class DetallesSoda extends ActionBarActivity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    // Clase creada para no bloquear el hilo principal con la conexión a la BD
+    private class MyTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return HttpManager.getData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            updateDisplay(result);
+            setProgressBarIndeterminateVisibility(false);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            updateDisplay(values[0]);
+        }
+    }
 }
+

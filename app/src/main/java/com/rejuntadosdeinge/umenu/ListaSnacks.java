@@ -9,8 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +25,12 @@ public class ListaSnacks  extends ActionBarActivity {
     private SharedPreferences pref;
 
     TextView output;
-    ProgressBar pb;
     List<Snack> snackList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_lista_snacks);
 
         // Inicializa las SharedPreferences
@@ -48,9 +47,6 @@ public class ListaSnacks  extends ActionBarActivity {
         // textView inicializado con scroll vertical
         output = (TextView) findViewById(R.id.tv_snacks);
         output.setMovementMethod(new ScrollingMovementMethod());
-
-        pb = (ProgressBar) findViewById( R.id.progressBarListaSnacks);
-        pb.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
             requestData("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0)) +"&get=1");
@@ -90,8 +86,7 @@ public class ListaSnacks  extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-
-            pb.setVisibility(View.VISIBLE);
+            setProgressBarIndeterminateVisibility(true);
         }
 
         @Override
@@ -104,7 +99,7 @@ public class ListaSnacks  extends ActionBarActivity {
 
             snackList = SnackParser.parseFeed(result);
             updateDisplay();
-            pb.setVisibility(View.INVISIBLE);
+            setProgressBarIndeterminateVisibility(false);
         }
     }
 }
