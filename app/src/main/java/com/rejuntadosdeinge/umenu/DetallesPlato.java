@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -29,27 +30,6 @@ import java.util.List;
 import static com.rejuntadosdeinge.umenu.R.id;
 
 public class DetallesPlato extends ActionBarActivity {
-
-    // Clase creada para no bloquear el hilo principal con la conexión a la BD
-    private class MyTask extends AsyncTask<RequestPackage, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-            return HttpManager.getData(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            listaDeSodas = PlatoParser.parseFeed(result);
-            updateDisplay();
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
 
     final Context context = this;
 
@@ -70,6 +50,7 @@ public class DetallesPlato extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_detalles_plato);
 
         // Inicializa las SharedPreferences
@@ -95,10 +76,6 @@ public class DetallesPlato extends ActionBarActivity {
         tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
         tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
         tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
-
-
-        progressBar = (ProgressBar) findViewById( R.id.progressBarDetallesPlato);
-        progressBar.setVisibility(View.INVISIBLE);
 
         if (isOnline()) {
             requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
@@ -207,5 +184,26 @@ public class DetallesPlato extends ActionBarActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    // Clase creada para no bloquear el hilo principal con la conexión a la BD
+    private class MyTask extends AsyncTask<RequestPackage, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            return HttpManager.getData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            listaDeSodas = PlatoParser.parseFeed(result);
+            updateDisplay();
+            setProgressBarIndeterminateVisibility(false);
+        }
     }
 }

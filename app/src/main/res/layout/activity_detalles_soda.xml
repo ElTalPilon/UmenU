@@ -23,10 +23,4 @@
         android:layout_gravity="top"
         class="com.google.android.gms.maps.MapFragment"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBarDetallesSoda"
-        android:layout_gravity="center_horizontal" />
-
 </LinearLayout>

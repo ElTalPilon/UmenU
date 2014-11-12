@@ -82,13 +82,4 @@
         android:textAllCaps="true"
         android:layout_below="@+id/ratingBar"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/progressBarDetallesPlato"
-        android:layout_alignTop="@+id/nombre_plato"
-        android:layout_alignRight="@+id/nombre_plato" />
-
 </RelativeLayout>
