@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="WetAsphalt">#34495E</color>
+    <color name="MidnightBlue">#2C3E50</color>
+    <color name="Asbestos">#7F8C8D</color>
+    <color name="Concrete">#95A5A6</color>
+    <color name="Silver">#BDC3C7</color>
+    <color name="Clouds">#ECF0F1</color>
+
+    <color name="Wisteria">#8E44AD</color>
+    <color name="Amethyst">#9B59B6</color>
+    <color name="BelizeHole">#2980B9</color>
+    <color name="PeterRiver">#3498BD</color>
+    <color name="GreenSea">#16A085</color>
+    <color name="Nephritis">#27AE60</color>
+    <color name="Turquoise">#1ABC9C</color>
+    <color name="Emerald">#2ECC71</color>
+    <color name="SunFlower">#F1C40F</color>
+    <color name="Orange">#F39C12</color>
+    <color name="Carrot">#E67E22</color>
+    <color name="Pumpkin">#D35400</color>
+    <color name="Alizarin">#E74C3C</color>
+    <color name="Pomegranate">#C0392B</color>
+</resources>
