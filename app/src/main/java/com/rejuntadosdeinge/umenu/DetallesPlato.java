@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,14 +37,15 @@ public class DetallesPlato extends ActionBarActivity {
     SharedPreferences.Editor editor;
 
     // Variables de control del día
-    private int semana;
-    private int dia;
+    private String semana;
+    private String dia;
 
+    // 1. creamos instancias para los widget que llenaremos de la actividad activity_detalles_plato
     TextView tv_nombre_plato;
     TextView tv_precio_plato;
-    ProgressBar progressBar;
 
-    List<Plato> listaDeSodas; //TODO: Supongo que esta lista podría reusarse en ListaSodas.
+    // 2. se crea una lista para todos los platos que vamos a obtener del web service
+    List<Plato> listaDePlatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class DetallesPlato extends ActionBarActivity {
         editor.apply();
 
         //Inicializa variables
-        semana = 3;
-        dia = 3;
+        dia = String.valueOf(pref.getInt("dia", 0));
+        semana = String.valueOf(pref.getInt("semana", 0));
 
         // Setea el nombre de la actividad y del banner
         TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_plato);
@@ -71,13 +71,15 @@ public class DetallesPlato extends ActionBarActivity {
             Log.e("DetallesPlato", "No se le pudo cambiar el nombre a la Activity");
         }
 
-        // TextView inicializado con scroll vertical
+        // 3. TextView inicializado con scroll vertical
         tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
         tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
         tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
         tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
 
+        // 5. Revisamos que hay conexión a internet
         if (isOnline()) {
+            // 6. se hace la consulta
             requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
                     + "&semana=" + String.valueOf(semana)
                     + "&dia=" + String.valueOf(dia)
@@ -117,6 +119,12 @@ public class DetallesPlato extends ActionBarActivity {
         return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
 
+    /*
+        requestData(String uri) encapsula en una instancia tipo RequestPackage
+        los parámetros que se necesitan para la consulta POST
+
+        recibe: uri, la dirección donde se encuentran los datos
+     */
     private void requestData(String uri) {
 
         RequestPackage p = new RequestPackage();
@@ -131,9 +139,13 @@ public class DetallesPlato extends ActionBarActivity {
         task.execute(p);
     }
 
+    /*
+        updateDisplay() llena los campos obtenidos, se espera para ésta consulta un único plato,
+        si tenemos otra consulta donde obtenemos más de un platos ver el método updateDisplay() en listaSnacks
+     */
     protected void updateDisplay() {
-        if (listaDeSodas != null) {
-            for (Plato plato : listaDeSodas) {
+        if (listaDePlatos != null) {
+            for (Plato plato : listaDePlatos) {
                 tv_nombre_plato.setText(plato.getNombre());
                 tv_precio_plato.setText(plato.getPrecio());
             }
@@ -186,23 +198,45 @@ public class DetallesPlato extends ActionBarActivity {
         });
     }
 
-    // Clase creada para no bloquear el hilo principal con la conexión a la BD
+    /*
+            Clase creada para no bloquear el hilo principal, se encarga de la conexión a la BD,
+            las comunicaciones de red deben correr en el background thread
+            Parámetros:
+                Params: RequestPackage
+                Progress: String
+                Result: String
+        */
     private class MyTask extends AsyncTask<RequestPackage, String, String> {
 
+        // onPreExecute hace visible el progressBar
         @Override
         protected void onPreExecute() {
             setProgressBarIndeterminateVisibility(true);
         }
 
+        // doInBackground recibe una lista de parámetros, todos de tipo RequestPackage
+        // (así se definió en la decoración de la clase en el campo Params),
+        // doInBackground retorna un String con el resultado
+        // (así se definió en la decoración de la clase en el campo Result),
         @Override
         protected String doInBackground(RequestPackage... params) {
             return HttpManager.getData(params[0]);
         }
 
+
+        // onPostExecute(String result) el campo resulta es la respuesta del Web-Service
+        // obtenido a travéz de HttpManager, viene en formato JSON por lo que necesitamos
+        // Parsear el resultado.
         @Override
         protected void onPostExecute(String result) {
-            listaDeSodas = PlatoParser.parseFeed(result);
+
+            //PlatoParser retorna un List que puede ser un plato ó
+            // varios platos dependiendo de la consulta realizada
+            listaDePlatos = PlatoParser.parseFeed(result);
+            // updateDisplay se encarga de llenar los campos del activity, ó sacar información
+            // como calificaciones, promedio, etc.. usando los getters de Plato
             updateDisplay();
+            // se oculta de progressBar
             setProgressBarIndeterminateVisibility(false);
         }
     }

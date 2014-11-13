@@ -7,19 +7,28 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    PlatoParser se encarga de leer un String en formato JSON y retornar los campos ordenados en un List
+*/
 public class PlatoParser {
 
     public static List<Plato> parseFeed(String content) {
 
         try {
+            // Pasamos formato JSON a JSONArrray
             JSONArray ar = new JSONArray(content);
+            // Se crea una lista donde van a estar los platos obtenidos
             List<Plato> platoList = new ArrayList<Plato>();
 
+            // la clase JSONArray no implementa la interface Iterator!
             for (int i = 0; i < ar.length(); i++) {
 
+                // obtenemos una referencia al JSONObject actual
                 JSONObject obj = ar.getJSONObject(i);
+                // creamos una instancia del modelo relacionado
                 Plato plato = new Plato();
 
+                // llenamos la instancia con los setters de Plato y se van metiendo en la lista
                 plato.setId(obj.getInt("id"));
                 plato.setSodaId(obj.getInt("soda_id"));
                 plato.setNombre(obj.getString("nombre"));
@@ -32,6 +41,7 @@ public class PlatoParser {
 
                 platoList.add(plato);
             }
+            // retorna la lista de platos obtenida
             return platoList;
         } catch (JSONException e) {
             e.printStackTrace();

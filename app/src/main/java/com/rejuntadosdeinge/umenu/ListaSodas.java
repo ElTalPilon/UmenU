@@ -23,8 +23,8 @@ public class ListaSodas extends ActionBarActivity {
     // SharedPreferences
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    int semana = 3;
-    int dia = 3;
+    int semana;
+    int dia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,12 @@ public class ListaSodas extends ActionBarActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
         editor.apply();
+
+        // se carga el valor para el día y la semana en la actividad principal
+        semana = 3;
+        dia = 3;
+        editor.putInt("semana", semana);
+        editor.putInt("dia", dia);
 
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
@@ -95,8 +101,6 @@ public class ListaSodas extends ActionBarActivity {
      */
     public void goToListaPlatos(int IDSoda, String nombreSoda){
         editor.putInt("IDSoda", IDSoda+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
-        editor.putInt("semana", semana);
-        editor.putInt("dia", dia);
         editor.putString("nombreSoda", nombreSoda);
         editor.commit();                   // Se guardan los cambios en Shared Preferences
         Intent intent = new Intent(this, ListaPlatos.class);

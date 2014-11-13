@@ -1,5 +1,10 @@
 package com.rejuntadosdeinge.umenu.modelo;
 
+/*
+    Cuando usamos consultas con POST, se modela los datos que regresan del Web-Service,
+    cuando hacemos una consulta relacionada con platos por cada etiqueta del json obtenido
+    se crea una variable junto a sus getters y setters para modificarlos y leerlos
+ */
 public class Plato {
 
     private int id;

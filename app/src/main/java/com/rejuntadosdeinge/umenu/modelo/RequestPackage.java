@@ -6,6 +6,12 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+    RequestPackage, tiene trés campos
+        uri: dirección donde se encuentran los datos
+        method : default con "GET" para la consulta
+        params: Map<String, String>, almacena los parámetros de la consulta POST
+*/
 public class RequestPackage {
 
     private String uri;
@@ -35,6 +41,7 @@ public class RequestPackage {
         params.put(key, value);
     }
 
+    // me permite recuperar los parametros en un string codificado
     public String getEncodedParams() {
         StringBuilder sb = new StringBuilder();
         for (String key : params.keySet()) {
@@ -53,4 +60,3 @@ public class RequestPackage {
         return sb.toString();
     }
 }
-
