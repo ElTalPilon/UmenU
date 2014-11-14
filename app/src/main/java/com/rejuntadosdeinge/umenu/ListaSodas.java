@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +24,8 @@ public class ListaSodas extends ActionBarActivity {
     // SharedPreferences
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    int semana = 3;
-    int dia = 3;
+    int semana;
+    int dia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +33,23 @@ public class ListaSodas extends ActionBarActivity {
         setContentView(R.layout.activity_lista_sodas);
 
         // Inicializa las SharedPreferences
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         editor.apply();
+
+        // se carga el valor para el día y la semana en la actividad principal
+        semana = 101;
+        dia = 1;
+        editor.putInt("semana", semana);
+        editor.putInt("dia", dia);
 
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
         String[] sodasArray = {
                 "Facultad de Odontología",
                 "Facultad de Derecho",
-                "Facultad de Agroalimentarias",
                 "Ciencias Económicas",
+                "Facultad de Agroalimentarias",
                 "Estudios Generales",
                 "Facultad de Educación",
                 "Ciencias Sociales",
@@ -95,8 +102,6 @@ public class ListaSodas extends ActionBarActivity {
      */
     public void goToListaPlatos(int IDSoda, String nombreSoda){
         editor.putInt("IDSoda", IDSoda+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
-        editor.putInt("semana", semana);
-        editor.putInt("dia", dia);
         editor.putString("nombreSoda", nombreSoda);
         editor.commit();                   // Se guardan los cambios en Shared Preferences
         Intent intent = new Intent(this, ListaPlatos.class);
