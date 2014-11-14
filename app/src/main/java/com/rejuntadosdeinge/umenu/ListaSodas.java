@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,13 +33,13 @@ public class ListaSodas extends ActionBarActivity {
         setContentView(R.layout.activity_lista_sodas);
 
         // Inicializa las SharedPreferences
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         editor.apply();
 
         // se carga el valor para el día y la semana en la actividad principal
-        semana = 3;
-        dia = 3;
+        semana = 101;
+        dia = 1;
         editor.putInt("semana", semana);
         editor.putInt("dia", dia);
 
@@ -47,8 +48,8 @@ public class ListaSodas extends ActionBarActivity {
         String[] sodasArray = {
                 "Facultad de Odontología",
                 "Facultad de Derecho",
-                "Facultad de Agroalimentarias",
                 "Ciencias Económicas",
+                "Facultad de Agroalimentarias",
                 "Estudios Generales",
                 "Facultad de Educación",
                 "Ciencias Sociales",

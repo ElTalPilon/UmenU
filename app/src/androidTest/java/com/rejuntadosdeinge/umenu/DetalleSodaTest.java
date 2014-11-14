@@ -1,6 +1,7 @@
 package com.rejuntadosdeinge.umenu;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
@@ -16,14 +17,15 @@ public class DetalleSodaTest extends ActivityInstrumentationTestCase2<DetallesSo
 
         super.setUp();
 
+        activity = getActivity();
+        nombreDeLaSoda = (TextView) activity.findViewById(R.id.banner_detalles_soda);
+
         //Suponemos que se escogio la soda de derecho de la lista de sodas
+        pref = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = pref.edit();
         editor.apply();
         editor.putInt("IDSoda", 2);
         editor.commit();
-
-        activity = getActivity();
-        nombreDeLaSoda = (TextView) activity.findViewById(R.id.banner_detalles_soda);
     }
 
     public void testPreconditions() {

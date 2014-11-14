@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -52,7 +53,7 @@ public class DetallesSoda extends ActionBarActivity {
         setContentView(R.layout.activity_detalles_soda);
 
         // Inicializa las SharedPreferences
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         editor.apply();
 

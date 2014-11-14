@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -54,7 +55,7 @@ public class DetallesPlato extends ActionBarActivity {
         setContentView(R.layout.activity_detalles_plato);
 
         // Inicializa las SharedPreferences
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         editor.apply();
 
@@ -223,8 +224,7 @@ public class DetallesPlato extends ActionBarActivity {
             return HttpManager.getData(params[0]);
         }
 
-
-        // onPostExecute(String result) el campo resulta es la respuesta del Web-Service
+        // onPostExecute(String result) el campo result es la respuesta del Web-Service
         // obtenido a travéz de HttpManager, viene en formato JSON por lo que necesitamos
         // Parsear el resultado.
         @Override

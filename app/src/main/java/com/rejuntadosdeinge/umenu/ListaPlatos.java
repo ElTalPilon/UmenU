@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -49,7 +50,7 @@ public class ListaPlatos extends ActionBarActivity {
         setContentView(R.layout.activity_lista_platos);
 
         // Inicializa las SharedPreferences
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
         editor.apply();
 
