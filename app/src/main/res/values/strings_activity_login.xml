@@ -9,6 +9,7 @@
     <string name="error_invalid_email">Ese correo es inválido.</string>
     <string name="error_invalid_password">La contraseña es muy corta.</string>
     <string name="error_incorrect_password">Contraseña incorrecta.</string>
+    <string name="error_incorrect_email">No existe ninguna cuent asociada a este correo.</string>
     <string name="error_field_required">Este campo es requerido.</string>
     <string name="error_account_exists">Ya existe una cuenta asociada a este correo.</string>
 </resources>

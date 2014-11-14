@@ -6,11 +6,14 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,6 +21,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +33,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +128,14 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    public void entrarComoInvitado(View v){
+        Intent intent = new Intent(this, ListaSodas.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        System.exit(0);
+    }
+
     private void populateAutoComplete() {
         if(VERSION.SDK_INT >= 14) {
             // Use ContactsContract.Profile (API 14+)
@@ -165,7 +180,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         boolean cancel = false;
         View focusView = null;
 
-
         // Check for a valid password, if the user entered one.
         if(TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
@@ -194,12 +208,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-            // TODO: Verificar cuenta con la BD
-            // https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=[]
-            editor.putBoolean("loggeado", true);
-            editor.commit();
-            Intent intent = new Intent(this, ListaSodas.class);
-            startActivity(intent);
         }
     }
 
@@ -294,6 +302,11 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
 
         int ADDRESS = 0;
     }
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
     /**
      * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
@@ -351,24 +364,33 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            boolean allSystemsGo = false;
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch(InterruptedException e) {
-                return false;
-            }
-
-            for(String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if(pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            if(isOnline()){
+                String json = HttpManager.getData("https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=" + mEmail);
+                Log.d("Result","Resultado: " + json);
+                if(json.length() > 0){
+                    try{
+                        JSONObject obj = new JSONObject(json);
+                        String pass = obj.getString("password");
+                        if(mPassword.equals(pass)){
+                            allSystemsGo = true;
+                        }
+                        else {
+                            mPasswordView.setError(getString(R.string.error_incorrect_password));
+                            mPasswordView.requestFocus();
+                        }
+                    } catch (JSONException e){
+                        Log.e("Password","Error extrayendo el password del JSON");
+                    }
+                }
+                else{
+                    mEmailView.setError(getString(R.string.error_incorrect_email));
+                    mEmailView.requestFocus();
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+            return allSystemsGo;
         }
 
         @Override
@@ -377,10 +399,11 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if(success) {
+                editor.putBoolean("loggeado", true);
+                editor.commit();
+                Intent intent = new Intent(getApplicationContext(), ListaSodas.class);
+                startActivity(intent);
                 finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
         }
 
