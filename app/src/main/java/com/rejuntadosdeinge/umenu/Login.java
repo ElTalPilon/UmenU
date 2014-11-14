@@ -32,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
@@ -278,6 +279,9 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailView.setError(getString(R.string.error_account_exists));
                 mEmailView.requestFocus();
             break;
+            case 5:
+                Toast.makeText(this, "Su cuenta ha sido creada!", Toast.LENGTH_LONG).show();
+            break;
         }
     }
 
@@ -434,9 +438,16 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                     try{
                         JSONArray arr = new JSONArray(HttpManager.getData(p));
                         if(arr.length() == 0){
-                            // TODO: Guarda la cuenta en la BD
-                            // "https://limitless-river-6258.herokuapp.com/usuarios?direccion="
-                            // + mEmail + "&password=" + mPassword;
+                            RequestPackage rp = new RequestPackage();
+                            rp.setMethod("POST");
+                            rp.setUri("https://limitless-river-6258.herokuapp.com/usuarios?direccion="
+                                    + mEmail + "&password=" + mPassword);
+                            rp.setParam("direccion", mEmail);
+                            rp.setParam("password", mPassword);
+
+                            // Guarda la nueva cuenta en la BD
+                            HttpManager.getData(rp);
+                            resultCode = 5;
                         }
                         else{
                             resultCode = 4; // Ya hay cuentas asociadas
