@@ -32,8 +32,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,14 +45,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends Activity implements LoaderCallbacks<Cursor> {
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -146,17 +140,55 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * TODO: Fijarse que el correo sea válido
-     * TODO: Fijarse si ya hay una cuenta con ese correo
-     * TODO: Fijarse que la contraseña sea válida (mínimo 6 símbolos)
-     * TODO: Crear cuenta
-     */
     public void attemptSignUp() {
-        Toast.makeText(this, "The cake is a lie.", Toast.LENGTH_LONG).show();
-        /*
-         * https://limitless-river-6258.herokuapp.com/usuarios?direccion=[]&password=[]
-         */
+        if(mAuthTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+
+        // Store values at the time of the signup attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid password, if the user entered one.
+        if(TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if(!isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if(TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if(!isEmailValid(email)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        if(cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            showProgress(true);
+            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Integer) 1);
+        }
     }
 
     /**
@@ -207,7 +239,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((Integer) 2);
         }
     }
 
@@ -222,6 +254,31 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
     // Valida que el password sea de mínimo 6 símbolos
     private boolean isPasswordValid(String password) {
         return password.length() > 5;
+    }
+
+
+    protected void validacion(Integer resultadoLogin){
+        switch(resultadoLogin){
+            case 1:
+                editor.putBoolean("loggeado", true);
+                editor.commit();
+                Intent intent = new Intent(getApplicationContext(), ListaSodas.class);
+                startActivity(intent);
+                finish();
+            break;
+            case 2:
+                mEmailView.setError(getString(R.string.error_incorrect_email));
+                mEmailView.requestFocus();
+            break;
+            case 3:
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            break;
+            case 4:
+                mEmailView.setError(getString(R.string.error_account_exists));
+                mEmailView.requestFocus();
+            break;
+        }
     }
 
     /**
@@ -302,6 +359,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
 
         int ADDRESS = 0;
     }
+
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -351,7 +409,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Integer, Void, Integer> {
 
         private final String mEmail;
         private final String mPassword;
@@ -362,49 +420,68 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            boolean allSystemsGo = false;
+        protected Integer doInBackground(Integer... params) {
+            Integer resultCode = 0;
 
-            if(isOnline()){
-                String json = HttpManager.getData("https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=" + mEmail);
-                Log.d("Result","Resultado: " + json);
-                if(json.length() > 0){
+            if(params[0] == 1){
+                // Hay que hacer SignUp
+                if(isOnline()){
+                    RequestPackage p = new RequestPackage();
+                    p.setMethod("POST");
+                    p.setUri("https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=" + mEmail);
+                    p.setParam("direccion", mEmail);
+
                     try{
-                        JSONObject obj = new JSONObject(json);
-                        String pass = obj.getString("password");
-                        if(mPassword.equals(pass)){
-                            allSystemsGo = true;
+                        JSONArray arr = new JSONArray(HttpManager.getData(p));
+                        if(arr.length() == 0){
+                            // TODO: Guarda la cuenta en la BD
+                            // "https://limitless-river-6258.herokuapp.com/usuarios?direccion="
+                            // + mEmail + "&password=" + mPassword;
                         }
-                        else {
-                            mPasswordView.setError(getString(R.string.error_incorrect_password));
-                            mPasswordView.requestFocus();
+                        else{
+                            resultCode = 4; // Ya hay cuentas asociadas
                         }
-                    } catch (JSONException e){
-                        Log.e("Password","Error extrayendo el password del JSON");
+                    } catch(JSONException e){
+                        Log.e("Password","Error en el manejo del JSON");
                     }
                 }
-                else{
-                    mEmailView.setError(getString(R.string.error_incorrect_email));
-                    mEmailView.requestFocus();
+            }
+            else {
+                // Hay que hacer LogIn
+                if(isOnline()){
+                    RequestPackage p = new RequestPackage();
+                    p.setMethod("POST");
+                    p.setUri("https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=" + mEmail);
+                    p.setParam("direccion", mEmail);
+
+                    try{
+                        JSONArray arr = new JSONArray(HttpManager.getData(p));
+                        if(arr.length() > 0){
+                            JSONObject obj = arr.getJSONObject(0);
+                            String pass = obj.getString("password");
+                            if(mPassword.equals(pass)){
+                                resultCode = 1;
+                            }
+                            else {
+                                resultCode = 3; // Error por contraseña
+                            }
+                        }
+                        else{
+                            resultCode = 2; // Error por correo
+                        }
+                    } catch(JSONException e){
+                        Log.e("Password","Error en el manejo del JSON");
+                    }
                 }
             }
-
-            return allSystemsGo;
+            return resultCode;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Integer success) {
             mAuthTask = null;
             showProgress(false);
-
-            if(success) {
-                editor.putBoolean("loggeado", true);
-                editor.commit();
-                Intent intent = new Intent(getApplicationContext(), ListaSodas.class);
-                startActivity(intent);
-                finish();
-            }
+            validacion(success);
         }
 
         @Override
