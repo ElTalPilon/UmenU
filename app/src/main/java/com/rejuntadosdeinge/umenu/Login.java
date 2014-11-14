@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -78,6 +79,8 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             editor.putBoolean("loggeado", false);
             editor.apply();
         }
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -136,6 +139,9 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
      */
     public void attemptSignUp() {
         Toast.makeText(this, "The cake is a lie.", Toast.LENGTH_LONG).show();
+        /*
+         * https://limitless-river-6258.herokuapp.com/usuarios?direccion=[]&password=[]
+         */
     }
 
     /**
@@ -189,6 +195,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             // TODO: Verificar cuenta con la BD
+            // https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=[]
             editor.putBoolean("loggeado", true);
             editor.commit();
             Intent intent = new Intent(this, ListaSodas.class);

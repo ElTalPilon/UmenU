@@ -8,7 +8,7 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@color/Silver"
+              android:background="@color/Turquoise"
               tools:context="com.rejuntadosdeinge.umenu.Login">
 
     <!-- Login progress -->
@@ -28,18 +28,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/UmenU_logo"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:orientation="vertical">              >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_launcher"/>
+                    android:contentDescription="Logo UmenU"
+                    android:layout_gravity="center"
+                    android:src="@drawable/login_logo"/>
             </LinearLayout>
 
             <LinearLayout
@@ -55,7 +58,10 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:textColorHint="@color/White"
+                    android:textColor="@color/White"
+                    android:layout_marginBottom="20dp"/>
 
                 <EditText
                     android:id="@+id/password"
@@ -66,7 +72,10 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:textColorHint="@color/White"
+                    android:textColor="@color/White"
+                    android:layout_marginBottom="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,22 +85,23 @@
 
                     <Button
                         android:id="@+id/email_sign_up_button"
-                        style="?android:textAppearanceSmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/custom_button"
                         android:layout_weight="1"
                         android:text="@string/action_sign_in"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/Turquoise"
+                        android:layout_marginRight="5dp"/>
 
                     <Button
                         android:id="@+id/email_log_in_button"
-                        style="?android:textAppearanceSmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/custom_button"
                         android:layout_weight="1"
                         android:text="@string/action_log_in"
-                        android:textStyle="bold"/>
-
+                        android:textColor="@color/Turquoise"
+                        android:layout_marginLeft="5dp"/>
 
                 </LinearLayout>
 
