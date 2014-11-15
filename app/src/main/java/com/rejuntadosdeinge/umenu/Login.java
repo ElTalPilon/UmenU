@@ -47,9 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends Activity implements LoaderCallbacks<Cursor> {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+    // Keep track of the login task to ensure we can cancel it if requested.
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -69,6 +67,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
 
+        // Si el usuario ya se autenticó anteriormente, va directo a la lista de sodas.
         if(pref.contains("loggeado")){
             if(pref.getBoolean("loggeado", false)){
                 Intent intent = new Intent(this, ListaSodas.class);
@@ -82,13 +81,15 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             editor.putBoolean("loggeado", false);
             editor.apply();
         }
+
+        // Esconde la Action Bar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
+        // Setea el formulario.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -124,41 +125,44 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**
+     * Le permite al usuario ingresa al sistema pero en caso de devolverse,
+     * volverá a esta vista, para procurar que se autentitique.
+     */
     public void entrarComoInvitado(View v){
         Intent intent = new Intent(this, ListaSodas.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
-        System.exit(0);
     }
 
     private void populateAutoComplete() {
         if(VERSION.SDK_INT >= 14) {
-            // Use ContactsContract.Profile (API 14+)
             getLoaderManager().initLoader(0, null, this);
         } else if(VERSION.SDK_INT >= 8) {
-            // Use AccountManager (API 8+)
             new SetupEmailAutoCompleteTask().execute(null, null);
         }
     }
 
+    /**
+     * Intenta registrar una nueva cuenta en el sistema.
+     */
     public void attemptSignUp() {
         if(mAuthTask != null) {
             return;
         }
 
-        // Reset errors.
+        // Resetea los errores anteriores (el focus en elementos)
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the signup attempt.
+        // Guarda los valores al momento del intento
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
+        // Se fija que el usuario haya ingresado un password,
+        // y que este cumpla con los requisitos establecidos
         if(TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
@@ -169,7 +173,8 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Se fija que el usuario haya ingresado un correo,
+        // y que este cumpla con los requisitos establecidos
         if(TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -181,12 +186,11 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         if(cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // Hay un error en el formulario.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // Mostrar la barra de progreso e iniciar el intento
+            // de registrar la cuenta por medio de una background task.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Integer) 1);
@@ -194,34 +198,33 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Intenta iniciar sesión con la cuenta especificada.
      */
     public void attemptLogin() {
         if(mAuthTask != null) {
             return;
         }
 
-        // Reset errors.
+        // Resetea los errores anteriores (el focus en elementos)
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
+        // Guarda los valores al momento del intento
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
+        // Se fija que el usuario haya ingresado un password
         if(TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Se fija que el usuario haya ingresado un correo,
+        // y que este cumpla con los requisitos establecidos
         if(TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -233,19 +236,20 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         if(cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
+            // Hay un error en el formulario
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // Mostrar la barra de progreso e iniciar el intento
+            // de iniciar sesión por medio de una background task.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Integer) 2);
         }
     }
 
-    // Valida el email usando una expresión regular
+    /**
+     * Valida el email usando una expresión regular
+     */
     private boolean isEmailValid(String email) {
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -253,15 +257,22 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         return matcher.matches();
     }
 
-    // Valida que el password sea de mínimo 6 símbolos
+    /**
+     * Valida que el password sea de mínimo 6 símbolos
+     */
     private boolean isPasswordValid(String password) {
         return password.length() > 5;
     }
 
 
-    protected void validacion(Integer resultadoLogin){
+    /**
+     * Según el resultado del intento de iniciar sesión o registrar cuenta,
+     * muestra errores o continúa el proceso.
+     */
+    protected void procederSegunResultado(Integer resultadoLogin){
         switch(resultadoLogin){
             case 1:
+                // [Log in] Exito
                 editor.putBoolean("loggeado", true);
                 editor.commit();
                 Intent intent = new Intent(getApplicationContext(), ListaSodas.class);
@@ -269,31 +280,32 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                 finish();
             break;
             case 2:
+                // [Log in] No hay cuenta asociada al email
                 mEmailView.setError(getString(R.string.error_incorrect_email));
                 mEmailView.requestFocus();
             break;
             case 3:
+                // [Log in] El password no coincide
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             break;
             case 4:
+                // [Sign up] Ya existe una cuenta con el email
                 mEmailView.setError(getString(R.string.error_account_exists));
                 mEmailView.requestFocus();
             break;
             case 5:
+                // [Sign up] Exito
                 Toast.makeText(this, "Su cuenta ha sido creada!", Toast.LENGTH_LONG).show();
             break;
         }
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * Muestra el progreso del log in / sign up.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -315,8 +327,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -352,9 +362,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {}
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -365,10 +373,22 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         int ADDRESS = 0;
     }
 
+    /**
+     * Verifica que la BD esté disponible.
+     */
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(Login.this,
+                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
+        mEmailView.setAdapter(adapter);
     }
 
     public void testSetEmail(String email){
@@ -409,21 +429,13 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(Login.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Integer, Void, Integer> {
-
+        // TODO: Asignar un tiempo de timeout
         private final String mEmail;
         private final String mPassword;
 
@@ -501,7 +513,7 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         protected void onPostExecute(final Integer success) {
             mAuthTask = null;
             showProgress(false);
-            validacion(success);
+            procederSegunResultado(success);
         }
 
         @Override

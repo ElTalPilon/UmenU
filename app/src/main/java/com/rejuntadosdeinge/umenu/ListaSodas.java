@@ -113,7 +113,7 @@ public class ListaSodas extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
     @Override
     public void onBackPressed(){
         if(!pref.getBoolean("loggeado", false)){
@@ -125,7 +125,7 @@ public class ListaSodas extends ActionBarActivity {
             finish();
         }
     }
-
+*/
     /**
      * Llamado cuando el usuario elige una de las sodas de la lista.
      * Inicializa la actividad "ListaPlatos"
