@@ -10,8 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +22,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ListaSodas extends ActionBarActivity {
     final Context context = this;
@@ -68,27 +67,7 @@ public class ListaSodas extends ActionBarActivity {
                 "Comedor Universitario"
         };
 
-        String[] imagenesSodasArray = {
-                "R.drawable.ic_odonto",
-                "R.drawable.ic_derecho",
-                "R.drawable.ic_economicas",
-                "R.drawable.ic_agro",
-                "R.drawable.ic_generales",
-                "R.drawable.ic_educacion",
-                "R.drawable.ic_sociales",
-                "R.drawable.ic_comedor"
-        };
-
-        List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
-        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(
-                this,
-                sodasArray
-        );
-        ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
-                this,
-                R.layout.list_item,
-                R.id.nombre_soda,
-                listaSodasProvisional);
+        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(this, sodasArray);
 
         final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
         listView.setAdapter(customArrayAdapter);
@@ -148,9 +127,9 @@ public class ListaSodas extends ActionBarActivity {
         TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
         TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
 
-        nombreP.setText(results[0]);
-        precioP.setText(results[1]);
-        sodaP.setText(results[2]);
+        //nombreP.setText(results[0]);
+        //precioP.setText(results[1]);
+        //sodaP.setText(results[2]);
 
         dialog.show();
 
@@ -244,7 +223,6 @@ public class ListaSodas extends ActionBarActivity {
                     resultados[1] = obj.getString("precio");
                     resultados[3] = String.valueOf(obj.getInt("id"));
                     int sodaIDPlato = obj.getInt("soda_id");
-
 
                     p = new RequestPackage();
                     p.setMethod("POST");
