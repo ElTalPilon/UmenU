@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,12 +39,20 @@ public class DetallesPlato extends ActionBarActivity {
     SharedPreferences.Editor editor;
 
     // Variables de control del día
+
     private String semana;
     private String dia;
+    private float promedio;
+
 
     // 1. creamos instancias para los widget que llenaremos de la actividad activity_detalles_plato
     TextView tv_nombre_plato;
     TextView tv_precio_plato;
+
+    TextView tv_promedio_plato;
+    ProgressBar progressBar;
+
+
 
     // 2. se crea una lista para todos los platos que vamos a obtener del web service
     List<Plato> listaDePlatos;
@@ -75,8 +84,10 @@ public class DetallesPlato extends ActionBarActivity {
         // 3. TextView inicializado con scroll vertical
         tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
         tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
+        tv_promedio_plato= (TextView) findViewById(id.nota_plato);
         tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
         tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
+        tv_promedio_plato.setMovementMethod(new ScrollingMovementMethod());
 
         // 5. Revisamos que hay conexión a internet
         if (isOnline()) {
@@ -84,7 +95,8 @@ public class DetallesPlato extends ActionBarActivity {
             requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
                     + "&semana=" + String.valueOf(semana)
                     + "&dia=" + String.valueOf(dia)
-                    + "&categoria=" + pref.getString("categoriaPlato", null) +"&get=1");
+                    + "&categoria=" + pref.getString("categoriaPlato", null)
+                    + "&promedio=" + String.valueOf(promedio)+"&get=1");
         } else {
             Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
         }
@@ -135,6 +147,8 @@ public class DetallesPlato extends ActionBarActivity {
         p.setParam("semana", String.valueOf(semana));
         p.setParam("dia", String.valueOf(dia));
         p.setParam("categoria", pref.getString("categoriaPlato", null));
+        p.setParam("promedio", String.valueOf(promedio));
+
 
         MyTask task = new MyTask();
         task.execute(p);
@@ -149,6 +163,7 @@ public class DetallesPlato extends ActionBarActivity {
             for (Plato plato : listaDePlatos) {
                 tv_nombre_plato.setText(plato.getNombre());
                 tv_precio_plato.setText(plato.getPrecio());
+                tv_promedio_plato.setText(String.valueOf(plato.getPromedio()));
             }
         }
     }
@@ -171,29 +186,69 @@ public class DetallesPlato extends ActionBarActivity {
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                /*
-                // TODO: Cambiar dummy data por el ID del plato que se pasará por pref.getInt("IDPlato", 0);
-                // TODO: Darle una acción al botón (Enviar a la BD)
+                //1ra opción
+
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-                //float notaFinal=rb1.getRating();
+                float notaFinal=rb1.getRating();
+                String uri="https://umenuadmin.herokuapp.com/platos";
 
-                int id = 94;
-                int calif = 5;
-                int total = 25;
-                double promedio = total/calif;
+                RequestPackage p = new RequestPackage();
+                p.setMethod("POST");
+                p.setUri(uri);
+                p.setParam("id", String.valueOf(pref.getInt("IDPlato", 0)));
+                p.setParam("nota", String.valueOf(notaFinal));
 
-                StringBuilder uri = new StringBuilder("https://limitless-river-6258.herokuapp.com/platos?c=1&id=");
-                uri.append(id);
-                uri.append("&calificaciones=");
-                uri.append(calif);
-                uri.append("&total=");
-                uri.append(calif);
-                uri.append("&promedio=");
-                uri.append(promedio);
+                MyTask task = new MyTask();
+                //task.execute(p); está comentada xq se cae cuando la envía.
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri.toString()));
-                //startActivity(intent);
+
+                /*2da opción--------------------------------------------------------------
+                StringEntity se = null;
+                RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
+                float notaFinal=rb1.getRating();
+                try {
+                    String json = "";
+
+                    //Construir el objeto json
+                    JSONObject jConsulta = new JSONObject();
+
+                    // se acumulan los campos necesarios, el primer parametro
+                    // es la etiqueta json que tendran los campos de la base
+                    jConsulta.accumulate("id",String.valueOf(pref.getInt("IDPlato", 0)));
+                    jConsulta.accumulate("nota", String.valueOf(notaFinal));
+
+                    // Convertir el objeto Json a String
+                    json = jConsulta.toString();
+
+                    // setear json al stringEntity
+                    se = new StringEntity(json);
+
+                }catch (Exception e){
+                    Log.d("String to json error", e.getLocalizedMessage());
+                }
+
+                HttpClient httpclient = new DefaultHttpClient();
+                String url="https://umenuadmin.herokuapp.com/platos";
+                //Hacer el request para un POST a la url
+                HttpPost httpPost = new HttpPost(url);
+
+                // setear la Entity de httpPost
+                httpPost.setEntity(se);
+
+                // incluir los headers para que el Api sepa que es json
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
+                HttpResponse httpResponse = null;
+                try{
+                    // ejecutar el request de post en la url
+                    httpResponse = httpclient.execute(httpPost);
+                }catch (Exception e){
+                    Log.d("InputStream", e.getLocalizedMessage());
+                }
+                //String resultado = StreamToString(httpResponse);
                 */
+
+
                 dialog.dismiss();
             }
         });
