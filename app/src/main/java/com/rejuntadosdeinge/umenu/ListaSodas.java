@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,9 +39,6 @@ public class ListaSodas extends ActionBarActivity {
     // Dialogo de sugerencia
     Dialog dialog;
 
-    int semana;
-    int dia;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +50,8 @@ public class ListaSodas extends ActionBarActivity {
         editor.apply();
 
         // se carga el valor para el día y la semana en la actividad principal
-        semana = 101;
-        dia = 1;
-        editor.putInt("semana", semana);
-        editor.putInt("dia", dia);
+        editor.putInt("semana", 1);
+        editor.putInt("dia", 1);
 
         // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
@@ -100,13 +94,13 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
-            final Dialog dialog = new Dialog(context);
+            dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.fragment_sugerencia_plato);
             dialog.show();
 
-            //MyTask myTask = new MyTask();
-            //myTask.execute();
+            MyTask myTask = new MyTask();
+            myTask.execute();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,17 +123,17 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
      */
     public void popUpSugerenciaPlato(final String[] results){
-        /*
+
         TextView nombreP = (TextView)dialog.findViewById(R.id.nombre_plato_popup);
         TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
         TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
 
-        //nombreP.setText(results[0]);
-        //precioP.setText(results[1]);
-        //sodaP.setText(results[2]);
-        */
+        nombreP.setText(results[0]);
+        precioP.setText(results[1]);
+        sodaP.setText(results[2]);
 
-        Button b = (Button) dialog.findViewById((R.id.ir_a_detalle_plato));
+
+        Button b = (Button) dialog.findViewById(R.id.ir_a_detalle_plato);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,30 +209,37 @@ public class ListaSodas extends ActionBarActivity {
         protected String[] doInBackground(String... params) {
             String[] resultados = new String[4];
             String JSON;
+
             if(isOnline()){
+
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
-                // TODO: Cambiar los parametros de semana y día
-                p.setUri("https://limitless-river-6258.herokuapp.com/platos?semana=1&dia=1&best=1");
+                p.setUri("https://limitless-river-6258.herokuapp.com/platos?semana="
+                          + pref.getInt("semana", 1)
+                          + "&dia="
+                          + pref.getInt("dia",1)
+                          + "&best=1");
                 JSON = HttpManager.getData(p);
 
+                Log.e("Result", JSON);
+
                 try{
-                    JSONArray arr = new JSONArray(JSON);
-                    JSONObject obj = arr.getJSONObject(0);
+                    JSONObject obj = new JSONObject(JSON);
                     resultados[0] = obj.getString("nombre");
                     resultados[1] = obj.getString("precio");
                     resultados[3] = String.valueOf(obj.getInt("id"));
                     int sodaIDPlato = obj.getInt("soda_id");
 
                     p = new RequestPackage();
-                    p.setMethod("POST");
-                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas?" + sodaIDPlato);
+                    p.setMethod("GET");
+                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas/" + sodaIDPlato);
                     p.setParam("id", "" + sodaIDPlato);
                     JSON = HttpManager.getData(p);
 
+                    Log.e("Result", JSON);
+
                     try{
-                        arr = new JSONArray(JSON);
-                        obj = arr.getJSONObject(0);
+                        obj = new JSONObject(JSON);
                         resultados[2] = obj.getString("nombre");
                     } catch(JSONException e){
                         Log.e("JSONException", "Error manejando el JSON para la soda");

@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +38,6 @@ public class DetallesPlato extends ActionBarActivity {
     SharedPreferences.Editor editor;
 
     // Variables de control del día
-
     private String semana;
     private String dia;
     private float promedio;
@@ -50,9 +48,6 @@ public class DetallesPlato extends ActionBarActivity {
     TextView tv_precio_plato;
 
     TextView tv_promedio_plato;
-    ProgressBar progressBar;
-
-
 
     // 2. se crea una lista para todos los platos que vamos a obtener del web service
     List<Plato> listaDePlatos;
