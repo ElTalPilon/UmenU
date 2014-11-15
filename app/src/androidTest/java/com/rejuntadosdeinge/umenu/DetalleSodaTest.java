@@ -26,6 +26,8 @@ public class DetalleSodaTest extends ActivityInstrumentationTestCase2<DetallesSo
         editor.apply();
         editor.putInt("IDSoda", 2);
         editor.commit();
+
+        Thread.sleep(3000);
     }
 
     public void testPreconditions() {
