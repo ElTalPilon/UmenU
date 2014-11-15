@@ -10,22 +10,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+<<<<<<< HEAD
+import android.view.LayoutInflater;
+=======
 import android.util.Log;
+>>>>>>> master
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+>>>>>>> master
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,19 +77,34 @@ public class ListaSodas extends ActionBarActivity {
                 "Comedor Universitario"
         };
 
+        String[] imagenesSodasArray = {
+                "R.drawable.ic_odonto",
+                "R.drawable.ic_derecho",
+                "R.drawable.ic_economicas",
+                "R.drawable.ic_agro",
+                "R.drawable.ic_generales",
+                "R.drawable.ic_educacion",
+                "R.drawable.ic_sociales",
+                "R.drawable.ic_comedor"
+        };
+
         List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
+        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(
+                this,
+                sodasArray
+        );
         ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.list_item,
-                R.id.list_item_textview,
+                R.id.nombre_soda,
                 listaSodasProvisional);
 
         final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
-        listView.setAdapter(listaSodasAdapter);
+        listView.setAdapter(customArrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos(i, (String)(listView.getItemAtPosition(i)));
+                goToListaPlatos(i, (String) (listView.getItemAtPosition(i)));
             }
         });
     }
@@ -106,7 +130,19 @@ public class ListaSodas extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
+    @Override
+    public void onBackPressed(){
+        if(!pref.getBoolean("loggeado", false)){
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else{
+            finish();
+        }
+    }
+*/
     /**
      * Llamado cuando el usuario elige una de las sodas de la lista.
      * Inicializa la actividad "ListaPlatos"
@@ -152,6 +188,53 @@ public class ListaSodas extends ActionBarActivity {
         });
     }
 
+<<<<<<< HEAD
+    private class CustomArrayAdapter extends ArrayAdapter<String> {
+        private final Context context;
+        private final String[] values;
+
+        public CustomArrayAdapter(Context context, String[] values) {
+            super(context, R.layout.list_item, values);
+            this.context = context;
+            this.values = values;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.list_item, parent, false);
+            TextView textView = (TextView) rowView.findViewById(R.id.nombre_soda);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.imagen_soda);
+            textView.setText(values[position]);
+            switch(position){
+                case 0:
+                    imageView.setImageResource(R.drawable.ic_odonto);
+                break;
+                case 1:
+                    imageView.setImageResource(R.drawable.ic_derecho);
+                break;
+                case 2:
+                    imageView.setImageResource(R.drawable.ic_economicas);
+                break;
+                case 3:
+                    imageView.setImageResource(R.drawable.ic_agro);
+                break;
+                case 4:
+                    imageView.setImageResource(R.drawable.ic_generales);
+                break;
+                case 5:
+                    imageView.setImageResource(R.drawable.ic_educacion);
+                break;
+                case 6:
+                    imageView.setImageResource(R.drawable.ic_sociales);
+                break;
+                case 7:
+                    imageView.setImageResource(R.drawable.ic_comedor);
+                break;
+            }
+            return rowView;
+=======
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -209,6 +292,7 @@ public class ListaSodas extends ActionBarActivity {
         @Override
         protected void onPostExecute(String[] result) {
             popUpSugerenciaPlato(result);
+>>>>>>> master
         }
     }
 }
