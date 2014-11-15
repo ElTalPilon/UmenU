@@ -51,19 +51,19 @@
         android:layout_above="@+id/ir_a_detalle_plato"
         android:orientation="vertical"
         android:weightSum="2">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:weightSum="7"
-            android:layout_marginLeft="20dp"
+            android:weightSum="9"
             android:layout_below="@+id/nombre_plato_popup">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="7"
                 android:text="Precio:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/White"
@@ -86,14 +86,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:weightSum="7"
-            android:layout_marginLeft="20dp"
+            android:weightSum="9"
             android:layout_below="@+id/nombre_plato_popup">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="7"
                 android:text="Soda:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/White"
