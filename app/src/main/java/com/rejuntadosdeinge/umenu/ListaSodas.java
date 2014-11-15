@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +36,10 @@ public class ListaSodas extends ActionBarActivity {
     // SharedPreferences
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+
+    // Dialogo de sugerencia
+    Dialog dialog;
+
     int semana;
     int dia;
 
@@ -95,8 +100,13 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
-            MyTask myTask = new MyTask();
-            myTask.execute();
+            final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.fragment_sugerencia_plato);
+            dialog.show();
+
+            //MyTask myTask = new MyTask();
+            //myTask.execute();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -119,10 +129,7 @@ public class ListaSodas extends ActionBarActivity {
      * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
      */
     public void popUpSugerenciaPlato(final String[] results){
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.fragment_sugerencia_plato);
-        dialog.setTitle(R.string.title_fragment_sugerencia_plato);
-
+        /*
         TextView nombreP = (TextView)dialog.findViewById(R.id.nombre_plato_popup);
         TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
         TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
@@ -130,8 +137,7 @@ public class ListaSodas extends ActionBarActivity {
         //nombreP.setText(results[0]);
         //precioP.setText(results[1]);
         //sodaP.setText(results[2]);
-
-        dialog.show();
+        */
 
         Button b = (Button) dialog.findViewById((R.id.ir_a_detalle_plato));
         b.setOnClickListener(new View.OnClickListener() {
