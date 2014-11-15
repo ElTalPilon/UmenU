@@ -371,6 +371,14 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    public void testSetEmail(String email){
+        mEmailView.setText(email);
+    }
+
+    public void testSetPassword(String password){
+        mPasswordView.setText(password);
+    }
+
     /**
      * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
      * the email text field with results on the main UI thread.

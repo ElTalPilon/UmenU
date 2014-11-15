@@ -121,11 +121,11 @@ public class ListaPlatos extends ActionBarActivity {
             for (Plato plato : platoList) {
 
                 if(plato.getCategoria().toString().equals("Básico 1"))
-                    b1 = "Básico 1: "+ plato.getNombre().toString();
+                    b1 = plato.getNombre().toString();
                 if(plato.getCategoria().toString().equals("Básico 2"))
-                    b2 = "Básico 2: "+ plato.getNombre().toString();
+                    b2 = plato.getNombre().toString();
                 if(plato.getCategoria().toString().equals("Vegetariano"))
-                    v = "Vegetariano: "+ plato.getNombre().toString();
+                    v = plato.getNombre().toString();
             }
 
             // data for the ListView.
@@ -137,7 +137,7 @@ public class ListaPlatos extends ActionBarActivity {
             ArrayAdapter<String> listaPlatosAdapter = new ArrayAdapter<String>(
                     this,
                     R.layout.list_item,
-                    R.id.list_item_textview,
+                    R.id.nombre_soda,
                     listaPlatosProvisional);
 
             final ListView listView = (ListView) this.findViewById(R.id.lista_platos);

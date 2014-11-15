@@ -3,11 +3,14 @@
     android:id="@+id/lista_sodas_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Silver"
+    android:background="@color/Nephritis"
     tools:context="com.rejuntadosdeinge.umenu.app.ListaSodas">
 
     <ListView
         android:id="@+id/lista_sodas"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:dividerHeight="5dp">
+    </ListView>
 </FrameLayout>
