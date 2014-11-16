@@ -1,63 +1,124 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="320dp"
-    android:layout_height="220dp"
-    android:background="@color/LightGrey">
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@color/Emerald">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:id="@+id/banner_popup"
+        android:background="@color/Nephritis"
+        android:weightSum="7">
+
+        <ImageView
+            android:id="@+id/imagen_plato"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_plato"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Sugerencia del día"
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Spaghetti"
         android:id="@+id/nombre_plato_popup"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:text="Nombre Plato"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="CRC 1 950"
-        android:id="@+id/precio_plato_popup"
-        android:layout_marginLeft="40dp"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White"
+        android:layout_below="@+id/banner_popup"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/nombre_plato_popup"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_above="@+id/ir_a_detalle_plato"
+        android:orientation="vertical"
+        android:weightSum="2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Soda:"
-        android:id="@+id/textViewSoda"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_below="@+id/precio_plato_popup"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="9"
+            android:layout_below="@+id/nombre_plato_popup">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Ciencias Sociales"
-        android:id="@+id/nombre_soda_popup"
-        android:layout_alignTop="@+id/textViewSoda"
-        android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Precio:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/precio_plato_popup"
+                android:text="Precio Plato"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/White"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="9"
+            android:layout_below="@+id/nombre_plato_popup">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:text="Soda:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/nombre_soda_popup"
+                android:text="Ciencias Sociales"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/White"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Detalles >>"
+        android:text="Detalles"
         android:id="@+id/ir_a_detalle_plato"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
-
+        android:background="@drawable/custom_button"
+        android:padding="10dp"
+        android:textColor="@color/Emerald"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

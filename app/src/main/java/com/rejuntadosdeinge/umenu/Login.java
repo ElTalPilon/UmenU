@@ -462,9 +462,9 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                             RequestPackage rp = new RequestPackage();
                             rp.setMethod("POST");
                             rp.setUri("https://limitless-river-6258.herokuapp.com/usuarios?direccion="
-                                    + mEmail + "&password=" + mPassword);
-                            rp.setParam("direccion", mEmail);
-                            rp.setParam("password", mPassword);
+                                    + mEmail
+                                    + "&password="
+                                    + mPassword);
 
                             // Guarda la nueva cuenta en la BD
                             HttpManager.getData(rp);
@@ -484,7 +484,6 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
                     RequestPackage p = new RequestPackage();
                     p.setMethod("POST");
                     p.setUri("https://limitless-river-6258.herokuapp.com/usuarios?opt=1&direccion=" + mEmail);
-                    p.setParam("direccion", mEmail);
 
                     try{
                         JSONArray arr = new JSONArray(HttpManager.getData(p));

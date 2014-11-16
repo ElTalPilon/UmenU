@@ -6,7 +6,7 @@
     android:weightSum="5">
     <ImageView
         android:id="@+id/imagen_soda"
-        android:src="@drawable/ic_info"
+        android:src="@drawable/ic_plato"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"

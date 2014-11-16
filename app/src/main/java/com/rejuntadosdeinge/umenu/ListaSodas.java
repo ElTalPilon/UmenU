@@ -10,25 +10,24 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ListaSodas extends ActionBarActivity {
     final Context context = this;
@@ -36,8 +35,9 @@ public class ListaSodas extends ActionBarActivity {
     // SharedPreferences
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    int semana;
-    int dia;
+
+    // Dialogo de sugerencia, para accederlo desde varios hilos.
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +49,12 @@ public class ListaSodas extends ActionBarActivity {
         editor = pref.edit();
         editor.apply();
 
-        // se carga el valor para el día y la semana en la actividad principal
-        semana = 101;
-        dia = 1;
-        editor.putInt("semana", semana);
-        editor.putInt("dia", dia);
+        // Carga el valor del día y semana
+        calcularDiaYSemana();
 
-        // Lista de sodas (hard coded porque no variará mucho con el tiempo y no se quiere
+        // Lista de sodas (quemada porque no variará mucho con el tiempo y no se quiere
         // estar haciendo una consulta cada vez que se abre la actividad principal).
-        String[] sodasArray = {
+        String[] listaDeSodas = {
                 "Facultad de Odontología",
                 "Facultad de Derecho",
                 "Ciencias Económicas",
@@ -68,28 +65,8 @@ public class ListaSodas extends ActionBarActivity {
                 "Comedor Universitario"
         };
 
-        String[] imagenesSodasArray = {
-                "R.drawable.ic_odonto",
-                "R.drawable.ic_derecho",
-                "R.drawable.ic_economicas",
-                "R.drawable.ic_agro",
-                "R.drawable.ic_generales",
-                "R.drawable.ic_educacion",
-                "R.drawable.ic_sociales",
-                "R.drawable.ic_comedor"
-        };
-
-        List<String> listaSodasProvisional = new ArrayList<String>(Arrays.asList(sodasArray));
-        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(
-                this,
-                sodasArray
-        );
-        ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
-                this,
-                R.layout.list_item,
-                R.id.nombre_soda,
-                listaSodasProvisional);
-
+        // Se le conecta un adapter personalizado para cargar las imágenes de cada soda
+        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(this, listaDeSodas);
         final ListView listView = (ListView) this.findViewById(R.id.lista_sodas);
         listView.setAdapter(customArrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,6 +93,13 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ir_sugerir_plato) {
+            // Muestra el PopUp de la Sugerencia del Día
+            dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.fragment_sugerencia_plato);
+            dialog.show();
+
+            // Jala el plato del día de la BD
             MyTask myTask = new MyTask();
             myTask.execute();
         }
@@ -123,50 +107,60 @@ public class ListaSodas extends ActionBarActivity {
     }
 
     /**
+     * Calcula el día y la semana en la que nos encontramos dentro del ciclo.
+     */
+    private void calcularDiaYSemana(){
+        // TODO: Meterle la lógica para que lo calcule bien.
+        editor.putInt("semana", 1);
+        editor.putInt("dia", 1);
+    }
+
+    /**
      * Llamado cuando el usuario elige una de las sodas de la lista.
-     * Inicializa la actividad "ListaPlatos"
-     * @param IDSoda - El ID de la soda elegida
-     * @param nombreSoda - El nombre de la soda elegida
      */
     public void goToListaPlatos(int IDSoda, String nombreSoda){
         editor.putInt("IDSoda", IDSoda+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
         editor.putString("nombreSoda", nombreSoda);
-        editor.commit();                   // Se guardan los cambios en Shared Preferences
+        editor.commit();
         Intent intent = new Intent(this, ListaPlatos.class);
         startActivity(intent);
     }
 
     /**
-     * Llamado cuando el usuario presiona el botón de "Sugerir Plato".
+     * Le asigna al PopUp los valores obtenidos de la consulta a la BD
      */
-    public void popUpSugerenciaPlato(final String[] results){
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.fragment_sugerencia_plato);
-        dialog.setTitle(R.string.title_fragment_sugerencia_plato);
+    public void popUpSugerenciaPlato(final String[] resultados){
 
-        TextView nombreP = (TextView)dialog.findViewById(R.id.nombre_plato_popup);
-        TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
-        TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
+        final TextView nombreP = (TextView)dialog.findViewById(R.id.nombre_plato_popup);
+        final TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
+        final TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
 
-        nombreP.setText(results[0]);
-        precioP.setText(results[1]);
-        sodaP.setText(results[2]);
+        nombreP.setText(resultados[0]);
+        precioP.setText(resultados[1]);
+        sodaP.setText(resultados[2]);
 
-        dialog.show();
-
-        Button b = (Button) dialog.findViewById((R.id.ir_a_detalle_plato));
+        Button b = (Button) dialog.findViewById(R.id.ir_a_detalle_plato);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Esta lista está muy fea, sería mejor que DetallesPlato solo reciba IDPlato
                 Intent intent = new Intent(getBaseContext(), DetallesPlato.class);
-                editor.putInt("IDPlato", Integer.parseInt(results[3]));
+                editor.putInt("IDPlato", Integer.parseInt(resultados[3]));
+                editor.putInt("IDSoda", Integer.parseInt(resultados[4]));
+                editor.putString("categoriaPlato", String.valueOf(resultados[5]));
+                editor.putString("nombrePlato", String.valueOf(nombreP.getText()));
+                editor.putString("nombreSoda", String.valueOf(sodaP.getText()));
                 editor.commit();
+
                 startActivity(intent);
                 dialog.dismiss();
             }
         });
     }
 
+    /**
+     * Adaptador personalizado para cargar tanto los nombres como las imagenes de las sodas
+     */
     private class CustomArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
         private final String[] values;
@@ -215,12 +209,18 @@ public class ListaSodas extends ActionBarActivity {
         }
     }
 
+    /**
+     * Verifica que la BD esté disponible
+     */
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    /**
+     * Realiza las consultas a la BD sobre el plato del día y la soda a la que pertenece
+     */
     private class MyTask extends AsyncTask<String, String, String[]> {
         @Override
         protected void onPreExecute() {
@@ -228,34 +228,41 @@ public class ListaSodas extends ActionBarActivity {
 
         @Override
         protected String[] doInBackground(String... params) {
-            String[] resultados = new String[4];
+            String[] resultados = new String[6];
             String JSON;
+
             if(isOnline()){
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
-                // TODO: Cambiar los parametros de semana y día
-                p.setUri("https://limitless-river-6258.herokuapp.com/platos?semana=1&dia=1&best=1");
+                p.setUri("https://limitless-river-6258.herokuapp.com/platos?semana="
+                          + pref.getInt("semana", 1)
+                          + "&dia="
+                          + pref.getInt("dia",1)
+                          + "&best=1");
                 JSON = HttpManager.getData(p);
 
+                Log.d("Resultado 1", JSON);
+
                 try{
-                    JSONArray arr = new JSONArray(JSON);
-                    JSONObject obj = arr.getJSONObject(0);
+                    JSONObject obj = new JSONObject(JSON);
                     resultados[0] = obj.getString("nombre");
                     resultados[1] = obj.getString("precio");
                     resultados[3] = String.valueOf(obj.getInt("id"));
                     int sodaIDPlato = obj.getInt("soda_id");
 
-
                     p = new RequestPackage();
-                    p.setMethod("POST");
-                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas?" + sodaIDPlato);
+                    p.setMethod("GET");
+                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas/" + sodaIDPlato);
                     p.setParam("id", "" + sodaIDPlato);
                     JSON = HttpManager.getData(p);
 
+                    Log.d("Resultado 2", JSON);
+
                     try{
-                        arr = new JSONArray(JSON);
-                        obj = arr.getJSONObject(0);
+                        obj = new JSONObject(JSON);
                         resultados[2] = obj.getString("nombre");
+                        resultados[4] = obj.getString("id");
+                        resultados[5] = obj.getString("categoria");
                     } catch(JSONException e){
                         Log.e("JSONException", "Error manejando el JSON para la soda");
                     }
