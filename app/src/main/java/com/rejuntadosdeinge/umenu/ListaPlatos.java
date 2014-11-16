@@ -48,7 +48,7 @@ public class ListaPlatos extends ActionBarActivity {
         editor = pref.edit();
         editor.apply();
 
-        // Setea el nombre de la actividad
+        // Setea el título de la actividad
         try {
             getSupportActionBar().setTitle(pref.getString("nombreSoda", null));
         }catch(NullPointerException e) {
