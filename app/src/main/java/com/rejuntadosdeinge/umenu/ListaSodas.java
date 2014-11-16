@@ -30,6 +30,8 @@ import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 public class ListaSodas extends ActionBarActivity {
     final Context context = this;
 
@@ -111,10 +113,30 @@ public class ListaSodas extends ActionBarActivity {
     /**
      * Calcula el día y la semana en la que nos encontramos dentro del ciclo.
      */
-    private void calcularDiaYSemana(){
-        // TODO: Meterle la lógica para que lo calcule bien.
-        editor.putInt("semana", 1);
-        editor.putInt("dia", 1);
+    private void calcularDiaYSemana() {
+        Calendar calendar = Calendar.getInstance();
+        //Domingo = 1, sábado = 7
+        int dia = calendar.get(Calendar.DAY_OF_WEEK);
+        //La semana comienza lunes (sí, aunque el primer día de la semana es domingo :S)
+        int semana = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        //III ciclo 2015 comienza el 5 de enero del 2015 y termina el 28 de febrero
+        //Semana 2 a 9 más la semana de examenes (10)
+        if (semana >= 2 && semana <= 10) {
+            semana = ((semana + 3) % 5) + 1;
+            //I ciclo 2015 comienza el 11 de marzo del 2015 y termina el 4 de julio
+            //Semana 11 a 27 más la semana de examenes (28)
+        } else {
+            if (semana >= 11 && semana <= 28) {
+                semana = ((semana + 4) % 5) + 1;
+            } else {
+                //II semestre 2014 comienza la semana 33 y termina la 48
+                //Semana 33 a 48 más la semana de examenes (49)
+                if (semana >= 33 && semana <= 49) {
+                    semana = ((semana + 2) % 5) + 1;
+                }
+            }
+        }
     }
 
     /**
