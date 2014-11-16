@@ -34,13 +34,7 @@ public class ListaPlatos extends ActionBarActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    // Lista de platos (sólo se cuenta con 3 platos por soda)
-    String[] platosArray = new String[3];
-
-    //variables de uso comun entre varios metodos
-    String soda_id;
-    String semana;
-    String dia;
+    // Variables globales
     List<Plato> platoList;
 
     @Override
@@ -57,98 +51,13 @@ public class ListaPlatos extends ActionBarActivity {
         // Setea el nombre de la actividad
         try {
             getSupportActionBar().setTitle(pref.getString("nombreSoda", null));
-        }catch(NullPointerException e){
+        }catch(NullPointerException e) {
             Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
         }
 
-        // se llenan las variables globales
-        soda_id = String.valueOf(pref.getInt("IDSoda", 0));
-        semana = String.valueOf(pref.getInt("semana", 0));
-        dia = String.valueOf(pref.getInt("dia", 0));
-
-        // si hay internet...
-        if (isOnline()) {
-            // se hace la consulta
-            requestData("http://limitless-river-6258.herokuapp.com/platos?menu=1&soda_id=" + soda_id
-                    + "&semana=" + semana
-                    + "&dia=" + dia
-                    + "&get=1");
-        } else {
-            Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    /**
-     * Valida conexion disponiblea internet
-     */
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Se llenan parametros que utilizaremos en la consulta POST
-     */
-    private void requestData(String uri) {
-
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri(uri);
-        p.setParam("menu", "1");
-        p.setParam("soda_id", soda_id);
-        p.setParam("semana", semana);
-        p.setParam("dia", dia);
-
-        MyTask task = new MyTask();
-        task.execute(p);
-    }
-
-    /**
-     * Se llena el listView con los datos obtenidos del web service
-     */
-    protected void updateDisplay() {
-
-        String b1 = "";
-        String b2 = "";
-        String v = "";
-
-        if (platoList != null) {
-            for (Plato plato : platoList) {
-
-                if(plato.getCategoria().toString().equals("Básico 1"))
-                    b1 = plato.getNombre().toString();
-                if(plato.getCategoria().toString().equals("Básico 2"))
-                    b2 = plato.getNombre().toString();
-                if(plato.getCategoria().toString().equals("Vegetariano"))
-                    v = plato.getNombre().toString();
-            }
-
-            // data for the ListView.
-            String[] platosArray = { b1, b2, v };
-
-            //Cargar los nombres de los platos
-
-            List<String> listaPlatosProvisional = new ArrayList<String>(Arrays.asList(platosArray));
-            ArrayAdapter<String> listaPlatosAdapter = new ArrayAdapter<String>(
-                    this,
-                    R.layout.list_item,
-                    R.id.nombre_soda,
-                    listaPlatosProvisional);
-
-            final ListView listView = (ListView) this.findViewById(R.id.lista_platos);
-            listView.setAdapter(listaPlatosAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    goToDetallesPlato(i, (String)(listView.getItemAtPosition(i)));
-                }
-            });
-        }
+        // Obtiene los platos de la BD
+        MyTask myTask = new MyTask();
+        myTask.execute();
     }
 
     /**
@@ -174,9 +83,62 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
+     * Verifica que haya una conexión disponible
+     */
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    /**
+     * Se llena el listView con los datos obtenidos del web service
+     */
+    protected void updateDisplay() {
+
+        String b1 = "";
+        String b2 = "";
+        String v = "";
+
+        if (platoList != null) {
+            for (Plato plato : platoList) {
+
+                if(plato.getCategoria().equals("Básico 1"))
+                    b1 = plato.getNombre();
+                if(plato.getCategoria().equals("Básico 2"))
+                    b2 = plato.getNombre();
+                if(plato.getCategoria().equals("Vegetariano"))
+                    v = plato.getNombre();
+            }
+
+            // data for the ListView.
+            String[] platosArray = { b1, b2, v };
+
+            //Cargar los nombres de los platos
+
+            List<String> listaPlatosProvisional = new ArrayList<String>(Arrays.asList(platosArray));
+            ArrayAdapter<String> listaPlatosAdapter = new ArrayAdapter<String>(
+                    this,
+                    R.layout.item_comida,
+                    R.id.nombre_comida,
+                    listaPlatosProvisional);
+
+            final ListView listView = (ListView) this.findViewById(R.id.lista_platos);
+            listView.setAdapter(listaPlatosAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    goToDetallesPlato(i, (String)(listView.getItemAtPosition(i)));
+                }
+            });
+        }
+    }
+
+    /**
      * Llamado cuando se presiona el botón de Snacks
      */
     public void goToListaSnacks(View view){
+        // TODO: Ya que más adelante desplegaremos ensaladas, frescos, etc., esto podría ponerse ahí mismo
         Intent intent = new Intent(this, ListaSnacks.class);
         startActivity(intent);
     }
@@ -185,7 +147,7 @@ public class ListaPlatos extends ActionBarActivity {
      * Llamado cuando se presiona uno de los platos de la lista.
      */
     public void goToDetallesPlato(int categoria, String nombrePlato){
-        // TODO: En vez de la categoría, podría pasarse el ID del plato -> editor.putInt("IDPlato", 56);
+        // TODO: En vez de la categoría, podría pasarse el ID del plato
         switch(categoria){
             case 0:
                 editor.putString("categoriaPlato", "B%C3%A1sico%201");
@@ -205,9 +167,9 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
-     *  Para no bloquear el hilo principal la conexion la realiza otro hilo
+     *  Realiza las consultas a la BD sobre los platos de la soda
      */
-    private class MyTask extends AsyncTask<RequestPackage, String, String> {
+    private class MyTask extends AsyncTask<Void, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -215,9 +177,24 @@ public class ListaPlatos extends ActionBarActivity {
         }
 
         @Override
-        protected String doInBackground(RequestPackage... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
+        protected String doInBackground(Void... params) {
+            String JSON = "";
+
+            if(isOnline()){
+                RequestPackage p = new RequestPackage();
+                p.setMethod("POST");
+                p.setUri("http://limitless-river-6258.herokuapp.com/platos?menu=1&soda_id=" + pref.getInt("IDSoda", 0)
+                        + "&semana=" + pref.getInt("semana", 0)
+                        + "&dia=" + pref.getInt("dia", 0)
+                        + "&get=1");
+                JSON = HttpManager.getData(p);
+
+                Log.d("Resultado", JSON);
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Red no disponible", Toast.LENGTH_LONG).show();
+            }
+            return JSON;
         }
 
         @Override

@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
@@ -42,6 +43,7 @@ public class ListaSodas extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_lista_sodas);
 
         // Inicializa las SharedPreferences
@@ -166,7 +168,7 @@ public class ListaSodas extends ActionBarActivity {
         private final String[] values;
 
         public CustomArrayAdapter(Context context, String[] values) {
-            super(context, R.layout.list_item, values);
+            super(context, R.layout.item_soda, values);
             this.context = context;
             this.values = values;
         }
@@ -175,8 +177,8 @@ public class ListaSodas extends ActionBarActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.list_item, parent, false);
-            TextView textView = (TextView) rowView.findViewById(R.id.nombre_soda);
+            View rowView = inflater.inflate(R.layout.item_soda, parent, false);
+            TextView textView = (TextView) rowView.findViewById(R.id.nombre_comida);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.imagen_soda);
             textView.setText(values[position]);
             switch(position) {
@@ -224,6 +226,7 @@ public class ListaSodas extends ActionBarActivity {
     private class MyTask extends AsyncTask<String, String, String[]> {
         @Override
         protected void onPreExecute() {
+            setProgressBarIndeterminateVisibility(true);
         }
 
         @Override
@@ -271,12 +274,16 @@ public class ListaSodas extends ActionBarActivity {
                     Log.e("JSONException", "Error manejando el JSON para el popup");
                 }
             }
+            else {
+                Toast.makeText(getBaseContext(), "Red no disponible", Toast.LENGTH_LONG).show();
+            }
             return resultados;
         }
 
         @Override
         protected void onPostExecute(String[] result) {
             popUpSugerenciaPlato(result);
+            setProgressBarIndeterminateVisibility(false);
         }
     }
 }
