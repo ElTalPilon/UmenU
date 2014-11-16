@@ -119,7 +119,6 @@ public class ListaSodas extends ActionBarActivity {
         int dia = calendar.get(Calendar.DAY_OF_WEEK);
         //La semana comienza lunes (sí, aunque el primer día de la semana es domingo :S)
         int semana = calendar.get(Calendar.WEEK_OF_YEAR);
-
         //III ciclo 2015 comienza el 5 de enero del 2015 y termina el 28 de febrero
         //Semana 2 a 9 más la semana de examenes (10)
         if (semana >= 2 && semana <= 10) {
@@ -137,6 +136,9 @@ public class ListaSodas extends ActionBarActivity {
                 }
             }
         }
+
+        editor.putInt("semana", semana);
+        editor.putInt("dia", dia);
     }
 
     /**
