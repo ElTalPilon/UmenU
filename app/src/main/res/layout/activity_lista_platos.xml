@@ -14,7 +14,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:background="@color/SunFlower"
+                      android:background="@color/Emerald"
                       android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_plato"
@@ -74,7 +74,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:background="@color/Orange"
+                      android:background="@color/Emerald"
                       android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_fresco"
@@ -104,7 +104,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:background="@color/Orange"
+                      android:background="@color/Emerald"
                       android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_fruta"
