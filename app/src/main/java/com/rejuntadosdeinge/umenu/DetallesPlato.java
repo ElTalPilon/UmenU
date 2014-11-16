@@ -192,9 +192,10 @@ public class DetallesPlato extends ActionBarActivity {
                 p.setUri(uri);
                 p.setParam("id", String.valueOf(pref.getInt("IDPlato", 0)));
                 p.setParam("nota", String.valueOf(notaFinal));
+                HttpManager.getData(p);
 
-                MyTask task = new MyTask();
-                //task.execute(p); está comentada xq se cae cuando la envía.
+                //MyTask task = new MyTask();
+                //task.execute(p); //está comentada xq se cae cuando la envía.
 
 
                 /*2da opción--------------------------------------------------------------
