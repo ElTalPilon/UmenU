@@ -6,14 +6,14 @@
     android:weightSum="5">
     <ImageView
         android:id="@+id/imagen_soda"
-        android:src="@drawable/ic_plato"
+        android:src="@drawable/ic_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:layout_gravity="center_vertical"
         android:background="@color/Nephritis"/>
     <TextView
-        android:id="@+id/nombre_soda"
+        android:id="@+id/nombre_comida"
         android:text="Prueba Item"
         android:layout_height="match_parent"
         android:layout_width="match_parent"

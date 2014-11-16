@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Nephritis"
-    tools:context="com.rejuntadosdeinge.umenu.app.ListaSodas">
+    tools:context=".ListaSodas">
 
     <ListView
         android:id="@+id/lista_sodas"

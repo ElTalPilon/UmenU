@@ -37,7 +37,7 @@ public class PlatoParser {
                 plato.setTipo(obj.getString("tipo"));
                 plato.setCalificaciones(obj.getInt("calificaciones"));
                 plato.setTotal(obj.getInt("total"));
-                plato.setPromedio(obj.getInt("promedio"));
+                plato.setPromedio(obj.getInt("promedio")); //TODO: ACA se cae por recibir null
 
                 platoList.add(plato);
             }
