@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@color/Nephritis"
     android:weightSum="5">
     <ImageView
         android:id="@+id/imagen_soda"
@@ -10,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:layout_gravity="center_vertical"
-        android:background="@color/Nephritis"/>
+        android:layout_gravity="center_vertical"/>
     <TextView
         android:id="@+id/nombre_comida"
         android:text="Prueba Item"
@@ -22,6 +22,5 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:minHeight="?android:attr/listPreferredItemHeight"
         android:textColor="@color/White"
-        android:layout_gravity="center_vertical"
-        android:background="@color/Nephritis"/>
+        android:layout_gravity="center_vertical"/>
 </LinearLayout>

@@ -6,11 +6,11 @@
               android:weightSum="5">
     <TextView
         android:id="@+id/nombre_comida"
-        android:text="Prueba Item"
+        android:text="Prueba item"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:padding="20dp"
+        android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/White"
         android:layout_gravity="center_vertical"
