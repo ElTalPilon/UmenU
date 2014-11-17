@@ -33,6 +33,8 @@ public class DetallesPlatoTest extends ActivityInstrumentationTestCase2<Detalles
         editor.putString("categoriaPlato", "B%C3%A1sico%201");
         editor.putString("nombreSoda", "Derecho");
         editor.commit();
+
+        Thread.sleep(3000);
     }
 
     public void testPreconditions() {
