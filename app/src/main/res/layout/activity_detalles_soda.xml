@@ -3,20 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/Silver">
+    android:background="@color/Nephritis">
 
     <fragment
         android:id="@+id/fragment_detalle_soda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
         class="com.rejuntadosdeinge.umenu.DetallesSodaHF" />
 
     <fragment
         android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
         class="com.google.android.gms.maps.MapFragment"/>
 
 </LinearLayout>

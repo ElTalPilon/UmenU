@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,8 +58,6 @@ public class DetallesSoda extends ActionBarActivity {
         editor = pref.edit();
         editor.apply();
 
-        getActionBar().setTitle(pref.getString("nombreSoda", null));
-
         // Setea el nombre de la actividad
         try {
             getSupportActionBar().setTitle(pref.getString("nombreSoda", null));
@@ -95,11 +94,39 @@ public class DetallesSoda extends ActionBarActivity {
 
     public void desplegarDetalles() {
 
-        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_soda);
-        tv_nombre.setText(pref.getString("nombreSoda", null));
+        TextView nombre_soda = (TextView) findViewById(R.id.nombre_soda);
+        nombre_soda.setText(pref.getString("nombreSoda", null));
 
-        TextView tv_horario = (TextView) findViewById(R.id.horario_soda);
-        tv_horario.setText(horario);
+        ImageView imagen_soda = (ImageView) findViewById(R.id.imagen_soda);
+        switch(pref.getInt("IDSoda", 0)-1){
+            case 0:
+                imagen_soda.setImageResource(R.drawable.ic_odonto);
+                break;
+            case 1:
+                imagen_soda.setImageResource(R.drawable.ic_derecho);
+                break;
+            case 2:
+                imagen_soda.setImageResource(R.drawable.ic_economicas);
+                break;
+            case 3:
+                imagen_soda.setImageResource(R.drawable.ic_agro);
+                break;
+            case 4:
+                imagen_soda.setImageResource(R.drawable.ic_generales);
+                break;
+            case 5:
+                imagen_soda.setImageResource(R.drawable.ic_educacion);
+                break;
+            case 6:
+                imagen_soda.setImageResource(R.drawable.ic_sociales);
+                break;
+            case 7:
+                imagen_soda.setImageResource(R.drawable.ic_comedor);
+                break;
+        }
+
+        //TextView tv_horario = (TextView) findViewById(R.id.horario_soda);
+        //tv_horario.setText(horario);
 
         if (mMostrarMapa) {
 
@@ -108,7 +135,7 @@ public class DetallesSoda extends ActionBarActivity {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 17);
             mMap.moveCamera(update);
 
-            String markerNombre = tv_nombre.getText().toString();
+            String markerNombre = nombre_soda.getText().toString();
 
             mMap.addMarker(new MarkerOptions()
                             .position(latLng)
@@ -158,7 +185,7 @@ public class DetallesSoda extends ActionBarActivity {
 
         //	Reenvia a otra aplicacion de mapas
 
-        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_soda);
+        TextView tv_nombre = (TextView) findViewById(R.id.nombre_soda);
         String markerNombre = tv_nombre.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitud

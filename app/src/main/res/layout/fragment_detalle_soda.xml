@@ -6,27 +6,124 @@
     android:orientation="vertical"
     tools:context=".DetallesSoda" >
 
-    <TextView
+    <LinearLayout
         android:id="@+id/banner_detalles_soda"
-        android:text="Nombre Soda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Gray"
-        android:gravity="center_horizontal"
-        android:textColor="@color/White"
-        android:textAllCaps="true"
-        android:textSize="25sp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"/>
+        android:orientation="horizontal"
+        android:background="@color/Emerald"
+        android:weightSum="5">
 
-    <TextView
-        android:id="@+id/horario_soda"
-        android:text="Horario"
-        android:background="@color/LightGrey"
-        android:padding="20dp"
+        <ImageView
+            android:id="@+id/imagen_soda"
+            android:src="@drawable/ic_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/nombre_soda"
+            android:text="Nombre Soda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:textColor="@color/White"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/banner_detalles_soda"/>
+        android:background="@color/Nephritis"
+        android:orientation="vertical"
+        android:weightSum="3">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:text="Desayuno:"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="right"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="7:00am - 11:00am"
+                android:id="@+id/horario_desayuno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:text="Almuerzo:"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="right"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="11:00am - 2:00pm"
+                android:id="@+id/horario_almuerzo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:text="Café:"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="right"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:text="2:00pm - 7:00pm"
+                android:id="@+id/horario_cafe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/White"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
