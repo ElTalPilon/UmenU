@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:background="@color/Emerald"
-                      android:weightSum="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/Emerald"
+            android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_plato"
                 android:layout_width="match_parent"
@@ -40,12 +40,12 @@
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:background="@color/Emerald"
-                      android:weightSum="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/Emerald"
+            android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_ensalada"
                 android:layout_width="match_parent"
@@ -70,12 +70,12 @@
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:background="@color/Emerald"
-                      android:weightSum="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/Emerald"
+            android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_fresco"
                 android:layout_width="match_parent"
@@ -100,12 +100,12 @@
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:background="@color/Emerald"
-                      android:weightSum="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/Emerald"
+            android:weightSum="5">
             <ImageView
                 android:src="@drawable/ic_fruta"
                 android:layout_width="match_parent"
@@ -130,16 +130,34 @@
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
 
-        <Button
-            android:id="@+id/ir_a_snacks"
-            android:text="Snacks"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Gray"
-            android:textAllCaps="true"
-            android:textColor="@color/White"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal|bottom"
-            android:onClick="goToListaSnacks" />
+            android:orientation="horizontal"
+            android:background="@color/Emerald"
+            android:weightSum="5">
+            <ImageView
+                android:src="@drawable/ic_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:text="SNACKS"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:padding="20dp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/White"
+                android:layout_gravity="center"/>
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/lista_snacks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp"/>
+    </LinearLayout>
 </FrameLayout>
