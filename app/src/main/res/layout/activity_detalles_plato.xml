@@ -5,25 +5,41 @@
     android:background="@color/Silver"
     tools:context="com.rejuntadosdeinge.umenu.DetallesPlato">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/banner_detalles_plato"
-        android:text="Nombre Soda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Gray"
-        android:gravity="center_horizontal"
-        android:textColor="@color/White"
-        android:textAllCaps="true"
-        android:textSize="25sp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"/>
+        android:orientation="horizontal"
+        android:background="@color/Emerald"
+        android:weightSum="5">
+
+        <ImageView
+            android:id="@+id/imagen_soda"
+            android:src="@drawable/ic_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/nombre_soda"
+            android:text="Nombre Soda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:textColor="@color/White"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/nombre_plato"
         android:text="Nombre del Plato"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/LightGrey"
+        android:background="@color/Nephritis"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
@@ -36,7 +52,7 @@
         android:text="Detalles del Plato"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/Gainsboro"
+        android:background="@color/Nephritis"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
@@ -47,7 +63,7 @@
     <TextView
         android:id="@+id/precio_plato"
         android:text="Precio"
-        android:background="@color/White"
+        android:background="@color/SunFlower"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
@@ -79,13 +95,12 @@
         android:layout_alignParentStart="true" />
     <TextView
         android:id="@+id/nota_plato"
-        android:text="##"
+        android:text="Numero de calificaciones"
         android:background="@color/White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_toEndOf="@+id/ratingBar"
         android:layout_above="@+id/ratingBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

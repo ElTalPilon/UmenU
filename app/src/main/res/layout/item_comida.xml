@@ -6,7 +6,7 @@
               android:weightSum="5">
     <TextView
         android:id="@+id/nombre_comida"
-        android:text="Prueba item"
+        android:text="Item"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_weight="1"
