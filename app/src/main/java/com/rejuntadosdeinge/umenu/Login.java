@@ -130,6 +130,10 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
      * volverá a esta vista, para procurar que se autentitique.
      */
     public void entrarComoInvitado(View v){
+        mEmailView.setText("");
+        mPasswordView.setText("");
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
         Intent intent = new Intent(this, ListaSodas.class);
         startActivity(intent);
     }

@@ -15,6 +15,7 @@
         android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         class="com.google.android.gms.maps.MapFragment"/>
 
 </LinearLayout>
