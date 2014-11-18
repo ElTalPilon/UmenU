@@ -68,7 +68,7 @@ public class DetallesPlato extends ActionBarActivity {
         semana = String.valueOf(pref.getInt("semana", 0));
 
         // Setea el nombre de la actividad y del banner
-        TextView tv_nombre = (TextView) findViewById(R.id.banner_detalles_plato);
+        TextView tv_nombre = (TextView) findViewById(id.nombre_soda);
         try{
             getSupportActionBar().setTitle(pref.getString("nombrePlato", null));
             tv_nombre.setText(pref.getString("nombreSoda", null));
@@ -98,15 +98,17 @@ public class DetallesPlato extends ActionBarActivity {
 
         RatingBar ratingBar = (RatingBar) findViewById(id.ratingBar);
         // Cuando haya un cambio en la calificación
+        ratingBar.setStepSize((float) 1.0);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                float nota= ratingBar.getRating(); // Obtengo la nueva calificación
+                int nota= ((int) ratingBar.getRating()); // Obtengo la nueva calificación
+
                 popUpPuntuarPlato(nota); // Instancio el popUp
             }
         });
     }
-
+//.../platos?nota=[]&id=[
     /**
      * Infla el menú (Agrega elementos al Action Bar)
      */
@@ -185,6 +187,18 @@ public class DetallesPlato extends ActionBarActivity {
 
                 RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
                 float notaFinal=rb1.getRating();
+
+                if (isOnline()) {
+                    // 6. se hace la consulta
+                    requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
+                            + "&semana=" + String.valueOf(semana)
+                            + "&dia=" + String.valueOf(dia)
+                            + "&categoria=" + pref.getString("categoriaPlato", null)
+                            + "&promedio=" + String.valueOf(promedio)+"&get=1");
+                } /*else {
+                    Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
+                }
+
                 String uri="https://umenuadmin.herokuapp.com/platos";
 
                 RequestPackage p = new RequestPackage();
