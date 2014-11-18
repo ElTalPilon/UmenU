@@ -116,7 +116,7 @@ public class ListaSodas extends ActionBarActivity {
     private void calcularDiaYSemana() {
         Calendar calendar = Calendar.getInstance();
         //Domingo = 1, sábado = 7
-        int dia = calendar.get(Calendar.DAY_OF_WEEK);
+        int dia = calendar.get(Calendar.DAY_OF_WEEK)-1;
         //La semana comienza lunes (sí, aunque el primer día de la semana es domingo :S)
         int semana = calendar.get(Calendar.WEEK_OF_YEAR);
         //III ciclo 2015 comienza el 5 de enero del 2015 y termina el 28 de febrero
