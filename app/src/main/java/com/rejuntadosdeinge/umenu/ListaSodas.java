@@ -137,8 +137,11 @@ public class ListaSodas extends ActionBarActivity {
             }
         }
 
-        editor.putInt("semana", semana);
-        editor.putInt("dia", dia);
+        //editor.putInt("semana", semana);
+        //editor.putInt("dia", dia);
+
+        editor.putInt("semana", 101);
+        editor.putInt("dia", 1);
     }
 
     /**
