@@ -189,6 +189,7 @@ public class ListaPlatos extends ActionBarActivity {
                         + "&get=1");
                 JSON = HttpManager.getData(p);
 
+                Log.d("Consulta", p.getUri());
                 Log.d("Resultado", JSON);
             }
             else{

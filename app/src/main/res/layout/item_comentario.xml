@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="@color/Emerald"
+              android:weightSum="7">
+    <TextView
+        android:id="@+id/puntuacion"
+        android:text="5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:padding="20dp"
+        android:textColor="@color/White"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/comentario"
+        android:text="Item"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textColor="@color/White"
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>

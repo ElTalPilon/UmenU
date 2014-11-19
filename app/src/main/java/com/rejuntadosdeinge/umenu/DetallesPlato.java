@@ -9,14 +9,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,21 +72,36 @@ public class DetallesPlato extends ActionBarActivity {
         semana = String.valueOf(pref.getInt("semana", 0));
 
         // Setea el nombre de la actividad y del banner
-        TextView tv_nombre = (TextView) findViewById(id.nombre_soda);
+        TextView nombre_soda = (TextView) findViewById(id.nombre_soda);
+        TextView nombre_plato = (TextView) findViewById(id.nombre_plato);
         try{
             getSupportActionBar().setTitle(pref.getString("nombrePlato", null));
-            tv_nombre.setText(pref.getString("nombreSoda", null));
+            nombre_soda.setText(pref.getString("nombreSoda", null));
+            nombre_plato.setText(pref.getString("nombrePlato", null));
         } catch(NullPointerException e){
             Log.e("DetallesPlato", "No se le pudo cambiar el nombre a la Activity");
         }
 
+        String[] listaDeComentarios = {
+                "Me encantó!",
+                "Estuvo muy bueno.",
+                "No fue la gran cosa...",
+                "Estaba pasado de salado.",
+                "Me salió un pelo!"
+        };
+
+        // Se le conecta un adapter personalizado para cargar las imágenes de cada soda
+        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(this, listaDeComentarios);
+        final ListView listView = (ListView) this.findViewById(id.lista_comentarios);
+        listView.setAdapter(customArrayAdapter);
+
         // 3. TextView inicializado con scroll vertical
         tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
         tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
-        tv_promedio_plato= (TextView) findViewById(id.nota_plato);
-        tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
-        tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
-        tv_promedio_plato.setMovementMethod(new ScrollingMovementMethod());
+        //tv_promedio_plato= (TextView) findViewById(id.nota_plato);
+        //tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
+        //tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
+        //tv_promedio_plato.setMovementMethod(new ScrollingMovementMethod());
 
         // 5. Revisamos que hay conexión a internet
         if (isOnline()) {
@@ -156,11 +175,39 @@ public class DetallesPlato extends ActionBarActivity {
         si tenemos otra consulta donde obtenemos más de un platos ver el método updateDisplay() en listaSnacks
      */
     protected void updateDisplay() {
+        ImageView imagen_soda = (ImageView) findViewById(R.id.imagen_soda);
+
+        switch(pref.getInt("IDSoda", 0)-1){
+            case 0:
+                imagen_soda.setImageResource(R.drawable.ic_odonto);
+                break;
+            case 1:
+                imagen_soda.setImageResource(R.drawable.ic_derecho);
+                break;
+            case 2:
+                imagen_soda.setImageResource(R.drawable.ic_economicas);
+                break;
+            case 3:
+                imagen_soda.setImageResource(R.drawable.ic_agro);
+                break;
+            case 4:
+                imagen_soda.setImageResource(R.drawable.ic_generales);
+                break;
+            case 5:
+                imagen_soda.setImageResource(R.drawable.ic_educacion);
+                break;
+            case 6:
+                imagen_soda.setImageResource(R.drawable.ic_sociales);
+                break;
+            case 7:
+                imagen_soda.setImageResource(R.drawable.ic_comedor);
+                break;
+        }
         if (listaDePlatos != null) {
             for (Plato plato : listaDePlatos) {
                 tv_nombre_plato.setText(plato.getNombre());
                 tv_precio_plato.setText(plato.getPrecio());
-                tv_promedio_plato.setText(String.valueOf(plato.getPromedio()));
+                //tv_promedio_plato.setText(String.valueOf(plato.getPromedio()));
             }
         }
     }
@@ -169,15 +216,16 @@ public class DetallesPlato extends ActionBarActivity {
 
         //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_calificar_plato);
-        dialog.setTitle(getString(R.string.title_fragment_calificar_plato));
-        TextView text = (TextView) dialog.findViewById(id.escribaComentario);
-        text.setText(getString(R.string.Comentario));
 
         RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
         // Se le asigna la nueva nota al RatingBar del popUp
         rb.setRating(nota);
         dialog.show();
+
+        TextView nombre_plato = (TextView) dialog.findViewById(id.nombre_plato_popup);
+        nombre_plato.setText(pref.getString("nombrePlato", null));
 
         Button b = (Button) dialog.findViewById((R.id.botonComentario));
         b.setOnClickListener(new OnClickListener() {
@@ -261,6 +309,48 @@ public class DetallesPlato extends ActionBarActivity {
                 dialog.dismiss();
             }
         });
+    }
+
+    /**
+     * Adaptador personalizado para cargar tanto los nombres como las imagenes de las sodas
+     */
+    private class CustomArrayAdapter extends ArrayAdapter<String> {
+        private final Context context;
+        private final String[] values;
+
+        public CustomArrayAdapter(Context context, String[] values) {
+            super(context, R.layout.item_comentario, values);
+            this.context = context;
+            this.values = values;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.item_comentario, parent, false);
+            TextView puntuacion = (TextView) rowView.findViewById(id.puntuacion);
+            TextView comentario = (TextView) rowView.findViewById(id.comentario);
+            comentario.setText(values[position]);
+            switch(position) {
+                case 0:
+                    puntuacion.setText("5");
+                    break;
+                case 1:
+                    puntuacion.setText("4");
+                    break;
+                case 2:
+                    puntuacion.setText("3");
+                    break;
+                case 3:
+                    puntuacion.setText("2");
+                    break;
+                case 4:
+                    puntuacion.setText("1");
+                    break;
+            }
+            return rowView;
+        }
     }
 
     /*

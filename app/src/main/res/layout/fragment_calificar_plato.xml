@@ -1,46 +1,108 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/abc_config_prefDialogWidth"
-    android:layout_height="@dimen/abc_config_prefDialogWidth"
-    android:background="@color/LightGrey"
-    tools:context=".CalificarPlato">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/Emerald"
+                tools:context=".CalificarPlato">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:id="@+id/banner_popup"
+        android:background="@color/Nephritis"
+        android:weightSum="7">
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBarPopUp"
-        android:layout_gravity="top"
-        android:layout_above="@+id/escribaComentario"
-        android:layout_centerHorizontal="true"
-        android:stepSize="1"
-        android:layout_marginBottom="29dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="5"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_action_suggest"
+            android:layout_gravity="center"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/textoComentario"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Califica este plato"
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/nombre_plato_popup"
+        android:text="Nombre Plato"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/Comentario"
-        android:id="@+id/escribaComentario"
-        android:layout_above="@+id/textoComentario"
-        android:layout_centerHorizontal="true" />
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/White"
+        android:layout_below="@+id/banner_popup"/>
+
+    <LinearLayout
+        android:id="@+id/mumbo_jumbo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nombre_plato_popup"
+        android:layout_above="@+id/ir_a_detalle_plato"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Calificacion"
+            android:background="@color/Nephritis"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/White"
+            android:padding="10dp"/>
+
+        <RatingBar
+            android:id="@+id/ratingBarPopUp"
+            android:layout_width="wrap_content"
+            android:numStars="5"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:stepSize="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Comentario\n(Opcional)"
+            android:background="@color/Nephritis"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/White"
+            android:padding="10dp"/>
+
+        <EditText
+            android:id="@+id/textoComentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/White"
+            android:layout_gravity="center"
+            android:inputType="textMultiLine"/>
+    </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/abc_action_mode_done"
         android:id="@+id/botonComentario"
-        android:layout_below="@+id/textoComentario"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="29dp" />
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calificar plato"
+        android:background="@drawable/custom_button"
+        android:padding="10dp"
+        android:textColor="@color/Emerald"
+        android:layout_margin="10dp"
+        android:layout_below="@id/mumbo_jumbo"/>
 </RelativeLayout>
