@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
-
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,6 +158,6 @@
             android:id="@+id/lista_snacks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="5dp"/>
+            android:dividerHeight="5dp"/>-->
     </LinearLayout>
 </FrameLayout>
