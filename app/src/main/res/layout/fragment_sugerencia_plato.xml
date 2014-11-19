@@ -120,5 +120,4 @@
         android:textColor="@color/Emerald"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"/>
-
 </RelativeLayout>

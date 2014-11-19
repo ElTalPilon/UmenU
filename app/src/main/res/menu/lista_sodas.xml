@@ -6,4 +6,7 @@
         android:icon="@drawable/ic_action_suggest"
         android:title="@string/title_activity_sugerir_plato"
         app:showAsAction="always"/>
+    <item android:id="@+id/salir"
+          android:title="Salir"
+          app:showAsAction="never"/>
 </menu>

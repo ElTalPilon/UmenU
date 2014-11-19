@@ -107,6 +107,13 @@ public class ListaSodas extends ActionBarActivity {
             MyTask myTask = new MyTask();
             myTask.execute();
         }
+        if(item.getItemId() == R.id.salir){
+            editor.putBoolean("loggeado", false);
+            editor.commit();
+            Intent intent = new Intent(this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -136,9 +143,13 @@ public class ListaSodas extends ActionBarActivity {
                 }
             }
         }
-
+        /*
+        TODO: Poner esto bien:
         editor.putInt("semana", semana);
         editor.putInt("dia", dia);
+        */
+        editor.putInt("semana", 5);
+        editor.putInt("dia", 3);
     }
 
     /**
