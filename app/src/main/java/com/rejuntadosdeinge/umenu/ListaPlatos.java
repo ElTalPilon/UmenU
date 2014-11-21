@@ -1,5 +1,6 @@
 package com.rejuntadosdeinge.umenu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +11,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +27,6 @@ import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 import com.rejuntadosdeinge.umenu.modelo.Snack;
-import com.rejuntadosdeinge.umenu.modelo.SnackAdapter;
 import com.rejuntadosdeinge.umenu.modelo.SnackParser;
 
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class ListaPlatos extends ActionBarActivity {
     // Variables globales
     List<Plato> platoList;
     List<Snack> snackList;
-    TextView output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,18 +148,6 @@ public class ListaPlatos extends ActionBarActivity {
 
     protected void updateSnacks() {
 
-        /*
-        // textView inicializado con scroll vertical
-        output = (TextView) findViewById(R.id.tv_snacks);
-        output.setMovementMethod(new ScrollingMovementMethod());
-
-        if (snackList != null) {
-            for (Snack snack : snackList) {
-                output.append("  " + snack.getNombre() + "\t" + snack.getPrecio() + "\n");
-            }
-        }
-        */
-
         // toma datos y los pasa a la lista
         SnackAdapter adapter = new SnackAdapter(this, R.layout.item_snack, snackList);
         final ListView listView = (ListView) this.findViewById(R.id.lista_snacks);
@@ -262,6 +251,42 @@ public class ListaPlatos extends ActionBarActivity {
             snackList = SnackParser.parseFeed(result);
             updateSnacks();
             setProgressBarIndeterminateVisibility(false);
+        }
+    }
+
+    /**
+     * clase anónima
+     * Adaptador personalizado para cargar los snacks y sus precios
+     */
+    public class SnackAdapter extends ArrayAdapter<Snack> {
+
+        private Context context;
+        private List<Snack> obj;
+
+        public SnackAdapter(Context context, int resource, List<Snack> obj) {
+            super(context, resource, obj);
+            this.context = context;
+            this.obj = obj;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            // identificamos cual dato es el que debe mostrar
+            Snack snack = obj.get(position);
+
+            // crea objeto view
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+            View view = inflater.inflate(R.layout.item_snack, null);
+
+            TextView tv_nombre = (TextView) view.findViewById(R.id.nombre_snack);
+            tv_nombre.setText(snack.getNombre());
+
+            TextView tv_precio = (TextView) view.findViewById(R.id.precio_snack);
+            tv_precio.setText(snack.getPrecio());
+
+            return view;
         }
     }
 }
