@@ -195,6 +195,17 @@ public class ListaSodas extends ActionBarActivity {
         });
     }
 
+    public String[] getSugerenciaPlatoTest(){
+        String[] resultados = new String[3];
+        TextView nombre_plato = (TextView) dialog.findViewById(R.id.nombre_plato_popup);
+        TextView precio_plato = (TextView) dialog.findViewById(R.id.precio_plato_popup);
+        TextView soda_plato = (TextView) dialog.findViewById(R.id.nombre_soda_popup);
+        resultados[0] = (String) nombre_plato.getText();
+        resultados[1] = (String) precio_plato.getText();
+        resultados[2] = (String) soda_plato.getText();
+        return resultados;
+    }
+
     /**
      * Adaptador personalizado para cargar tanto los nombres como las imagenes de las sodas
      */
