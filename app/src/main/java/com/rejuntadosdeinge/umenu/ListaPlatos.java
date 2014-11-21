@@ -17,15 +17,20 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
+import com.rejuntadosdeinge.umenu.modelo.Snack;
+import com.rejuntadosdeinge.umenu.modelo.SnackAdapter;
+import com.rejuntadosdeinge.umenu.modelo.SnackParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 
 public class ListaPlatos extends ActionBarActivity {
@@ -36,6 +41,8 @@ public class ListaPlatos extends ActionBarActivity {
 
     // Variables globales
     List<Plato> platoList;
+    List<Snack> snackList;
+    TextView output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +63,12 @@ public class ListaPlatos extends ActionBarActivity {
         }
 
         // Obtiene los platos de la BD
-        MyTask myTask = new MyTask();
-        myTask.execute();
+        PlatosTask platosTask = new PlatosTask();
+        platosTask.execute();
+
+        // Obtiene los snacks de la BD
+        SnacksTask snacksTask = new SnacksTask();
+        snacksTask.execute();
     }
 
     /**
@@ -94,7 +105,7 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      * Se llena el listView con los datos obtenidos del web service
      */
-    protected void updateDisplay() {
+    protected void updatePlatos() {
 
         String b1 = "";
         String b2 = "";
@@ -134,13 +145,24 @@ public class ListaPlatos extends ActionBarActivity {
         }
     }
 
-    /**
-     * Llamado cuando se presiona el botón de Snacks
-     */
-    public void goToListaSnacks(View view){
-        // TODO: Ya que más adelante desplegaremos ensaladas, frescos, etc., esto podría ponerse ahí mismo
-        Intent intent = new Intent(this, ListaSnacks.class);
-        startActivity(intent);
+    protected void updateSnacks() {
+
+        /*
+        // textView inicializado con scroll vertical
+        output = (TextView) findViewById(R.id.tv_snacks);
+        output.setMovementMethod(new ScrollingMovementMethod());
+
+        if (snackList != null) {
+            for (Snack snack : snackList) {
+                output.append("  " + snack.getNombre() + "\t" + snack.getPrecio() + "\n");
+            }
+        }
+        */
+
+        // toma datos y los pasa a la lista
+        SnackAdapter adapter = new SnackAdapter(this, R.layout.item_snack, snackList);
+        final ListView listView = (ListView) this.findViewById(R.id.lista_snacks);
+        listView.setAdapter(adapter);
     }
 
     /**
@@ -169,7 +191,7 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      *  Realiza las consultas a la BD sobre los platos de la soda
      */
-    private class MyTask extends AsyncTask<Void, String, String> {
+    private class PlatosTask extends AsyncTask<Void, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -189,7 +211,6 @@ public class ListaPlatos extends ActionBarActivity {
                         + "&get=1");
                 JSON = HttpManager.getData(p);
 
-                Log.d("Consulta", p.getUri());
                 Log.d("Resultado", JSON);
             }
             else{
@@ -201,9 +222,46 @@ public class ListaPlatos extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             platoList = PlatoParser.parseFeed(result);
-            updateDisplay();
+            updatePlatos();
+            setProgressBarIndeterminateVisibility(false);
+        }
+    }
+
+
+    /**
+     *  Realiza las consultas a la BD sobre los snacks de la soda
+     */
+    private class SnacksTask extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String JSON = "";
+
+            if(isOnline()){
+                RequestPackage p = new RequestPackage();
+                p.setMethod("POST");
+                p.setUri("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
+                        +"&get=1");
+                JSON = HttpManager.getData(p);
+
+                Log.d("Resultado", JSON);
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Red no disponible", Toast.LENGTH_LONG).show();
+            }
+            return JSON;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            snackList = SnackParser.parseFeed(result);
+            updateSnacks();
             setProgressBarIndeterminateVisibility(false);
         }
     }
 }
-
