@@ -178,8 +178,6 @@ public class ListaSodas extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), DetallesPlato.class);
                 intent.putExtra("platoSeleccionado", plato);
-                editor.putInt("IDPlato", plato.getId());
-                editor.commit();
                 startActivity(intent);
                 dialog.dismiss();
             }

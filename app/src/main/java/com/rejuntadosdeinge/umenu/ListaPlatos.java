@@ -95,15 +95,6 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
-     * Verifica que haya una conexión disponible
-     */
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-    /**
      * Se llena el listView con los datos obtenidos del web service
      */
     protected void updatePlatos() {
@@ -140,7 +131,7 @@ public class ListaPlatos extends ActionBarActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    goToDetallesPlato(i, (String)(listView.getItemAtPosition(i)));
+                    goToDetallesPlato(platoList.get(i));
                 }
             });
         }
@@ -157,24 +148,19 @@ public class ListaPlatos extends ActionBarActivity {
     /**
      * Llamado cuando se presiona uno de los platos de la lista.
      */
-    public void goToDetallesPlato(int categoria, String nombrePlato){
-        // TODO: En vez de la categoría, podría pasarse el ID del plato
-        switch(categoria){
-            case 0:
-                editor.putString("categoriaPlato", "B%C3%A1sico%201");
-                break;
-            case 1:
-                editor.putString("categoriaPlato", "B%C3%A1sico%202");
-                break;
-            case 2:
-                editor.putString("categoriaPlato", "Vegetariano");
-                break;
-        }
-        editor.putString("nombrePlato", nombrePlato);
-        editor.commit();
-
+    public void goToDetallesPlato(Plato plato){
         Intent intent = new Intent(this, DetallesPlato.class);
+        intent.putExtra("platoSeleccionado", plato);
         startActivity(intent);
+    }
+
+    /**
+     * Verifica que haya una conexión disponible
+     */
+    protected boolean hayConexion() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**
@@ -191,7 +177,7 @@ public class ListaPlatos extends ActionBarActivity {
         protected String doInBackground(Void... params) {
             String JSON = "";
 
-            if(isOnline()){
+            if(hayConexion()){
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
                 p.setUri("http://limitless-river-6258.herokuapp.com/platos?menu=1&soda_id=" + pref.getInt("IDSoda", 0)
@@ -231,7 +217,7 @@ public class ListaPlatos extends ActionBarActivity {
         protected String doInBackground(Void... params) {
             String JSON = "";
 
-            if(isOnline()){
+            if(hayConexion()){
                 RequestPackage p = new RequestPackage();
                 p.setMethod("POST");
                 p.setUri("http://limitless-river-6258.herokuapp.com/snacks?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
@@ -255,7 +241,6 @@ public class ListaPlatos extends ActionBarActivity {
     }
 
     /**
-     * clase anónima
      * Adaptador personalizado para cargar los snacks y sus precios
      */
     public class SnackAdapter extends ArrayAdapter<Snack> {
