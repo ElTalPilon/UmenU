@@ -17,14 +17,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rejuntadosdeinge.umenu.modelo.Comentario;
+import com.rejuntadosdeinge.umenu.modelo.ComentarioParser;
 import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
+
+import java.util.List;
 
 import static com.rejuntadosdeinge.umenu.R.id;
 
@@ -38,6 +42,9 @@ public class DetallesPlato extends ActionBarActivity {
 
     // Plato que se muestra
     Plato plato;
+
+    // Ya el usuario ha puntuado este plato
+    boolean yaPuntuo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +146,7 @@ public class DetallesPlato extends ActionBarActivity {
      * TODO: Toa la jugada
      * Actualiza la interfaz con los comentarios del plato
      */
-    private void actualizarComentarios(Comentario[] comentarios){
+    private void actualizarComentarios(List<Comentario> comentarios){
     }
 
     /**
@@ -152,7 +159,7 @@ public class DetallesPlato extends ActionBarActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_calificar_plato);
 
-        RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
+        final RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
         rb.setRating(nota);
         dialog.show();
 
@@ -163,6 +170,16 @@ public class DetallesPlato extends ActionBarActivity {
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                EditText textoComentario = (EditText) findViewById(id.texto_comentario);
+                int puntuacion = (int) rb.getRating();
+                String comentario = String.valueOf(textoComentario.getText());
+
+                if(yaPuntuo){
+
+                } else{
+                    
+                }
+
                 dialog.dismiss();
             }
         });
@@ -177,34 +194,60 @@ public class DetallesPlato extends ActionBarActivity {
         return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
 
-    private class ObtenerComentarios extends AsyncTask<Integer, Void, Comentario[]> {
+    private class ObtenerComentarios extends AsyncTask<Integer, Void, String> {
         @Override
         protected void onPreExecute(){
             setProgressBarIndeterminateVisibility(true);
         }
 
         @Override
-        protected Comentario[] doInBackground(Integer... params){
-            Comentario[] comentarios = new Comentario[0]; //TODO: Caerle encima :D
+        protected String doInBackground(Integer... params){
+            // TODO: Setear la variable yaPuntuo
             int IDplato = params[0];
+            String JSON = "";
 
             if(hayConexion()){
                 RequestPackage rp = new RequestPackage();
                 rp.setMethod("POST");
-                rp.setUri("");
+                rp.setUri(""); //TODO: Poner la consulta que es
 
-                String JSON = HttpManager.getData(rp);
+                JSON = HttpManager.getData(rp);
                 Log.d("Resultado calificacion previa", JSON);
             }
             else{
                 Toast.makeText(context, "Red no disponible", Toast.LENGTH_LONG).show();
             }
-            return comentarios;
+            return JSON;
         }
 
         @Override
-        protected void onPostExecute(Comentario[] comentarios){
-            actualizarComentarios(comentarios);
+        protected void onPostExecute(String JSON){
+            actualizarComentarios(ComentarioParser.parseFeed(JSON));
+            setProgressBarIndeterminateVisibility(false);
+        }
+    }
+
+    private class PuntuarPlato extends AsyncTask<Comentario, Void, Void> {
+        @Override
+        public void onPreExecute(){
+            setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        public Void doInBackground(Comentario... params){
+            Comentario nuevoComentario = params[0];
+
+            if(hayConexion()){
+                RequestPackage rp = new RequestPackage();
+                rp.setMethod("POST");
+                rp.setUri("");
+            } else{
+                Toast.makeText(context, "Red no disponible", Toast.LENGTH_LONG).show();
+            }
+            return (Void) null;
+        }
+
+        public void onPostExecute(){
             setProgressBarIndeterminateVisibility(false);
         }
     }
