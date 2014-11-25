@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Nephritis"
-    tools:context=".ListaPlatos">
+    tools:context=".ListaSnacks">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,13 +17,13 @@
             android:background="@color/Emerald"
             android:weightSum="5">
             <ImageView
-                android:src="@drawable/ic_plato"
+                android:src="@drawable/ic_snack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="center_vertical"/>
             <TextView
-                android:text="PLATOS"
+                android:text="SNACKS"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="20dp"
@@ -35,10 +35,9 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/lista_platos"
+            android:id="@+id/lista_snacks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
-
     </LinearLayout>
 </FrameLayout>

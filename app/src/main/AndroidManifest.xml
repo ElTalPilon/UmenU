@@ -43,18 +43,24 @@
         <activity
             android:name="com.rejuntadosdeinge.umenu.ListaPlatos"
             android:label="@string/title_activity_lista_platos"
-            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaSodas"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.MenuSoda"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.ListaSnacks"
             android:label="Snacks"
-            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.MenuSoda"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.rejuntadosdeinge.umenu.MenuSoda"
+            android:label="Menu"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaSodas"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.rejuntadosdeinge.umenu.DetallesSoda"
-            android:parentActivityName="com.rejuntadosdeinge.umenu.ListaPlatos"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.MenuSoda"
             android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow" >
             <meta-data
