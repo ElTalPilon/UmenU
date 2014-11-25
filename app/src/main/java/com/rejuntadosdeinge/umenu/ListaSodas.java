@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rejuntadosdeinge.umenu.modelo.Plato;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
 import org.json.JSONException;
@@ -125,7 +126,7 @@ public class ListaSodas extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         //Domingo = 1, sábado = 7
         int dia = calendar.get(Calendar.DAY_OF_WEEK)-1;
-        //La semana comienza lunes (sí, aunque el primer día de la semana es domingo :S)
+        //La semana comienza lunes
         int semana = calendar.get(Calendar.WEEK_OF_YEAR);
         //III ciclo 2015 comienza el 5 de enero del 2015 y termina el 28 de febrero
         //Semana 2 a 9 más la semana de examenes (10)
@@ -144,13 +145,8 @@ public class ListaSodas extends ActionBarActivity {
                 }
             }
         }
-        /*
-        TODO: Poner esto bien:
         editor.putInt("semana", semana);
         editor.putInt("dia", dia);
-        */
-        editor.putInt("semana", 5);
-        editor.putInt("dia", 3);
     }
 
     /**
@@ -178,29 +174,22 @@ public class ListaSodas extends ActionBarActivity {
     /**
      * Le asigna al PopUp los valores obtenidos de la consulta a la BD
      */
-    public void popUpSugerenciaPlato(final String[] resultados){
+    public void popUpSugerenciaPlato(final Plato plato){
 
         final TextView nombreP = (TextView)dialog.findViewById(R.id.nombre_plato_popup);
         final TextView precioP = (TextView)dialog.findViewById(R.id.precio_plato_popup);
         final TextView sodaP = (TextView)dialog.findViewById(R.id.nombre_soda_popup);
 
-        nombreP.setText(resultados[0]);
-        precioP.setText(resultados[1]);
-        sodaP.setText(resultados[2]);
+        nombreP.setText(plato.getNombre());
+        precioP.setText(plato.getPrecio());
+        sodaP.setText(pref.getString("nombreSoda", null));
 
         Button b = (Button) dialog.findViewById(R.id.ir_a_detalle_plato);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Esta lista está muy fea, sería mejor que DetallesPlato solo reciba IDPlato
                 Intent intent = new Intent(getBaseContext(), DetallesPlato.class);
-                editor.putInt("IDPlato", Integer.parseInt(resultados[3]));
-                editor.putInt("IDSoda", Integer.parseInt(resultados[4]));
-                editor.putString("categoriaPlato", String.valueOf(resultados[5]));
-                editor.putString("nombrePlato", String.valueOf(nombreP.getText()));
-                editor.putString("nombreSoda", String.valueOf(sodaP.getText()));
-                editor.commit();
-
+                intent.putExtra("platoSeleccionado", plato);
                 startActivity(intent);
                 dialog.dismiss();
             }
@@ -270,7 +259,7 @@ public class ListaSodas extends ActionBarActivity {
     }
 
     /**
-     * Verifica que la BD esté disponible
+     * Verifica que haya una conexión disponible
      */
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -281,16 +270,15 @@ public class ListaSodas extends ActionBarActivity {
     /**
      * Realiza las consultas a la BD sobre el plato del día y la soda a la que pertenece
      */
-    private class MyTask extends AsyncTask<String, String, String[]> {
+    private class MyTask extends AsyncTask<String, String, Plato> {
         @Override
         protected void onPreExecute() {
             setProgressBarIndeterminateVisibility(true);
         }
 
         @Override
-        protected String[] doInBackground(String... params) {
-            String[] resultados = new String[6];
-            String JSON;
+        protected Plato doInBackground(String... params) {
+            Plato plato = new Plato();
 
             if(isOnline()){
                 RequestPackage p = new RequestPackage();
@@ -300,30 +288,31 @@ public class ListaSodas extends ActionBarActivity {
                           + "&dia="
                           + pref.getInt("dia",1)
                           + "&best=1");
-                JSON = HttpManager.getData(p);
+                String JSON = HttpManager.getData(p);
 
                 Log.d("Resultado 1", JSON);
 
                 try{
                     JSONObject obj = new JSONObject(JSON);
-                    resultados[0] = obj.getString("nombre");
-                    resultados[1] = obj.getString("precio");
-                    resultados[3] = String.valueOf(obj.getInt("id"));
-                    int sodaIDPlato = obj.getInt("soda_id");
+                    plato.setSodaId(obj.getInt("soda_id"));
+                    plato.setNombre(obj.getString("nombre"));
+                    plato.setPrecio(obj.getString("precio"));
+                    plato.setCategoria(obj.getString("categoria"));
+                    plato.setCalificaciones(obj.getInt("calificaciones"));
+                    plato.setTotal(obj.getInt("total"));
+                    plato.setPromedio((float) obj.getDouble("promedio"));
 
                     p = new RequestPackage();
                     p.setMethod("GET");
-                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas/" + sodaIDPlato);
-                    p.setParam("id", "" + sodaIDPlato);
+                    p.setUri("https://limitless-river-6258.herokuapp.com/sodas/" + plato.getSodaId());
                     JSON = HttpManager.getData(p);
 
                     Log.d("Resultado 2", JSON);
 
                     try{
                         obj = new JSONObject(JSON);
-                        resultados[2] = obj.getString("nombre");
-                        resultados[4] = obj.getString("id");
-                        resultados[5] = obj.getString("categoria");
+                        editor.putString("nombreSoda", obj.getString("nombre"));
+                        editor.commit();
                     } catch(JSONException e){
                         Log.e("JSONException", "Error manejando el JSON para la soda");
                     }
@@ -335,12 +324,12 @@ public class ListaSodas extends ActionBarActivity {
             else {
                 Toast.makeText(getBaseContext(), "Red no disponible", Toast.LENGTH_LONG).show();
             }
-            return resultados;
+            return plato;
         }
 
         @Override
-        protected void onPostExecute(String[] result) {
-            popUpSugerenciaPlato(result);
+        protected void onPostExecute(Plato plato) {
+            popUpSugerenciaPlato(plato);
             setProgressBarIndeterminateVisibility(false);
         }
     }

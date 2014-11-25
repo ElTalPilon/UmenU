@@ -2,6 +2,7 @@ package com.rejuntadosdeinge.umenu;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,23 +11,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rejuntadosdeinge.umenu.modelo.Comentario;
+import com.rejuntadosdeinge.umenu.modelo.ComentarioParser;
 import com.rejuntadosdeinge.umenu.modelo.Plato;
-import com.rejuntadosdeinge.umenu.modelo.PlatoParser;
 import com.rejuntadosdeinge.umenu.modelo.RequestPackage;
 
 import java.util.List;
@@ -41,20 +40,11 @@ public class DetallesPlato extends ActionBarActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    // Variables de control del día
-    private String semana;
-    private String dia;
-    private float promedio;
+    // Plato que se muestra
+    Plato plato;
 
-
-    // 1. creamos instancias para los widget que llenaremos de la actividad activity_detalles_plato
-    TextView tv_nombre_plato;
-    TextView tv_precio_plato;
-
-    TextView tv_promedio_plato;
-
-    // 2. se crea una lista para todos los platos que vamos a obtener del web service
-    List<Plato> listaDePlatos;
+    // Ya el usuario ha puntuado este plato
+    boolean yaPuntuo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,67 +57,25 @@ public class DetallesPlato extends ActionBarActivity {
         editor = pref.edit();
         editor.apply();
 
-        //Inicializa variables
-        dia = String.valueOf(pref.getInt("dia", 0));
-        semana = String.valueOf(pref.getInt("semana", 0));
-
-        // Setea el nombre de la actividad y del banner
-        TextView nombre_soda = (TextView) findViewById(id.nombre_soda);
-        TextView nombre_plato = (TextView) findViewById(id.nombre_plato);
-        try{
-            getSupportActionBar().setTitle(pref.getString("nombrePlato", null));
-            nombre_soda.setText(pref.getString("nombreSoda", null));
-            nombre_plato.setText(pref.getString("nombrePlato", null));
-        } catch(NullPointerException e){
-            Log.e("DetallesPlato", "No se le pudo cambiar el nombre a la Activity");
+        // Obtiene los datos del plato y actualiza la actividad
+        Intent i = getIntent();
+        if(i.hasExtra("platoSeleccionado")){
+            plato = i.getParcelableExtra("platoSeleccionado");
         }
+        actualizarDatosPlato();
 
-        String[] listaDeComentarios = {
-                "Me encantó!",
-                "Estuvo muy bueno.",
-                "No fue la gran cosa...",
-                "Estaba pasado de salado.",
-                "Me salió un pelo!"
-        };
-
-        // Se le conecta un adapter personalizado para cargar las imágenes de cada soda
-        CustomArrayAdapter customArrayAdapter = new CustomArrayAdapter(this, listaDeComentarios);
-        final ListView listView = (ListView) this.findViewById(id.lista_comentarios);
-        listView.setAdapter(customArrayAdapter);
-
-        // 3. TextView inicializado con scroll vertical
-        tv_nombre_plato = (TextView) findViewById(R.id.nombre_plato);
-        tv_precio_plato = (TextView) findViewById(R.id.precio_plato);
-        //tv_promedio_plato= (TextView) findViewById(id.nota_plato);
-        //tv_nombre_plato.setMovementMethod(new ScrollingMovementMethod());
-        //tv_precio_plato.setMovementMethod(new ScrollingMovementMethod());
-        //tv_promedio_plato.setMovementMethod(new ScrollingMovementMethod());
-
-        // 5. Revisamos que hay conexión a internet
-        if (isOnline()) {
-            // 6. se hace la consulta
-            requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
-                    + "&semana=" + String.valueOf(semana)
-                    + "&dia=" + String.valueOf(dia)
-                    + "&categoria=" + pref.getString("categoriaPlato", null)
-                    + "&promedio=" + String.valueOf(promedio)+"&get=1");
-        } else {
-            Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
-        }
-
+        // Cuando se le cambie la puntuación al plato, se abrirá el popUp
         RatingBar ratingBar = (RatingBar) findViewById(id.ratingBar);
-        // Cuando haya un cambio en la calificación
         ratingBar.setStepSize((float) 1.0);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                int nota= ((int) ratingBar.getRating()); // Obtengo la nueva calificación
-
-                popUpPuntuarPlato(nota); // Instancio el popUp
+                int nota= ((int) ratingBar.getRating());
+                popUpPuntuarPlato(nota);
             }
         });
     }
-//.../platos?nota=[]&id=[
+
     /**
      * Infla el menú (Agrega elementos al Action Bar)
      */
@@ -142,169 +90,95 @@ public class DetallesPlato extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnectedOrConnecting());
-    }
-
-    /*
-        requestData(String uri) encapsula en una instancia tipo RequestPackage
-        los parámetros que se necesitan para la consulta POST
-
-        recibe: uri, la dirección donde se encuentran los datos
+    /**
+     * Actualiza la interfaz con los datos propios del plato
      */
-    private void requestData(String uri) {
+    protected void actualizarDatosPlato() {
+        // Cambia el título de la actividad
+        try{
+            getSupportActionBar().setTitle(plato.getNombre());
+        } catch(NullPointerException e){
+            Log.e("DetallesPlato", "No se le pudo cambiar el nombre a la Activity");
+        }
 
-        RequestPackage p = new RequestPackage();
-        p.setMethod("POST");
-        p.setUri(uri);
-        p.setParam("soda_id", String.valueOf(pref.getInt("IDSoda", 0)));
-        p.setParam("semana", String.valueOf(semana));
-        p.setParam("dia", String.valueOf(dia));
-        p.setParam("categoria", pref.getString("categoriaPlato", null));
-        p.setParam("promedio", String.valueOf(promedio));
+        TextView nombre_soda = (TextView) findViewById(id.nombre_soda);
+        nombre_soda.setText(pref.getString("nombreSoda", null));
 
-
-        MyTask task = new MyTask();
-        task.execute(p);
-    }
-
-    /*
-        updateDisplay() llena los campos obtenidos, se espera para ésta consulta un único plato,
-        si tenemos otra consulta donde obtenemos más de un platos ver el método updateDisplay() en listaSnacks
-     */
-    protected void updateDisplay() {
         ImageView imagen_soda = (ImageView) findViewById(R.id.imagen_soda);
-
-        switch(pref.getInt("IDSoda", 0)-1){
-            case 0:
+        switch(plato.getSodaId()){
+            case 1:
                 imagen_soda.setImageResource(R.drawable.ic_odonto);
                 break;
-            case 1:
+            case 2:
                 imagen_soda.setImageResource(R.drawable.ic_derecho);
                 break;
-            case 2:
+            case 3:
                 imagen_soda.setImageResource(R.drawable.ic_economicas);
                 break;
-            case 3:
+            case 4:
                 imagen_soda.setImageResource(R.drawable.ic_agro);
                 break;
-            case 4:
+            case 5:
                 imagen_soda.setImageResource(R.drawable.ic_generales);
                 break;
-            case 5:
+            case 6:
                 imagen_soda.setImageResource(R.drawable.ic_educacion);
                 break;
-            case 6:
+            case 7:
                 imagen_soda.setImageResource(R.drawable.ic_sociales);
                 break;
-            case 7:
+            case 8:
                 imagen_soda.setImageResource(R.drawable.ic_comedor);
                 break;
         }
-        if (listaDePlatos != null) {
-            for (Plato plato : listaDePlatos) {
-                tv_nombre_plato.setText(plato.getNombre());
-                tv_precio_plato.setText(plato.getPrecio());
-                //tv_promedio_plato.setText(String.valueOf(plato.getPromedio()));
-            }
-        }
+
+        TextView nombre_plato = (TextView) findViewById(id.nombre_plato);
+        nombre_plato.setText(plato.getNombre());
+
+        TextView precio_plato = (TextView) findViewById(id.precio_plato);
+        precio_plato.setText(plato.getPrecio());
+
+        //ObtenerComentarios oc = new ObtenerComentarios();
+        //oc.execute((Integer) plato.getId());
     }
 
+    /**
+     * TODO: Toa la jugada
+     * Actualiza la interfaz con los comentarios del plato
+     */
+    private void actualizarComentarios(List<Comentario> comentarios){
+    }
+
+    /**
+     * TODO: Toa la jugada
+     * Despliega el popUp para calificar el plato, con la puntuación que ya se le asignó.
+     */
     private void popUpPuntuarPlato(float nota) {
 
-        //inicializacion del dialog
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_calificar_plato);
 
-        RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-        // Se le asigna la nueva nota al RatingBar del popUp
+        final RatingBar rb = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
         rb.setRating(nota);
         dialog.show();
 
         TextView nombre_plato = (TextView) dialog.findViewById(id.nombre_plato_popup);
-        nombre_plato.setText(pref.getString("nombrePlato", null));
+        nombre_plato.setText(plato.getNombre());
 
         Button b = (Button) dialog.findViewById((R.id.botonComentario));
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //1ra opción
+                EditText textoComentario = (EditText) findViewById(id.texto_comentario);
+                int puntuacion = (int) rb.getRating();
+                String comentario = String.valueOf(textoComentario.getText());
 
-                RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-                float notaFinal=rb1.getRating();
+                if(yaPuntuo){
 
-                if (isOnline()) {
-                    // 6. se hace la consulta
-                    requestData("http://limitless-river-6258.herokuapp.com/platos?soda_id=" + String.valueOf(pref.getInt("IDSoda", 0))
-                            + "&semana=" + String.valueOf(semana)
-                            + "&dia=" + String.valueOf(dia)
-                            + "&categoria=" + pref.getString("categoriaPlato", null)
-                            + "&promedio=" + String.valueOf(promedio)+"&get=1");
-                } /*else {
-                    Toast.makeText(this, "Red no disponible", Toast.LENGTH_LONG).show();
+                } else{
+                    
                 }
-
-                String uri="https://umenuadmin.herokuapp.com/platos";
-
-                RequestPackage p = new RequestPackage();
-                p.setMethod("POST");
-                p.setUri(uri);
-                p.setParam("id", String.valueOf(pref.getInt("IDPlato", 0)));
-                p.setParam("nota", String.valueOf(notaFinal));
-
-                MyTask task = new MyTask();
-                //task.execute(p); está comentada xq se cae cuando la envía.
-
-
-                /*2da opción--------------------------------------------------------------
-                StringEntity se = null;
-                RatingBar rb1 = (RatingBar) dialog.findViewById(id.ratingBarPopUp);
-                float notaFinal=rb1.getRating();
-                try {
-                    String json = "";
-
-                    //Construir el objeto json
-                    JSONObject jConsulta = new JSONObject();
-
-                    // se acumulan los campos necesarios, el primer parametro
-                    // es la etiqueta json que tendran los campos de la base
-                    jConsulta.accumulate("id",String.valueOf(pref.getInt("IDPlato", 0)));
-                    jConsulta.accumulate("nota", String.valueOf(notaFinal));
-
-                    // Convertir el objeto Json a String
-                    json = jConsulta.toString();
-
-                    // setear json al stringEntity
-                    se = new StringEntity(json);
-
-                }catch (Exception e){
-                    Log.d("String to json error", e.getLocalizedMessage());
-                }
-
-                HttpClient httpclient = new DefaultHttpClient();
-                String url="https://umenuadmin.herokuapp.com/platos";
-                //Hacer el request para un POST a la url
-                HttpPost httpPost = new HttpPost(url);
-
-                // setear la Entity de httpPost
-                httpPost.setEntity(se);
-
-                // incluir los headers para que el Api sepa que es json
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-                HttpResponse httpResponse = null;
-                try{
-                    // ejecutar el request de post en la url
-                    httpResponse = httpclient.execute(httpPost);
-                }catch (Exception e){
-                    Log.d("InputStream", e.getLocalizedMessage());
-                }
-                //String resultado = StreamToString(httpResponse);
-                */
-
 
                 dialog.dismiss();
             }
@@ -312,85 +186,68 @@ public class DetallesPlato extends ActionBarActivity {
     }
 
     /**
-     * Adaptador personalizado para cargar tanto los nombres como las imagenes de las sodas
+     * Verifica que haya una conexión disponible
      */
-    private class CustomArrayAdapter extends ArrayAdapter<String> {
-        private final Context context;
-        private final String[] values;
-
-        public CustomArrayAdapter(Context context, String[] values) {
-            super(context, R.layout.item_comentario, values);
-            this.context = context;
-            this.values = values;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.item_comentario, parent, false);
-            TextView puntuacion = (TextView) rowView.findViewById(id.puntuacion);
-            TextView comentario = (TextView) rowView.findViewById(id.comentario);
-            comentario.setText(values[position]);
-            switch(position) {
-                case 0:
-                    puntuacion.setText("5");
-                    break;
-                case 1:
-                    puntuacion.setText("4");
-                    break;
-                case 2:
-                    puntuacion.setText("3");
-                    break;
-                case 3:
-                    puntuacion.setText("2");
-                    break;
-                case 4:
-                    puntuacion.setText("1");
-                    break;
-            }
-            return rowView;
-        }
+    protected boolean hayConexion() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
 
-    /*
-            Clase creada para no bloquear el hilo principal, se encarga de la conexión a la BD,
-            las comunicaciones de red deben correr en el background thread
-            Parámetros:
-                Params: RequestPackage
-                Progress: String
-                Result: String
-        */
-    private class MyTask extends AsyncTask<RequestPackage, String, String> {
-
-        // onPreExecute hace visible el progressBar
+    private class ObtenerComentarios extends AsyncTask<Integer, Void, String> {
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             setProgressBarIndeterminateVisibility(true);
         }
 
-        // doInBackground recibe una lista de parámetros, todos de tipo RequestPackage
-        // (así se definió en la decoración de la clase en el campo Params),
-        // doInBackground retorna un String con el resultado
-        // (así se definió en la decoración de la clase en el campo Result),
         @Override
-        protected String doInBackground(RequestPackage... params) {
-            return HttpManager.getData(params[0]);
+        protected String doInBackground(Integer... params){
+            // TODO: Setear la variable yaPuntuo
+            int IDplato = params[0];
+            String JSON = "";
+
+            if(hayConexion()){
+                RequestPackage rp = new RequestPackage();
+                rp.setMethod("POST");
+                rp.setUri(""); //TODO: Poner la consulta que es
+
+                JSON = HttpManager.getData(rp);
+                Log.d("Resultado calificacion previa", JSON);
+            }
+            else{
+                Toast.makeText(context, "Red no disponible", Toast.LENGTH_LONG).show();
+            }
+            return JSON;
         }
 
-        // onPostExecute(String result) el campo result es la respuesta del Web-Service
-        // obtenido a travéz de HttpManager, viene en formato JSON por lo que necesitamos
-        // Parsear el resultado.
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String JSON){
+            actualizarComentarios(ComentarioParser.parseFeed(JSON));
+            setProgressBarIndeterminateVisibility(false);
+        }
+    }
 
-            //PlatoParser retorna un List que puede ser un plato ó
-            // varios platos dependiendo de la consulta realizada
-            listaDePlatos = PlatoParser.parseFeed(result);
-            // updateDisplay se encarga de llenar los campos del activity, ó sacar información
-            // como calificaciones, promedio, etc.. usando los getters de Plato
-            updateDisplay();
-            // se oculta de progressBar
+    private class PuntuarPlato extends AsyncTask<Comentario, Void, Void> {
+        @Override
+        public void onPreExecute(){
+            setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
+        public Void doInBackground(Comentario... params){
+            Comentario nuevoComentario = params[0];
+
+            if(hayConexion()){
+                RequestPackage rp = new RequestPackage();
+                rp.setMethod("POST");
+                rp.setUri("");
+            } else{
+                Toast.makeText(context, "Red no disponible", Toast.LENGTH_LONG).show();
+            }
+            return (Void) null;
+        }
+
+        public void onPostExecute(){
             setProgressBarIndeterminateVisibility(false);
         }
     }
