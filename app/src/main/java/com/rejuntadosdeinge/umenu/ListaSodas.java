@@ -76,7 +76,8 @@ public class ListaSodas extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToListaPlatos(i, (String) (listView.getItemAtPosition(i)));
+                //goToListaPlatos(i, (String) (listView.getItemAtPosition(i)));
+                goToMenuSoda(i, (String) (listView.getItemAtPosition(i)));
             }
         });
     }
@@ -150,6 +151,17 @@ public class ListaSodas extends ActionBarActivity {
         */
         editor.putInt("semana", 5);
         editor.putInt("dia", 3);
+    }
+
+    /**
+     * Llamado cuando el usuario elige una de las sodas de la lista.
+     */
+    public void goToMenuSoda(int IDSoda, String nombreSoda){
+        editor.putInt("IDSoda", IDSoda+1); // Se le suma 1 puesto que en la BD los ID empiezan desde 1
+        editor.putString("nombreSoda", nombreSoda);
+        editor.commit();
+        Intent intent = new Intent(this, MenuSoda.class);
+        startActivity(intent);
     }
 
     /**
