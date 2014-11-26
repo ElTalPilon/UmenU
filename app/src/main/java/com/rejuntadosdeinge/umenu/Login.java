@@ -51,8 +51,8 @@ public class Login extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    AutoCompleteTextView mEmailView;
+    EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 

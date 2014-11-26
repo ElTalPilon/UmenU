@@ -49,7 +49,7 @@ public class ListaPlatosTest extends ActivityInstrumentationTestCase2<ListaPlato
 
         basico1 = view.getItemAtPosition(0);
         String obtenido = basico1.toString();
-        String esperado = "Básico 1: Bolitas de carne molida en salsa de tomate";
+        String esperado = "Bolitas de carne molida en salsa de tomate";
         assertEquals("El nombre no concuerda.",esperado, obtenido);
     }
 
@@ -57,7 +57,7 @@ public class ListaPlatosTest extends ActivityInstrumentationTestCase2<ListaPlato
 
         basico2 = view.getItemAtPosition(1);
         String obtenido = basico2.toString();
-        String esperado = "Básico 2: Lentejas con pollo";
+        String esperado = "Lentejas con pollo";
         assertEquals("El nombre no concuerda.",esperado, obtenido);
     }
 
@@ -65,7 +65,7 @@ public class ListaPlatosTest extends ActivityInstrumentationTestCase2<ListaPlato
 
         vegetariano = view.getItemAtPosition(2);
         String obtenido = vegetariano.toString();
-        String esperado = "Vegetariano: Chancletas ( Chayote horneado con queso blanco)";
+        String esperado = "Chancletas ( Chayote horneado con queso blanco)";
         assertEquals("El nombre no concuerda.",esperado, obtenido);
     }
 }

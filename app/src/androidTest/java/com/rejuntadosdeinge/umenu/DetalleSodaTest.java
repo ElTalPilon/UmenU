@@ -18,7 +18,7 @@ public class DetalleSodaTest extends ActivityInstrumentationTestCase2<DetallesSo
         super.setUp();
 
         activity = getActivity();
-        nombreDeLaSoda = (TextView) activity.findViewById(R.id.banner_detalles_soda);
+        nombreDeLaSoda = (TextView) activity.findViewById(R.id.nombre_soda);
 
         //Suponemos que se escogio la soda de derecho de la lista de sodas
         pref = PreferenceManager.getDefaultSharedPreferences(activity);
