@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ListaPlatos" >
+    tools:context=".MenuSoda" >
     <item android:id="@+id/ir_detalle_soda"
         android:icon="@drawable/ic_info"
         android:title="@string/title_activity_detalles_soda"
