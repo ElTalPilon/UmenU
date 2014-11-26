@@ -101,10 +101,8 @@ public class ListaSnacks extends ActionBarActivity {
         final ListView listView = (ListView) this.findViewById(R.id.lista_snacks);
         listView.setAdapter(adapter);
     }
+/*
 
-    /**
-     * Llamado cuando se presiona uno de los platos de la lista.
-     */
     public void goToDetallesPlato(int categoria, String nombrePlato){
         // TODO: En vez de la categoría, podría pasarse el ID del plato
         switch(categoria){
@@ -124,7 +122,7 @@ public class ListaSnacks extends ActionBarActivity {
         Intent intent = new Intent(this, DetallesPlato.class);
         startActivity(intent);
     }
-
+*/
 
     /**
      *  Realiza las consultas a la BD sobre los snacks de la soda

@@ -53,6 +53,18 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.rejuntadosdeinge.umenu.ListaEnsaladas"
+            android:label="Ensaladas"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.MenuSoda"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.rejuntadosdeinge.umenu.ListaRefrescos"
+            android:label="Refrescos"
+            android:parentActivityName="com.rejuntadosdeinge.umenu.MenuSoda"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.rejuntadosdeinge.umenu.MenuSoda"
             android:label="Menu"
             android:parentActivityName="com.rejuntadosdeinge.umenu.ListaSodas"

@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rejuntadosdeinge.umenu.modelo.Plato;
@@ -37,6 +38,9 @@ public class ListaPlatos extends ActionBarActivity {
 
     // Variable global
     List<Plato> platoList;
+    String acompanamiento;
+    String guarnicion;
+    String fruta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class ListaPlatos extends ActionBarActivity {
         }catch(NullPointerException e) {
             Log.e("ListaPlatos", "No se pudo cambiar el título de la Activity");
         }
+        acompanamiento = pref.getString("acompanamiento", null);
+        guarnicion = pref.getString("guarnicion", null);
+        fruta = pref.getString("fruta1", null) + " ó " + pref.getString("fruta2", null);
 
         // Obtiene los platos de la BD
         PlatosTask platosTask = new PlatosTask();
@@ -123,6 +130,15 @@ public class ListaPlatos extends ActionBarActivity {
                     goToDetallesPlato(platoList.get(i));
                 }
             });
+
+            TextView acomp = (TextView)findViewById(R.id.tv_acompanamiento);
+            acomp.setText("Acompañamiento: " + acompanamiento );
+
+            TextView guarn = (TextView)findViewById(R.id.tv_guarnicion);
+            guarn.setText("Guarnición: " + guarnicion);
+
+            TextView frut = (TextView)findViewById(R.id.tv_fruta);
+            frut.setText("Fruta: " + fruta);
         }
     }
 
