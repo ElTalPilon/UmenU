@@ -49,6 +49,7 @@ public class MenuSoda extends ActionBarActivity {
         // estar haciendo una consulta cada vez que se abre la actividad principal).
         String[] listaMenu = {
                 "Platos",
+                "Guarnición",
                 "Ensaladas",
                 "Refrescos",
                 "Snacks"
@@ -65,11 +66,9 @@ public class MenuSoda extends ActionBarActivity {
                     irPlatos();
                 }
 
-                if(i == 3) {
+                if(i == 4) {
                     irSnacks();
                 }
-
-
             }
         });
     }
@@ -133,15 +132,17 @@ public class MenuSoda extends ActionBarActivity {
                     imageView.setImageResource(R.drawable.ic_plato);
                     break;
                 case 1:
-                    imageView.setImageResource(R.drawable.ic_ensalada);
+                    imageView.setImageResource(R.drawable.ic_launcher);
                     break;
                 case 2:
-                    imageView.setImageResource(R.drawable.ic_fresco);
+                    imageView.setImageResource(R.drawable.ic_ensalada);
                     break;
                 case 3:
+                    imageView.setImageResource(R.drawable.ic_fresco);
+                    break;
+                case 4:
                     imageView.setImageResource(R.drawable.ic_snack);
                     break;
-
             }
             return rowView;
         }
