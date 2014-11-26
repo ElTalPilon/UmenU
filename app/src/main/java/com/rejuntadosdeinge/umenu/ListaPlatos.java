@@ -132,13 +132,13 @@ public class ListaPlatos extends ActionBarActivity {
             });
 
             TextView acomp = (TextView)findViewById(R.id.tv_acompanamiento);
-            acomp.setText("Acompañamiento: " + acompanamiento );
+            acomp.setText(acompanamiento );
 
             TextView guarn = (TextView)findViewById(R.id.tv_guarnicion);
-            guarn.setText("Guarnición: " + guarnicion);
+            guarn.setText(guarnicion);
 
-            TextView frut = (TextView)findViewById(R.id.tv_fruta);
-            frut.setText("Fruta: " + fruta);
+            //TextView frut = (TextView)findViewById(R.id.tv_fruta);
+            //frut.setText("Fruta: " + fruta);
         }
     }
 

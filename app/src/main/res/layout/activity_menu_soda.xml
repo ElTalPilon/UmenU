@@ -16,14 +16,9 @@
             android:orientation="horizontal"
             android:background="@color/Emerald"
             android:weightSum="5">
-            <ImageView
-                android:src="@drawable/ic_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:gravity="center_vertical"/>
+
             <TextView
-                android:text="MENU PARA HOY"
+                android:text="Menú del 28/11/2014"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="20dp"
@@ -31,7 +26,15 @@
                 android:layout_weight="1"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/White"
-                android:layout_gravity="center"/>
+                android:gravity="center"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@null"
+                android:gravity="center"
+                android:src="@drawable/ic_action_edit"/>
         </LinearLayout>
 
         <ListView

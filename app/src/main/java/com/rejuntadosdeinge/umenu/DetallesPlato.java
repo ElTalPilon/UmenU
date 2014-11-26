@@ -170,7 +170,7 @@ public class DetallesPlato extends ActionBarActivity {
         b.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                EditText textoComentario = (EditText) findViewById(id.texto_comentario);
+                /*EditText textoComentario = (EditText) findViewById(id.texto_comentario);
                 int puntuacion = (int) rb.getRating();
                 String comentario = String.valueOf(textoComentario.getText());
 
@@ -178,7 +178,7 @@ public class DetallesPlato extends ActionBarActivity {
 
                 } else{
                     
-                }
+                }*/
 
                 dialog.dismiss();
             }
