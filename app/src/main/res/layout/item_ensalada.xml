@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/Nephritis"
+    android:weightSum="5">
+    <TextView
+        android:id="@+id/nombre_ensalada"
+        android:text="Item"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textColor="@color/White"
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>

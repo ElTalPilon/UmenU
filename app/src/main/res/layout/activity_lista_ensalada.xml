@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Nephritis"
-    tools:context=".ListaPlatos">
+    tools:context=".ListaEnsaladas">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,13 +17,13 @@
             android:background="@color/Emerald"
             android:weightSum="5">
             <ImageView
-                android:src="@drawable/ic_plato"
+                android:src="@drawable/ic_ensalada"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:gravity="center_vertical"/>
             <TextView
-                android:text="PLATOS"
+                android:text="Ensaladas"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="20dp"
@@ -35,34 +35,9 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/lista_platos"
+            android:id="@+id/lista_ensaladas"
             android:layout_width="match_parent"
-            android:layout_height="204dp"
+            android:layout_height="wrap_content"
             android:dividerHeight="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Acompañamiento: "
-            android:id="@+id/tv_acompanamiento" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Guarnición: "
-            android:id="@+id/tv_guarnicion" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Fruta: "
-            android:id="@+id/tv_fruta" />
-
     </LinearLayout>
 </FrameLayout>
