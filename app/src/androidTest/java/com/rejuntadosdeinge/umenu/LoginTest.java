@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.util.Log;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 /**
@@ -14,10 +14,13 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
     private SharedPreferences pref;
     private String email;
     private String password;
-    private EditText mEmailView;
+    private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Login activity;
 
+    /*
+    Para que los tests sean exitosos no se debe estar logueado, ya que la pantalla de login no aparece
+     */
 
     public LoginTest() {
         super(Login.class);
@@ -29,6 +32,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
         super.setUp();
 
         activity = getActivity();
+        mEmailView = (AutoCompleteTextView) activity.findViewById(R.id.email);
+        mPasswordView = (EditText) activity.findViewById(R.id.password);
 
         pref = PreferenceManager.getDefaultSharedPreferences(activity);
         SharedPreferences.Editor editor = pref.edit();
@@ -38,18 +43,16 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 
         email = "prueba@test.tst";
         password = "prueba123";
+
+        Thread.sleep(3000);
     }
 
-
-    @UiThreadTest
-    public void testMeh(){
-        assertFalse(pref.getBoolean("loggeado", false));
-    }
 
     @UiThreadTest
     public void testLoginEmailVacio() {
         activity.testSetEmail("");
-        Log.e("hola", "holaEmailVacio");
+        //activity.mEmailView.setText("");
+        //Log.e("hola", "holaEmailVacio");
         activity.attemptLogin();
         assertFalse(pref.getBoolean("loggeado", false));
     }
@@ -63,36 +66,53 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 
     @UiThreadTest
     public void testLoginEmailInvalido() {
-        mEmailView.setText("emailInvalido");
+        activity.testSetEmail("emailInvalido");
         activity.attemptLogin();
         assertFalse(pref.getBoolean("loggeado", false));
     }
 
     @UiThreadTest
     public void testLoginNoHayCuenta() {
-        mEmailView.setText("noHayCuenta@correo.com");
+        activity.testSetEmail("noHayCuenta@correo.com");
         activity.attemptLogin();
         assertFalse(pref.getBoolean("loggeado", false));
     }
 
     @UiThreadTest
     public void testLoginPasswordIncorrecto() {
+        activity.testSetEmail(email);
+        activity.testSetPassword("passwordIncorrecto");
+        activity.attemptLogin();
+        assertFalse(pref.getBoolean("loggeado", false));
+    }
+
+    @UiThreadTest
+    public void testSignUpConCuentaExistente() throws Throwable {
+        super.setUp();
         mEmailView.setText(email);
-        mPasswordView.setText("passwordIncorrecto");
+        mPasswordView.setText(password);
+        activity.attemptSignUp();
+        assertFalse(pref.getBoolean("loggeado", false));
+    }
+
+    @UiThreadTest
+    public void testSignUp() throws Throwable {
+        super.setUp();
+        mEmailView.setText("testprueba1@test.com");
+        mPasswordView.setText(password);
+        activity.attemptSignUp();
+        mEmailView.setText("testPrueba1@test.com");
+        mPasswordView.setText(password);
         activity.attemptLogin();
         assertFalse(pref.getBoolean("loggeado", false));
     }
 
     @UiThreadTest
     public void testLoginTodoBien() {
+
         mEmailView.setText(email);
         mPasswordView.setText(password);
         activity.attemptLogin();
-        assertTrue(pref.getBoolean("loggeado", false));
-    }
-
-    @UiThreadTest
-    public void testSignUp(){
-        fail("Prueba aún no implementada");
+        assertFalse(pref.getBoolean("loggeado", false));
     }
 }
