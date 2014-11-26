@@ -150,7 +150,7 @@ public class MenuSoda extends ActionBarActivity {
                         irEnsaladas();
                         break;
                     case 2:
-                        //irRefrescos();
+                        irRefrescos();
                         break;
                     case 3:
                         //irFrutas();

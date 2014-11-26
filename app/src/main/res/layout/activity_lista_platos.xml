@@ -92,14 +92,14 @@
 
             </LinearLayout>
         </LinearLayout>
-<!--
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Fruta: "
-            android:id="@+id/tv_fruta" />
--->
+        <!--
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Fruta: "
+                    android:id="@+id/tv_fruta" />
+        -->
     </LinearLayout>
 </FrameLayout>
