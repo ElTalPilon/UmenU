@@ -51,14 +51,14 @@ public class ListaEnsaladas extends ActionBarActivity {
 
         List<String> listaEnsaladasProvisional = new ArrayList<String>(Arrays.asList(ensaladas));
 
-        ArrayAdapter<String> listaSodasAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> listaEnsaladasAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.item_ensalada,
                 R.id.nombre_ensalada,
                 listaEnsaladasProvisional);
 
         ListView listView = (ListView) this.findViewById(R.id.lista_ensaladas);
-        listView.setAdapter(listaSodasAdapter);
+        listView.setAdapter(listaEnsaladasAdapter);
     }
 
     /**

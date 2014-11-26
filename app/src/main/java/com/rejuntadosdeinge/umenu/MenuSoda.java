@@ -147,9 +147,9 @@ public class MenuSoda extends ActionBarActivity {
                 if(i == 1) {
                     irEnsaladas();
                 }
-                //if(i == 2) {
-                //    irRefrescos();
-                //}
+                if(i == 2) {
+                    irRefrescos();
+                }
                 if(i == 3) {
                     irSnacks();
                 }
