@@ -37,25 +37,62 @@
         <ListView
             android:id="@+id/lista_platos"
             android:layout_width="match_parent"
-            android:layout_height="204dp"
-            android:dividerHeight="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Acompañamiento: "
-            android:id="@+id/tv_acompanamiento" />
+            android:dividerHeight="5dp"
+            android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Guarnición: "
-            android:id="@+id/tv_guarnicion" />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Acompañamiento:"
+                    android:gravity="center"
+                    android:textColor="@color/White"
+                    android:layout_weight="3"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:text="Acompañamiento. "
+                    android:layout_weight="2"
+                    android:id="@+id/tv_acompanamiento" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="5">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:text="Guarnicion:"
+                    android:gravity="center"
+                    android:layout_weight="3"
+                    />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:text="Guarnición."
+                    android:layout_weight="2"
+                    android:id="@+id/tv_guarnicion" />
+
+            </LinearLayout>
+        </LinearLayout>
+<!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,6 +100,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Fruta: "
             android:id="@+id/tv_fruta" />
-
+-->
     </LinearLayout>
 </FrameLayout>

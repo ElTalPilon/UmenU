@@ -131,6 +131,7 @@ public class MenuSoda extends ActionBarActivity {
                 "Platos",
                 "Ensaladas",
                 "Refrescos",
+                "Frutas",
                 "Snacks"
         };
 
@@ -141,17 +142,22 @@ public class MenuSoda extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0) {
-                    irPlatos();
-                }
-                if(i == 1) {
-                    irEnsaladas();
-                }
-                //if(i == 2) {
-                //    irRefrescos();
-                //}
-                if(i == 3) {
-                    irSnacks();
+                switch (i){
+                    case 0:
+                        irPlatos();
+                        break;
+                    case 1:
+                        irEnsaladas();
+                        break;
+                    case 2:
+                        //irRefrescos();
+                        break;
+                    case 3:
+                        //irFrutas();
+                        break;
+                    case 4:
+                        irSnacks();
+                        break;
                 }
             }
         });
@@ -189,9 +195,11 @@ public class MenuSoda extends ActionBarActivity {
                     imageView.setImageResource(R.drawable.ic_fresco);
                     break;
                 case 3:
+                    imageView.setImageResource(R.drawable.ic_fruta);
+                    break;
+                case 4:
                     imageView.setImageResource(R.drawable.ic_snack);
                     break;
-
             }
             return rowView;
         }
