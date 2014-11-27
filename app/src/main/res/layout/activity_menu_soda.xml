@@ -18,7 +18,7 @@
             android:weightSum="5">
 
             <TextView
-                android:text="Menú del 28/11/2014"
+                android:text="Menú del 27/11/2014"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="20dp"
