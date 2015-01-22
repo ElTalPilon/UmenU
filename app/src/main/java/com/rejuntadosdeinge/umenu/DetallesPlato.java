@@ -11,14 +11,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -140,13 +144,24 @@ public class DetallesPlato extends ActionBarActivity {
 
         //ObtenerComentarios oc = new ObtenerComentarios();
         //oc.execute((Integer) plato.getId());
+        actualizarComentarios();
     }
 
     /**
      * TODO: Toa la jugada
      * Actualiza la interfaz con los comentarios del plato
      */
-    private void actualizarComentarios(List<Comentario> comentarios){
+    private void actualizarComentarios(){//List<Comentario> comentarios){
+        String[] listaDeComentarios = {
+                "Me encantó!",
+                "Estuvo muy bueno",
+                "El arroz estaba muy salado"
+        };
+
+        // Se le conecta un adapter personalizado para cargar las imágenes de cada soda
+        CustomAdapter customAdapter = new CustomAdapter(context, listaDeComentarios);
+        final ListView listView = (ListView) this.findViewById(id.lista_comentarios);
+        listView.setAdapter(customAdapter);
     }
 
     /**
@@ -194,6 +209,39 @@ public class DetallesPlato extends ActionBarActivity {
         return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
 
+    private class CustomAdapter extends ArrayAdapter<String> {
+        private final Context context;
+        private final String[] values;
+
+        public CustomAdapter (Context context, String[] values) {
+            super(context, R.layout.item_soda, values);
+            this.context = context;
+            this.values = values;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.item_comentario, parent, false);
+            TextView puntuacion = (TextView) rowView.findViewById(id.puntuacion);
+            TextView comentario = (TextView) rowView.findViewById(id.comentario);
+            comentario.setText(values[position]);
+            switch(position) {
+                case 0:
+                    puntuacion.setText("5");
+                    break;
+                case 1:
+                    puntuacion.setText("4");
+                    break;
+                case 2:
+                    puntuacion.setText("2");
+                    break;
+            }
+            return rowView;
+        }
+    }
+
     private class ObtenerComentarios extends AsyncTask<Integer, Void, String> {
         @Override
         protected void onPreExecute(){
@@ -222,7 +270,7 @@ public class DetallesPlato extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String JSON){
-            actualizarComentarios(ComentarioParser.parseFeed(JSON));
+            //actualizarComentarios(ComentarioParser.parseFeed(JSON));
             setProgressBarIndeterminateVisibility(false);
         }
     }
